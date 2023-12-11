@@ -8,6 +8,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        "animation-pulse": {
+          "0%, 100%": { transform: "scale(1);" },
+          "50%": { transform: "scale(0.95);" },
+        },
+      },
+      animation: {
+        "pulse-click": "animation-pulse 0.5s linear",
+      },
+      fontFamily: {
+        rubik: ["Rubik", "sans-serif"],
+        outfit: ["Outfit", "sans-serif"],
+      },
       colors: {
         red: {
           "primary-dark": "#B50010",
@@ -23,6 +36,11 @@ const config: Config = {
           "red-dark": "#DE3961",
           default: "#F64F77",
           "red-light": "#FC6F91",
+        },
+        green: {
+          "primary-dark": "#00A051",
+          default: "#3DCD80",
+          "primary-light": "#C2EDD2",
         },
         gray: {
           "100": "#1F1D2B",
