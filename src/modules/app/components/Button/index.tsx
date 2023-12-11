@@ -61,5 +61,11 @@ interface ButtonProps
 export function Button({ variant, disabled, ...rest }: ButtonProps) {
   const { container } = button();
 
-  return <button {...rest} className={container({ variant, disabled })} />;
+  return (
+    <button
+      {...rest}
+      disabled={disabled}
+      className={container({ variant, disabled })}
+    />
+  );
 }
