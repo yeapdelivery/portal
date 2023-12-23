@@ -12,7 +12,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@phosphor-icons/react": "^2.0.15",
     "axios": "^1.6.2",
-    "next": "13.4.13",
+    "next": "13.4.9",
     "next-auth": "^4.24.5",
     "nookies": "^2.5.2",
     "react": "^18",

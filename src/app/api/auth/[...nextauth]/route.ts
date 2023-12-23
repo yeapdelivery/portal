@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { cookies } from "next/headers";
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => {
@@ -28,6 +29,13 @@ const nextAuthOptions: NextAuthOptions = {
         const password = credentials?.password;
 
         if (email === correctEmail && password === correctPassword) {
+          const cookie = cookies();
+
+          cookie.set("yeah-token", token, {
+            expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 day
+            path: "/",
+          });
+
           return {
             id: "user_id",
             accessToken: token,
@@ -38,24 +46,19 @@ const nextAuthOptions: NextAuthOptions = {
       },
     }),
   ],
-  //   maxAge: 60,
-  // },
-  // callbacks: {
-  //   async jwt({ token, user }) {
-  //     console.log("jwt", token, user);
-
-  //     if (user) {
-  //       token.accessToken = (user as any).access_token;
-  //     }
-
-  //     return token;
-  //   },
-  //   async session({ session, token }) {
-  //     console.log("session", session, token);
-  //     (session as any).accessToken = token.accessToken;
-  //     return session;
-  //   },
-  // },
+  session: {
+    maxAge: 60 * 60 * 24, // 1 day
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      user && (token.accessToken = (user as any).accessToken);
+      return token;
+    },
+    async session({ session, token }) {
+      (session as any).accessToken = token.accessToken;
+      return session;
+    },
+  },
   pages: {
     signIn: "/",
   },

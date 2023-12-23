@@ -1,3 +1,3 @@
-export default function Orders() {
+export default async function Orders() {
   return <div>orders</div>;
 }
