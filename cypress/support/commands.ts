@@ -1,20 +1,46 @@
-Cypress.Commands.add("login", () => {
-  Cypress.log({
-    name: "loginViaAuth0",
-  });
+/// <reference types="cypress" />
+
+const cookieName = "appSession";
+
+Cypress.Commands.add("login", (email: string, password: string) => {
+  const tokenEndpoint = `${Cypress.env("auth_url_base")}oauth/token`;
+  const clientId = Cypress.env("auth_client_id");
+  const clientSecret = Cypress.env("auth_client_secret");
+  const audience = Cypress.env("auth_audience");
+  const cookieSecret = "GwKPPuCQh8";
 
   const options = {
-    method: "POST",
-    url: Cypress.env("auth_url"),
     body: {
-      grant_type: "password",
-      username: Cypress.env("auth_username"),
-      password: Cypress.env("auth_password"),
-      audience: Cypress.env("auth_audience"),
-      scope: "openid profile email",
-      client_id: Cypress.env("auth_client_id"),
-      client_secret: Cypress.env("auth_client_secret"),
+      client_id: clientId,
+      client_secret: clientSecret,
+      audience: audience,
+      username: email,
+      password,
+      grant_type: "http://auth0.com/oauth/grant-type/password-realm",
+      realm: "Username-Password-Authentication",
     },
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    url: tokenEndpoint,
   };
-  cy.request(options);
+
+  // Use the Resource Owner Password Flow to get the test user's access token
+  cy.request(options).then(async ({ body }) => {
+    const { access_token: accessToken } = body;
+
+    // Invoke the task
+    cy.task("getSessionCookie", {
+      session: { accessToken, user: { email } },
+      config: { secret: cookieSecret },
+    }).then((cookie) => {
+      // Set the cookie
+      cy.setCookie(cookieName, cookie as string);
+    });
+  });
+});
+
+Cypress.Commands.add("logout", () => {
+  cy.clearCookie(cookieName);
 });

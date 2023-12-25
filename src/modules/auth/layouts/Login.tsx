@@ -1,17 +1,16 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
+
   useEffect(() => {
     redirect();
   }, []);
 
-  async function redirect() {
-    await signIn("auth0", {
-      redirect: false,
-      callbackUrl: "/pedidos",
-    });
+  function redirect() {
+    router.push("/api/auth/login");
   }
 
   return <div></div>;
