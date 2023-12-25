@@ -7,7 +7,7 @@ Cypress.Commands.add("login", (email: string, password: string) => {
   const clientId = Cypress.env("auth_client_id");
   const clientSecret = Cypress.env("auth_client_secret");
   const audience = Cypress.env("auth_audience");
-  const cookieSecret = "GwKPPuCQh8";
+  const cookieSecret = Cypress.env("auth_secret");
 
   const options = {
     body: {
