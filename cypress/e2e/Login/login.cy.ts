@@ -1,6 +1,6 @@
 describe("login", () => {
   before(() => {
-    cy.login("yancesa.07@gmail.com", "2020@Senha");
+    cy.login("yeap@email.com", "yeah#Password");
   });
 
   after(() => {
