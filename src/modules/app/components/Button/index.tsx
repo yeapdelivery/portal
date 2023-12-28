@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { VariantProps, tv } from "tailwind-variants";
+import { Spinner } from "../Spinner";
 
 const button = tv({
   slots: {
@@ -56,16 +57,25 @@ const button = tv({
 
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof button> {}
+    VariantProps<typeof button> {
+  isLoading?: boolean;
+}
 
-export function Button({ variant, disabled, ...rest }: ButtonProps) {
+export function Button({
+  variant,
+  children,
+  disabled,
+  isLoading,
+  ...rest
+}: ButtonProps) {
   const { container } = button();
 
   return (
-    <button
-      {...rest}
-      disabled={disabled}
-      className={container({ variant, disabled })}
-    />
+    <button {...rest} className={container({ variant, disabled })}>
+      <div className="flex items-center justify-center gap-2">
+        {isLoading && <Spinner />}
+        {children}
+      </div>
+    </button>
   );
 }

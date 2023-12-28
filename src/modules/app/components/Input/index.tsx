@@ -1,5 +1,6 @@
 import { VariantProps, tv } from "tailwind-variants";
 import { Filed } from "../Filed";
+import { forwardRef } from "react";
 
 const input = tv({
   slots: {
@@ -17,8 +18,12 @@ interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof input> {}
 
-export function Input({ ...rest }: InputProps) {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ ...props }, ref) => {
   const { container } = input();
 
-  return <input type="text" {...rest} className={container()} />;
-}
+  return <input type="text" {...props} className={container()} ref={ref} />;
+});
+
+Input.displayName = "Input";
+
+export { Input };
