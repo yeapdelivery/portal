@@ -16,7 +16,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" className="bg-background">
       <body className={`${outfit.className} ${rubik.className}`}>
         <UserProvider>
           <main>{children}</main>
