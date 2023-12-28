@@ -13,19 +13,39 @@ const config: Config = {
           "0%, 100%": { transform: "scale(1);" },
           "50%": { transform: "scale(0.95);" },
         },
+        "menu-animation": {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(calc(-100% + 60px))" },
+        },
+        "subMenu-animation-in": {
+          "0%": { opacity: "0", transform: "translateY(-10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "subMenu-animation-out": {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(-10px)" },
+        },
       },
       animation: {
         "pulse-click": "animation-pulse 0.5s linear",
+        "menu-animation": "menu-animation 2s linear",
+        "subMenu-animation": "subMenu-animation-in 0.1s linear",
+        "subMenu-animation-out": "subMenu-animation-out 0.1s linear",
       },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],
         outfit: ["Outfit", "sans-serif"],
       },
+      boxShadow: {
+        bottomBar: "0px -1px 11.6px 0px rgba(0, 0, 0, 0.08)",
+      },
       colors: {
+        background: "#F2F5FA",
         red: {
           "primary-dark": "#B50010",
           default: "#E2272A",
           "primary-light": "#E46B6B",
+          "primary-lighter": "#F2BABA",
         },
         yellow: {
           "primary-dark": "#ffab00",
