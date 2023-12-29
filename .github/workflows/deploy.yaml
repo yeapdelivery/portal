@@ -49,5 +49,4 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user/admin-front
-            tar -xzf project.tar.gz
             sh reload-pm2.sh
