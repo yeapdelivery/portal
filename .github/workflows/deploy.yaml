@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "./*"
-          target: "/home/ec2-user/admin-front"
+          target: "./admin-front"
           overwrite: true
           tar_tmp_path: "/tmp"
 
