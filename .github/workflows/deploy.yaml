@@ -39,8 +39,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "./*"
           target: "/home/ec2-user/admin-front"
-          overwrite: true
-          tar_tmp_path: "/tmp"
           debug: true
 
       - name: SSH and Deploy to EC2
