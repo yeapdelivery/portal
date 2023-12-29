@@ -31,16 +31,19 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Tar Project Directory
-        run: tar --warning=no-file-changed -czf project.tar.gz .
+      - name: Create Temp Directory for Tar File
+        run: mkdir -p ${{ runner.temp }}/deploy-temp
 
-      - name: SCP Build to EC2
+      - name: Tar Entire Project Directory
+        run: tar -czf ${{ runner.temp }}/deploy-temp/project.tar.gz -C ${{ github.workspace }} .
+
+      - name: SCP Project to EC2
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "project.tar.gz"
+          source: "${{ runner.temp }}/deploy-temp/project.tar.gz"
           target: "/home/ec2-user/admin-front"
 
       - name: SSH and Deploy to EC2
