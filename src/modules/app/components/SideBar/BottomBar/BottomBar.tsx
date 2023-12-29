@@ -101,10 +101,6 @@ export default function BottomBar({
           )}
         </li>
       ))}
-
-      <a data-cy="sign-out" href="/api/auth/logout" className={icon()}>
-        <SignOut weight="bold" size={22} />
-      </a>
     </ul>
   );
 }

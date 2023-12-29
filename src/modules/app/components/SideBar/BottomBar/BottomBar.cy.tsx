@@ -36,20 +36,6 @@ describe("<BottomBar />", () => {
       .should("have.attr", "href", getMenu?.href);
   });
 
-  it("should signOut", () => {
-    cy.mount(
-      <BottomBar
-        activeMenu={Menu.ORDER}
-        handleMenuClick={() => {}}
-        menus={menus}
-      />
-    );
-
-    cy.get("[data-cy=sign-out]")
-      .should("exist")
-      .should("have.attr", "href", "/api/auth/logout");
-  });
-
   it("should show sub menus options", () => {
     cy.mount(
       <BottomBar
