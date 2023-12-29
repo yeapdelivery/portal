@@ -71,7 +71,11 @@ export function Button({
   const { container } = button();
 
   return (
-    <button {...rest} className={container({ variant, disabled })}>
+    <button
+      disabled={disabled}
+      {...rest}
+      className={container({ variant, disabled })}
+    >
       <div className="flex items-center justify-center gap-2">
         {isLoading && <Spinner />}
         {children}
