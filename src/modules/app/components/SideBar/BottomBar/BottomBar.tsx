@@ -21,11 +21,11 @@ const bottomBar = tv({
     icon: ["text-gray-500 hover:text-red-default"],
     subItemMenu: [
       "text-gray-500 text-sm hover:text-red-default hover:bg-red-primary-lighter",
-      "px-2 h-7",
+      "px-2 h-7 text-right",
       "flex items-center rounded",
     ],
     subMenuContent: [
-      "absolute -top-20 -left-5 min-w-max",
+      "absolute -top-20 -right-10 min-w-max text-right",
       "data-[state=open]:animate-subMenu-animation-out transition-all",
       "data-[state=closed]:animate-subMenu-animation",
     ],

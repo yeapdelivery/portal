@@ -93,4 +93,19 @@ describe("<BottomBar />", () => {
         "bg-red-default text-white rounded-lg p-2 hover:text-white"
       );
   });
+
+  it("should check the position", () => {
+    cy.mount(
+      <BottomBar
+        activeMenu={Menu.PREFERENCES_USER}
+        handleMenuClick={() => {}}
+        menus={menus}
+      />
+    );
+
+    cy.get("[data-cy=sub-menu]").first().should("exist").click();
+    cy.get("[data-cy=sub-menu-content")
+      .should("exist")
+      .should("have.class", "absolute -top-20 -right-10 min-w-max");
+  });
 });
