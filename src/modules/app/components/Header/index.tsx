@@ -39,7 +39,10 @@ export function Header({ img, name }: HeaderProps) {
         </div>
       </div>
 
-      <div className="flex md:hidden items-end justify-center h-full py-2">
+      <div
+        data-cy="logo-mobile"
+        className="flex md:hidden items-end justify-center h-full py-2"
+      >
         <Image src="logo-menu.svg" height={42} width={98} alt="logo" />
       </div>
     </div>
