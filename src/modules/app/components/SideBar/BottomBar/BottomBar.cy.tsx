@@ -106,6 +106,6 @@ describe("<BottomBar />", () => {
     cy.get("[data-cy=sub-menu]").first().should("exist").click();
     cy.get("[data-cy=sub-menu-content")
       .should("exist")
-      .should("have.class", "absolute -top-20 -right-10 min-w-max");
+      .should("have.class", "absolute -top-20 -right-8 min-w-max");
   });
 });

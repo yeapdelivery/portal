@@ -21,11 +21,11 @@ const bottomBar = tv({
     icon: ["text-gray-500 hover:text-red-default"],
     subItemMenu: [
       "text-gray-500 text-sm hover:text-red-default hover:bg-red-primary-lighter",
-      "px-2 h-7 text-right",
+      "px-2 h-7",
       "flex items-center rounded",
     ],
     subMenuContent: [
-      "absolute -top-20 -right-10 min-w-max text-right",
+      "absolute -top-20 -right-8 min-w-max",
       "data-[state=open]:animate-subMenu-animation-out transition-all",
       "data-[state=closed]:animate-subMenu-animation",
     ],
@@ -92,7 +92,9 @@ export default function BottomBar({
                       data-cy={subMenu.name}
                       key={subMenu.id}
                     >
-                      <Link href={subMenu.href}>{subMenu.label}</Link>
+                      <Link className="w-full" href={subMenu.href}>
+                        {subMenu.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>
