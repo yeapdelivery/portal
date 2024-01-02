@@ -17,6 +17,14 @@ const config: Config = {
           "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(calc(-100% + 60px))" },
         },
+        "fade-in-dropdown": {
+          "0%": { opacity: "0", transform: "translateY(-10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-out-dropdown": {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(-10px)" },
+        },
         "subMenu-animation-in": {
           "0%": { opacity: "0", transform: "translateY(-10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
@@ -31,6 +39,8 @@ const config: Config = {
         "menu-animation": "menu-animation 2s linear",
         "subMenu-animation": "subMenu-animation-in 0.1s linear",
         "subMenu-animation-out": "subMenu-animation-out 0.1s linear",
+        "fade-in-dropdown": "fade-in-dropdown 0.1s linear",
+        "fade-out-dropdown": "fade-out-dropdown 0.1s linear",
       },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],
