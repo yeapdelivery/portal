@@ -1,7 +1,6 @@
 import Link from "next/link";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { tv } from "tailwind-variants";
-import { SignOut } from "@phosphor-icons/react";
 
 import { Menu, MenuProps } from "..";
 import { useState } from "react";

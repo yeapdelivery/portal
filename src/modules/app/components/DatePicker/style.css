@@ -1,0 +1,15 @@
+.react-datepicker__header {
+  @apply bg-gray-900;
+}
+
+.react-datepicker__day--selected {
+  @apply bg-red-primary-dark;
+}
+
+.react-datepicker__current-month {
+  @apply text-gray-100 font-outfit font-normal;
+}
+
+.react-datepicker__day-name {
+  @apply text-gray-100 font-outfit;
+}

@@ -1,8 +1,8 @@
 import "@/style/global.css";
 import { HourHeader, getHourAndMinutes } from "./HourHeader";
 
-describe("<MenuItem />", () => {
-  it("should render MenuItem", () => {
+describe("<HourHeader />", () => {
+  it("should render HourHeader", () => {
     cy.mount(<HourHeader />);
 
     cy.get("[data-cy=hour-header]").should("exist");
