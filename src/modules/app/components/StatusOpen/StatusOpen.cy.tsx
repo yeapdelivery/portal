@@ -1,8 +1,8 @@
 import "@/style/global.css";
 import { StatusOpen } from ".";
 
-describe("<MenuItem />", () => {
-  it("should render MenuItem", () => {
+describe("<StatusOpen />", () => {
+  it("should render StatusOpen", () => {
     cy.mount(<StatusOpen />);
 
     cy.get("[data-cy=status-open]").should("exist");
