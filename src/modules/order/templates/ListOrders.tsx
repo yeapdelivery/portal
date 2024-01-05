@@ -31,7 +31,7 @@ export function ListOrders() {
           <h1 className="font-bold text-xl font-rubik text-gray-100">
             Pedidos
           </h1>
-          <div className="text-xs text-red-default border border-red-default rounded px-2 py-[2px]">
+          <div className="text-[8px] md:text-xs text-red-default border border-red-default rounded  p-[1px]">
             10 ocorrencias
           </div>
         </div>
