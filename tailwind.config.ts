@@ -15,7 +15,7 @@ const config: Config = {
         },
         "menu-animation": {
           "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(calc(-100% + 60px))" },
+          "100%": { transform: "translateX(calc(-100% + 64px))" },
         },
         "fade-in-dropdown": {
           "0%": { opacity: "0", transform: "translateY(-10px)" },
@@ -48,6 +48,9 @@ const config: Config = {
       },
       boxShadow: {
         bottomBar: "0px -1px 11.6px 0px rgba(0, 0, 0, 0.08)",
+      },
+      gridTemplateColumns: {
+        kanban: "1fr 1px 1fr 1px 1fr",
       },
       colors: {
         background: "#F2F5FA",

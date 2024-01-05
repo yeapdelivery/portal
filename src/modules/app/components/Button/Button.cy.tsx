@@ -44,6 +44,14 @@ describe("<Button />", () => {
     button.click().should("have.class", "active:animate-pulse-click");
   });
 
+  it("should render button with variant props as success", () => {
+    cy.mount(<Button variant="success">Button error</Button>);
+    const button = cy.get("button");
+
+    button.should("have.class", "border-green-primary-dark");
+    button.click().should("have.class", "active:animate-pulse-click");
+  });
+
   it("should render button with a variant props as primary and disabled props", () => {
     cy.mount(
       <Button variant="primary" disabled>

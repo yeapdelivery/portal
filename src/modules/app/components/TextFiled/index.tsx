@@ -4,7 +4,7 @@ import { Input } from "../Input";
 
 interface TextFiledProps {
   htmlFor: string;
-  label: string;
+  label?: string;
   error: string | null;
   children: ReactNode;
 }

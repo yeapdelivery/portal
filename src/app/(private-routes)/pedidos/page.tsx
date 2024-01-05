@@ -1,5 +1,5 @@
-import { CardOrder } from "@/modules/order/components";
+import { ListOrders } from "@/modules/order/templates";
 
 export default async function Orders() {
-  return <CardOrder />;
+  return <ListOrders />;
 }

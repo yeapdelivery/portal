@@ -8,7 +8,7 @@ const input = tv({
   slots: {
     container: [
       "border border-gray-700 h-10 rounded-xl w-full",
-      "bg-gray-1000 flex items-center gap-1.5 px-2",
+      "bg-white flex items-center gap-1.5 px-2",
       "font-inter text-sm",
     ],
     inputStyle:

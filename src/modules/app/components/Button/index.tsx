@@ -38,6 +38,13 @@ const button = tv({
           "active:animate-pulse-click",
         ],
       },
+      success: {
+        container: [
+          "bg-transparent text-green-primary-dark hover:bg-success-green-dark",
+          "border border-green-primary-dark",
+          "active:animate-pulse-click",
+        ],
+      },
     },
 
     disabled: {
