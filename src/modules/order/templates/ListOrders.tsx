@@ -62,7 +62,7 @@ export function ListOrders() {
       </div>
 
       <div className="mt-6 grid lg:grid-cols-kanban gap-[10px]">
-        <div className="md:hidden">
+        <div className="md:hidden sticky top-2 ">
           <TabOrder
             orderStatus={orderStatusTab}
             onChange={(status) => onChangeOrderStatusTab(status)}
