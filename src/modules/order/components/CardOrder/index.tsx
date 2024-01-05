@@ -21,7 +21,7 @@ export function CardOrder() {
             <span className="text-xs font-medium">R$ 20,00</span>
           </div>
 
-          <div className="flex flex-col gap-1 text-xs">
+          <div className="flex flex-col gap-1 text-xs text-right">
             <span className="text-red-default font-medium">PEDIDO #2</span>
             <span className="font-medium">20/10/2021 (11:22)</span>
           </div>
