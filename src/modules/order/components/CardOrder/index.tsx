@@ -1,7 +1,11 @@
-import { Button } from "@/modules/app/components";
 import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
+import { OrderStatus } from "../../enums";
 
-export function CardOrder() {
+interface CardOrderProps {
+  orderStatus: OrderStatus;
+}
+
+export function CardOrder({ orderStatus }: CardOrderProps) {
   return (
     <div className="p-2 bg-white rounded-lg font-inter">
       <div className="flex items-center justify-between">
@@ -40,12 +44,22 @@ export function CardOrder() {
         </div>
 
         <div className="flex items-center gap-4 mt-4">
-          <button className="border border-red-default text-red-default font-rubik font-semibold rounded text-xs w-full h-8">
-            Saiu para entrega
-          </button>
-          <button className="border border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-xs w-full h-8">
-            Finalizar
-          </button>
+          {orderStatus === OrderStatus.CONFIRMED && (
+            <button className="border border-red-default text-red-default font-rubik font-semibold rounded text-xs w-full h-8">
+              Saiu para entrega
+            </button>
+          )}
+          {(orderStatus === OrderStatus.CONFIRMED ||
+            orderStatus === OrderStatus.DELIVERING) && (
+            <button className="border border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-xs w-full h-8">
+              Finalizar
+            </button>
+          )}
+          {orderStatus === OrderStatus.DELIVERED && (
+            <button className="text-gray-500 font-rubik font-bold rounded text-xs w-full h-8">
+              VER DETALHES
+            </button>
+          )}
         </div>
       </div>
     </div>
