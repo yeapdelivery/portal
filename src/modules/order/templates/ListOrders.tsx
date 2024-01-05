@@ -24,10 +24,6 @@ export function ListOrders() {
     return Number(fullTailwindConfig.theme.screens[screen].replace("px", ""));
   }
 
-  console.log(
-    screenSize.width >= getScreenSize("lg"),
-    orderStatusTab === OrderStatus.CONFIRMED
-  );
   return (
     <div className="px-4 py-7">
       <div className="flex items-center justify-between gap-4">
