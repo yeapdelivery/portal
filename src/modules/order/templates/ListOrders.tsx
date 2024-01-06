@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import resolveConfig from "tailwindcss/resolveConfig";
 
@@ -13,8 +13,8 @@ import tailwindConfig from "../../../../tailwind.config";
 const fullTailwindConfig = resolveConfig(tailwindConfig);
 
 export function ListOrders() {
-  const screenSize = useScreenSize();
   const [orderStatusTab, setOrderStatusTab] = useState(OrderStatus.CONFIRMED);
+  const screenSize = useScreenSize();
 
   function onChangeOrderStatusTab(orderStatus: OrderStatus) {
     setOrderStatusTab(orderStatus);
@@ -62,7 +62,7 @@ export function ListOrders() {
       </div>
 
       <div className="mt-6 grid lg:grid-cols-kanban gap-[10px]">
-        <div className="md:hidden sticky top-2 ">
+        <div className="md:hidden">
           <TabOrder
             orderStatus={orderStatusTab}
             onChange={(status) => onChangeOrderStatusTab(status)}
@@ -71,7 +71,7 @@ export function ListOrders() {
 
         {(screenSize.width >= getScreenSize("lg") ||
           orderStatusTab === OrderStatus.CONFIRMED) && (
-          <div className="flex-1">
+          <div className="flex-1 overflow-y-scroll h-screen">
             <div className="hidden md:flex items-center gap-1">
               <h2 className="font-bold text-gray-100">Produção</h2>
               <div className="w-5 h-5 rounded-full bg-red-default flex items-center justify-center text-xs font-semibold text-white">

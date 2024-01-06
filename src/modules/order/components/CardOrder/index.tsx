@@ -1,3 +1,5 @@
+"use client";
+
 import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { OrderStatus } from "../../enums";
 
