@@ -71,7 +71,7 @@ export function ListOrders() {
 
         {(screenSize.width >= getScreenSize("lg") ||
           orderStatusTab === OrderStatus.CONFIRMED) && (
-          <div className="flex-1 overflow-y-scroll h-screen">
+          <div className="flex-1 overflow-y-scroll h-[60vh]">
             <div className="hidden md:flex items-center gap-1">
               <h2 className="font-bold text-gray-100">Produção</h2>
               <div className="w-5 h-5 rounded-full bg-red-default flex items-center justify-center text-xs font-semibold text-white">
