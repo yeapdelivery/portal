@@ -74,4 +74,9 @@ describe("<Input />", () => {
     cy.get("input").invoke("val", "22012000").click();
     cy.get("input").should("have.value", "22/01/2000");
   });
+
+  it("should render with className merge", () => {
+    cy.mount(<Input mask="99/99/9999" className="h-10" />);
+    cy.get("[data-cy=container-input]").should("have.class", "h-10");
+  });
 });

@@ -66,6 +66,7 @@ export function DatePicker({ maxDate, minDate, onChange }: DatePickerProps) {
       dateFormat="dd/MM/yyyy"
       customInput={
         <Input
+          className="h-7 md:h-10"
           ref={inputRef}
           startIcon={
             <button data-cy="calendar-date-picker" onClick={handleOnFocus}>
