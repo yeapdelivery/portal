@@ -30,6 +30,7 @@ interface InputProps
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   mask?: string;
+  customHeight?: string;
   onInputFocus?(): void;
   onInputBlur?(): void;
   onInputClick?(): void;
@@ -41,6 +42,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       startIcon,
       endIcon,
       mask,
+      className,
       onInputFocus,
       onInputBlur,
       onInputClick,
@@ -62,15 +64,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }
 
     function handleClick() {
-      console.log(onInputClick);
-
       onInputClick && onInputClick();
     }
 
     return (
       <div
         data-cy="container-input"
-        className={container()}
+        className={container({ className })}
         onClick={handleClick}
         onFocus={handleFocus}
         onBlur={handleBlur}

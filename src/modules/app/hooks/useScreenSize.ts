@@ -9,8 +9,8 @@ interface ScreenSize {
 
 const useScreenSize = () => {
   const [screenSize, setScreenSize] = useState<ScreenSize>({
-    width: undefined,
-    height: undefined,
+    width: 1024,
+    height: 700,
   });
 
   useEffect(() => {
