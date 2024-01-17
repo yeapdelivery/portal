@@ -10,7 +10,7 @@
         "price": 696.6760645236716,
         "order_id": "1",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 1",
           "number": "100",
@@ -29,7 +29,7 @@
         "price": 699.2848861600813,
         "order_id": "4",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 4",
           "number": "103",
@@ -48,7 +48,7 @@
         "price": 600.1299280274137,
         "order_id": "7",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 7",
           "number": "106",
@@ -67,7 +67,7 @@
         "price": 550.4179822734654,
         "order_id": "10",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 10",
           "number": "109",
@@ -86,7 +86,7 @@
         "price": 905.830946014251,
         "order_id": "13",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 13",
           "number": "112",
@@ -105,7 +105,7 @@
         "price": 849.9918690081885,
         "order_id": "16",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 16",
           "number": "115",
@@ -124,7 +124,7 @@
         "price": 880.6304721203211,
         "order_id": "19",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 19",
           "number": "118",
@@ -143,7 +143,7 @@
         "price": 579.2160586100714,
         "order_id": "22",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 22",
           "number": "121",
@@ -162,7 +162,7 @@
         "price": 734.5116953406554,
         "order_id": "25",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 25",
           "number": "124",
@@ -181,7 +181,7 @@
         "price": 90.79969531272502,
         "order_id": "28",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 28",
           "number": "127",
@@ -200,7 +200,7 @@
         "price": 452.0722198838083,
         "order_id": "31",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 31",
           "number": "130",
@@ -219,7 +219,7 @@
         "price": 364.86718848448476,
         "order_id": "34",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 34",
           "number": "133",
@@ -238,7 +238,7 @@
         "price": 17.7752665310138,
         "order_id": "37",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 37",
           "number": "136",
@@ -257,7 +257,7 @@
         "price": 338.3954399470095,
         "order_id": "40",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 40",
           "number": "139",
@@ -276,7 +276,7 @@
         "price": 640.1900925185795,
         "order_id": "43",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 43",
           "number": "142",
@@ -295,7 +295,7 @@
         "price": 976.2149045185779,
         "order_id": "46",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 46",
           "number": "145",
@@ -314,7 +314,7 @@
         "price": 740.6182845540627,
         "order_id": "49",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "CONFIRMED",
+        "status": "confirmed",
         "address": {
           "street": "Street 49",
           "number": "148",
@@ -335,7 +335,7 @@
         "price": 760.5298657338413,
         "order_id": "2",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 2",
           "number": "101",
@@ -354,7 +354,7 @@
         "price": 475.2997687566045,
         "order_id": "5",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 5",
           "number": "104",
@@ -373,7 +373,7 @@
         "price": 580.6043567471562,
         "order_id": "8",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 8",
           "number": "107",
@@ -392,7 +392,7 @@
         "price": 514.9887385985832,
         "order_id": "11",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 11",
           "number": "110",
@@ -411,7 +411,7 @@
         "price": 189.29589343461205,
         "order_id": "14",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 14",
           "number": "113",
@@ -430,7 +430,7 @@
         "price": 166.58586889456274,
         "order_id": "17",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 17",
           "number": "116",
@@ -449,7 +449,7 @@
         "price": 799.1237887059559,
         "order_id": "20",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 20",
           "number": "119",
@@ -468,7 +468,7 @@
         "price": 622.5047285135583,
         "order_id": "23",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 23",
           "number": "122",
@@ -487,7 +487,7 @@
         "price": 512.9639744112864,
         "order_id": "26",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 26",
           "number": "125",
@@ -506,7 +506,7 @@
         "price": 583.1571942934966,
         "order_id": "29",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 29",
           "number": "128",
@@ -525,7 +525,7 @@
         "price": 364.8657108498079,
         "order_id": "32",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 32",
           "number": "131",
@@ -544,7 +544,7 @@
         "price": 762.0833285734683,
         "order_id": "35",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 35",
           "number": "134",
@@ -563,7 +563,7 @@
         "price": 856.446343651011,
         "order_id": "38",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 38",
           "number": "137",
@@ -582,7 +582,7 @@
         "price": 280.29479707992965,
         "order_id": "41",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 41",
           "number": "140",
@@ -601,7 +601,7 @@
         "price": 329.21417467492245,
         "order_id": "44",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 44",
           "number": "143",
@@ -620,7 +620,7 @@
         "price": 728.1660764948942,
         "order_id": "47",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 47",
           "number": "146",
@@ -639,7 +639,7 @@
         "price": 993.2930708677808,
         "order_id": "50",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERING",
+        "status": "delivering",
         "address": {
           "street": "Street 50",
           "number": "149",
@@ -660,7 +660,7 @@
         "price": 733.9629880435639,
         "order_id": "3",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 3",
           "number": "102",
@@ -679,7 +679,7 @@
         "price": 340.12539579176604,
         "order_id": "6",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 6",
           "number": "105",
@@ -698,7 +698,7 @@
         "price": 657.0590311701081,
         "order_id": "9",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 9",
           "number": "108",
@@ -717,7 +717,7 @@
         "price": 860.747078156352,
         "order_id": "12",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 12",
           "number": "111",
@@ -736,7 +736,7 @@
         "price": 493.35118097420104,
         "order_id": "15",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 15",
           "number": "114",
@@ -755,7 +755,7 @@
         "price": 98.06333954948654,
         "order_id": "18",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 18",
           "number": "117",
@@ -774,7 +774,7 @@
         "price": 180.94992809566457,
         "order_id": "21",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 21",
           "number": "120",
@@ -793,7 +793,7 @@
         "price": 548.1990013744849,
         "order_id": "24",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 24",
           "number": "123",
@@ -812,7 +812,7 @@
         "price": 595.7392043695576,
         "order_id": "27",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "order_status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 27",
           "number": "126",
@@ -831,7 +831,7 @@
         "price": 269.90911710878663,
         "order_id": "30",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "order_status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 30",
           "number": "129",
@@ -850,7 +850,7 @@
         "price": 816.2565222790978,
         "order_id": "33",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "order_status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 33",
           "number": "132",
@@ -869,7 +869,7 @@
         "price": 475.30411550135887,
         "order_id": "36",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "order_status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 36",
           "number": "135",
@@ -888,7 +888,7 @@
         "price": 235.25200968637793,
         "order_id": "39",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "order_status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 39",
           "number": "138",
@@ -907,7 +907,7 @@
         "price": 372.7035885858285,
         "order_id": "42",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "order_status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 42",
           "number": "141",
@@ -926,7 +926,7 @@
         "price": 522.6595934534614,
         "order_id": "45",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "order_status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 45",
           "number": "144",
@@ -945,7 +945,7 @@
         "price": 439.6515130302867,
         "order_id": "48",
         "created_at": "2024-01-06T13:16:40.488Z",
-        "order_status": "DELIVERED",
+        "status": "delivered",
         "address": {
           "street": "Street 48",
           "number": "147",
