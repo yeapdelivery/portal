@@ -1,6 +1,9 @@
 export function CardLoading() {
   return (
-    <div className="p-2 bg-white rounded-lg font-inter animate-pulse space-y-4">
+    <div
+      data-cy="card-loading"
+      className="p-2 bg-white rounded-lg font-inter animate-pulse space-y-4"
+    >
       <div className="bg-gray-800 h-4 w-20 rounded"></div>
 
       <hr className="border border-slate-200" />

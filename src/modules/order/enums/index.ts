@@ -1,1 +1,2 @@
-export * from "./orderStatus";
+import { OrderStatus } from "./orderStatus";
+export { OrderStatus };

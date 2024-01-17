@@ -14,7 +14,7 @@ interface BottomBarProps {
 const bottomBar = tv({
   slots: {
     container: [
-      "fixed bottom-0 left-0 w-full h-16 bg-white shadow-bottomBar",
+      "fixed z-50 bottom-0 left-0 w-full h-16 bg-white shadow-bottomBar",
       "flex justify-around items-center",
     ],
     icon: ["text-gray-500 hover:text-red-default"],
