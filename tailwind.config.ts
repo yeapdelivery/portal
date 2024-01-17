@@ -41,6 +41,10 @@ const config: Config = {
           "0%": { opacity: "1", transform: "translateY(0)" },
           "100%": { opacity: "0", transform: "translateY(-10px)" },
         },
+        "card-order-animation": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
       animation: {
         "pulse-click": "animation-pulse 0.5s linear",
@@ -49,6 +53,7 @@ const config: Config = {
         "subMenu-animation-out": "subMenu-animation-out 0.1s linear",
         "fade-in-dropdown": "fade-in-dropdown 0.1s linear",
         "fade-out-dropdown": "fade-out-dropdown 0.1s linear",
+        "card-order-animation": "card-order-animation 0.5s linear",
       },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],

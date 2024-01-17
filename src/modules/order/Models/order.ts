@@ -1,5 +1,5 @@
 import { Address } from "@/modules/app/models";
-import { OrderStatus } from "../../enums";
+import { OrderStatus } from "../enums";
 
 export class Order {
   id: string;

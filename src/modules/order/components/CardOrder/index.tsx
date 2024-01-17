@@ -1,19 +1,82 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { OrderStatus } from "../../enums";
-import { Order } from "../Models";
-import { format } from "date-fns";
+import { Order } from "../../Models";
+import { format, set } from "date-fns";
 import { currency, formatAddress } from "@/formatting";
-import { CardLoading } from "../CardLoading";
+import { CardLoading } from "./CardLoading";
 
 interface CardOrderProps {
   order: Order;
+  isNew?: boolean;
+  handleChangeStatus?: (
+    order: Order,
+    from: OrderStatus,
+    to: OrderStatus
+  ) => void;
+  handleRemoveNewValue: (orderId: string) => void;
 }
 
-export function CardOrder({ order }: CardOrderProps) {
+const INITIAL_TIMER = 30;
+
+export function CardOrder({
+  order,
+  isNew = false,
+  handleChangeStatus,
+  handleRemoveNewValue,
+}: CardOrderProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [timer, setTimer] = useState<number>(INITIAL_TIMER);
+
+  const verifyConfirmedState = order.status === OrderStatus.CONFIRMED;
+
+  const verifyProducingState = order.status === OrderStatus.CONFIRMED;
+  const verifyDeliveringState =
+    !isNew && order.status === OrderStatus.DELIVERING;
+
+  const verifyDeliveredState = order.status === OrderStatus.DELIVERED;
+
+  useEffect(() => {
+    if (!isNew || order.status !== OrderStatus.DELIVERING) return;
+
+    const interval = setInterval(() => {
+      const newTimer = timer - 1;
+
+      if (newTimer <= 0) {
+        clearInterval(interval);
+        handleRemoveNewValue(order.id);
+        setTimer(0);
+        return;
+      }
+
+      setTimer(newTimer);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [handleRemoveNewValue, isNew, order, timer]);
+
+  function changeStatus(from: OrderStatus, to: OrderStatus) {
+    if (ref.current) {
+      const element = ref.current;
+      element.style.animationDuration = "1s";
+      element.style.opacity = "0";
+
+      const timer = setTimeout(() => {
+        handleChangeStatus(order, from, to);
+        element.style.opacity = "1";
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }
+
   return (
-    <div className="p-2 bg-white rounded-lg font-inter">
+    <div
+      ref={ref}
+      data-enter={isNew}
+      className="p-2 data-[enter=true]:animate-card-order-animation bg-white rounded-lg font-inter  duration-500 animate-card-order-animation transition-all"
+    >
       <div className="flex items-center justify-between">
         <span className="font-bold text-sm text-gray-100">
           {order.customer.name}
@@ -56,20 +119,49 @@ export function CardOrder({ order }: CardOrderProps) {
         </div>
 
         <div className="flex items-center gap-4 mt-4">
-          {order.status === OrderStatus.CONFIRMED && (
-            <button className="border border-red-default text-red-default font-rubik font-semibold rounded text-xs w-full h-8">
+          {verifyConfirmedState && (
+            <button
+              onClick={() =>
+                changeStatus(OrderStatus.CONFIRMED, OrderStatus.DELIVERING)
+              }
+              className="border animate-card-order-animation border-red-default text-red-default font-rubik font-semibold rounded text-xs w-full h-8"
+            >
               Saiu para entrega
             </button>
           )}
-          {(order.status === OrderStatus.CONFIRMED ||
-            order.status === OrderStatus.DELIVERING) && (
-            <button className="border border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-xs w-full h-8">
+          {verifyDeliveringState && (
+            <button
+              onClick={() =>
+                changeStatus(OrderStatus.DELIVERING, OrderStatus.DELIVERED)
+              }
+              className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-xs w-full h-8"
+            >
               Finalizar
             </button>
           )}
-          {order.status === OrderStatus.DELIVERED && (
-            <button className="text-gray-500 font-rubik font-bold rounded text-xs w-full h-8">
+          {verifyProducingState && (
+            <button
+              onClick={() =>
+                changeStatus(OrderStatus.CONFIRMED, OrderStatus.DELIVERED)
+              }
+              className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-xs w-full h-8"
+            >
+              Finalizar
+            </button>
+          )}
+          {verifyDeliveredState && (
+            <button className="text-gray-500 animate-card-order-animation font-rubik font-bold rounded text-xs w-full h-8">
               VER DETALHES
+            </button>
+          )}
+          {isNew && timer > 0 && order.status === OrderStatus.DELIVERING && (
+            <button
+              onClick={() =>
+                changeStatus(OrderStatus.DELIVERING, OrderStatus.CONFIRMED)
+              }
+              className="border border-red-default animate-card-order-animation text-red-default font-rubik font-semibold rounded text-xs w-full h-8"
+            >
+              Voltar para produção ({timer}s)
             </button>
           )}
         </div>

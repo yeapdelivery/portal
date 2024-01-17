@@ -8,44 +8,86 @@ import { OrderStatus } from "../enums";
 import { CardOrder, TabOrder } from "../components";
 import useScreenSize from "@/modules/app/hooks/useScreenSize";
 import axios from "axios";
-import { Order } from "../components/Models";
+import { Order } from "../Models";
 import { useLoading } from "@/modules/app/hooks";
 import { getScreenSize } from "@/utils";
 
+interface OrderBoard {
+  confirmed: Order[];
+  delivering: Order[];
+  delivered: Order[];
+}
+
 export function ListOrders() {
   const [orderStatusTab, setOrderStatusTab] = useState(OrderStatus.CONFIRMED);
-  const [ordersConfirmed, setOrdersConfirmed] = useState<Order[]>([]);
-  const [ordersDelivering, setOrdersDelivering] = useState<Order[]>([]);
-  const [ordersDelivered, setOrdersDelivered] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderBoard>({
+    confirmed: [],
+    delivering: [],
+    delivered: [],
+  } as OrderBoard);
+  const [orderChangeStatusId, newOrderChangeStatusId] = useState<string[]>([]);
   const [isListOrderLoading, _startListOrderLoader, stopListOrderLoader] =
     useLoading(true);
   const screenSize = useScreenSize();
 
   const ordersOccurrences =
-    ordersConfirmed.length + ordersDelivering.length + ordersDelivered.length;
+    orders.confirmed.length +
+    orders.delivering.length +
+    orders.delivered.length;
 
   useEffect(() => {
-    function fetchOrders() {
-      axios
-        .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/order`)
-        .then(({ data }) => {
-          setOrdersConfirmed(data.orders.confirm);
-          setOrdersDelivering(data.orders.delivering);
-          setOrdersDelivered(data.orders.delivered);
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => {
-          stopListOrderLoader();
-        });
-    }
-
     fetchOrders();
   }, []);
 
-  function onChangeOrderStatusTab(orderStatus: OrderStatus) {
+  function fetchOrders(): void {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/order`)
+      .then(({ data }) => {
+        const ordersResponse = data.orders;
+        setOrders({
+          confirmed: ordersResponse.confirm,
+          delivering: ordersResponse.delivering,
+          delivered: ordersResponse.delivered,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        stopListOrderLoader();
+      });
+  }
+
+  function onChangeOrderStatusTab(orderStatus: OrderStatus): void {
     setOrderStatusTab(orderStatus);
+  }
+
+  function handleChangeStatus(
+    order: Order,
+    from: OrderStatus,
+    to: OrderStatus
+  ): void {
+    const ordersFrom = orders[from];
+    const newOrdersFrom = ordersFrom.filter(
+      (orderConfirmed: Order) => orderConfirmed.order_id !== order.order_id
+    );
+
+    order.status = to;
+
+    const newOrders = {
+      ...orders,
+      [from]: newOrdersFrom,
+      [to]: [order, ...orders[to]],
+    };
+
+    newOrderChangeStatusId((oldValue) => [...oldValue, order.id]);
+    setOrders(newOrders);
+  }
+
+  function handleRemoveNewValue(orderId: string) {
+    newOrderChangeStatusId((oldValue) =>
+      oldValue.filter((id) => id !== orderId)
+    );
   }
 
   return (
@@ -93,6 +135,9 @@ export function ListOrders() {
         <div className="md:hidden">
           <TabOrder
             orderStatus={orderStatusTab}
+            confirmedLength={orders.confirmed.length}
+            deliveringLength={orders.delivering.length}
+            deliveredLength={orders.delivered.length}
             onChange={(status) => onChangeOrderStatusTab(status)}
           />
         </div>
@@ -103,18 +148,24 @@ export function ListOrders() {
             <div className="hidden md:flex items-center gap-1">
               <h2 className="font-bold text-gray-100">Produção</h2>
               <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-default flex items-center justify-center text-xs font-semibold text-white">
-                {ordersConfirmed.length}
+                {orders.confirmed.length}
               </div>
             </div>
 
-            <div className="mt-2 space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
+            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
               {isListOrderLoading &&
                 Array.from({ length: 10 }).map((_, index) => (
                   <CardOrder.Loading key={index} />
                 ))}
               {!isListOrderLoading &&
-                ordersConfirmed.map((order, index) => (
-                  <CardOrder key={index} order={order} />
+                orders.confirmed.map((order) => (
+                  <CardOrder
+                    key={order.id}
+                    order={order}
+                    isNew={orderChangeStatusId.includes(order.id)}
+                    handleChangeStatus={handleChangeStatus}
+                    handleRemoveNewValue={handleRemoveNewValue}
+                  />
                 ))}
             </div>
           </div>
@@ -129,17 +180,23 @@ export function ListOrders() {
             <div className="hidden md:flex items-center gap-1">
               <h2 className="font-bold text-gray-100">Entrega</h2>
               <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-default flex items-center justify-center text-xs font-semibold text-white">
-                {ordersDelivering.length}
+                {orders.delivering.length}
               </div>
             </div>
-            <div className="mt-2 space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
+            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
               {isListOrderLoading &&
                 Array.from({ length: 10 }).map((_, index) => (
                   <CardOrder.Loading key={index} />
                 ))}
               {!isListOrderLoading &&
-                ordersDelivering.map((order, index) => (
-                  <CardOrder key={index} order={order} />
+                orders.delivering.map((order) => (
+                  <CardOrder
+                    key={order.id}
+                    order={order}
+                    isNew={orderChangeStatusId.includes(order.id)}
+                    handleChangeStatus={handleChangeStatus}
+                    handleRemoveNewValue={handleRemoveNewValue}
+                  />
                 ))}
             </div>
           </div>
@@ -155,17 +212,23 @@ export function ListOrders() {
             <div className="hidden md:flex items-center gap-1">
               <h2 className="font-bold text-xs text-gray-100">Finalizados</h2>
               <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-default flex items-center justify-center text-xs font-semibold text-white">
-                {ordersDelivered.length}
+                {orders.delivered.length}
               </div>
             </div>
-            <div className="mt-2 space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
+            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
               {isListOrderLoading &&
                 Array.from({ length: 10 }).map((_, index) => (
                   <CardOrder.Loading key={index} />
                 ))}
               {!isListOrderLoading &&
-                ordersDelivered.map((order, index) => (
-                  <CardOrder key={index} order={order} />
+                orders.delivered.map((order) => (
+                  <CardOrder
+                    key={order.id}
+                    order={order}
+                    isNew={orderChangeStatusId.includes(order.id)}
+                    handleChangeStatus={handleChangeStatus}
+                    handleRemoveNewValue={handleRemoveNewValue}
+                  />
                 ))}
             </div>
           </div>
