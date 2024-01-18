@@ -10,7 +10,7 @@ interface PrivateLayoutProps {
 export default async function PrivateLayout({ children }: PrivateLayoutProps) {
   const user = await getSession();
 
-  if (!user.user) {
+  if (!user) {
     redirect("/");
   }
 
