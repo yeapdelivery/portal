@@ -1,7 +1,6 @@
 "use client";
 import { ReactNode, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { tv } from "tailwind-variants";
 import {
   Ticket,
   BookOpenText,
@@ -10,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import SideBarDesktopLayout from "./SideBarDesktopLayout";
 import BottomBar from "./BottomBar";
+import { Header } from "../Header";
 
 export enum Menu {
   ORDER = "order",
@@ -38,6 +38,8 @@ export interface MenuProps {
 
 interface SideBarProps {
   children: ReactNode;
+  img: string;
+  name: string;
 }
 
 export const menus: MenuProps[] = [
@@ -53,7 +55,7 @@ export const menus: MenuProps[] = [
     label: "Cardápio",
     name: Menu.CATALOG,
     icon: <BookOpenText weight="bold" size={22} />,
-    href: "/catalogo",
+    href: "/cardapio",
   },
   {
     id: 3,
@@ -85,21 +87,7 @@ export const menus: MenuProps[] = [
   },
 ];
 
-const sideBar = tv({
-  slots: {
-    container: [
-      "fixed top-0 left-0 bottom-0 bg-white",
-      "w-56 data-[state=closed]:w-16 border-r-2 border-gray-800",
-      "p-2 flex flex-col justify-between font-outfit",
-      "data-[state=closed]:animate-menu-animation data-[state=closed]:translate-x-[calc(-100%+60px)]",
-      "transition-all duration-400 ease-in-out",
-    ],
-    itemContainer: ["flex flex-col gap-6 mt-10"],
-    menuOpen: ["flex items-center gap-3 px-4", "text-gray-500"],
-  },
-});
-
-export function SideBar({ children }: SideBarProps) {
+export function SideBar({ name, img, children }: SideBarProps) {
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<Menu>();
   const [open, setOpen] = useState(true);
@@ -158,6 +146,13 @@ export function SideBar({ children }: SideBarProps) {
           activeMenu={activeMenu}
           handleMenuClick={handleMenuClick}
         />
+      </div>
+
+      <div
+        data-state={stateMenu}
+        className="fixed top-0 left-0 right-0 data-[state=closed]:ml-[4rem] md:ml-[14rem] "
+      >
+        <Header img={img} name={name} />
       </div>
 
       <aside

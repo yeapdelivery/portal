@@ -41,7 +41,7 @@ export function ListOrders() {
 
   function fetchOrders(): void {
     axios
-      .get(`https://admin.yeapdelivery.com.br/api/order`)
+      .get(`http://localhost:3000/api/order`)
       .then(({ data }) => {
         const ordersResponse = data.orders;
         setOrders({
