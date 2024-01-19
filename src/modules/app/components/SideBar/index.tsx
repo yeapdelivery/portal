@@ -141,7 +141,7 @@ export function SideBar({ children }: SideBarProps) {
 
   return (
     <div data-cy="side-bar-container">
-      <div className="hidden md:block">
+      <div className="hidden md:block text-xs">
         <SideBarDesktopLayout
           menus={menus}
           activeMenu={activeMenu}
