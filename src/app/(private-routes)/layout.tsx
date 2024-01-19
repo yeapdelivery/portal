@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { getSession } from "@auth0/nextjs-auth0";
 import { redirect } from "next/navigation";
-import { Header, SideBar } from "@/modules/app/components";
+import { SideBar } from "@/modules/app/components";
 
 interface PrivateLayoutProps {
   children: ReactNode;
@@ -15,8 +15,7 @@ export default async function PrivateLayout({ children }: PrivateLayoutProps) {
   }
 
   return (
-    <SideBar>
-      <Header img={user?.user?.picture} name={user?.user?.nickname} />
+    <SideBar img={user?.user?.picture} name={user?.user?.nickname}>
       {children}
     </SideBar>
   );

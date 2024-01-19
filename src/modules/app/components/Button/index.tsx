@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
 import { VariantProps, tv } from "tailwind-variants";
 import { Spinner } from "../Spinner";
+import { Icon } from "@phosphor-icons/react";
 
 const button = tv({
   slots: {
@@ -66,6 +67,8 @@ interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof button> {
   isLoading?: boolean;
+  startIcon?: Icon;
+  endIcon?: Icon;
 }
 
 export function Button({
@@ -73,6 +76,9 @@ export function Button({
   children,
   disabled,
   isLoading,
+  startIcon: StartIcon,
+  endIcon: EndIcon,
+  className,
   ...rest
 }: ButtonProps) {
   const { container } = button();
@@ -81,11 +87,13 @@ export function Button({
     <button
       disabled={disabled}
       {...rest}
-      className={container({ variant, disabled })}
+      className={container({ variant, disabled, className })}
     >
       <div className="flex items-center justify-center gap-2">
+        {StartIcon && !isLoading && <StartIcon size={20} />}
         {isLoading && <Spinner />}
         {children}
+        {EndIcon && !isLoading && <EndIcon size={20} />}
       </div>
     </button>
   );
