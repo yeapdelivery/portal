@@ -13,7 +13,7 @@ interface SideBarCategoryProps {
 
 const catalog = tv({
   slots: {
-    container: ["w-56 bg-white fixed bottom-0 top-16 px-4"],
+    container: ["w-56 bg-white fixed bottom-0 top-16 px-4 text-xs"],
     barPrimary: "w-[2px] absolute bg-gray-800 top-0 bottom-0",
     barSecondary: "h-8 bg-red-default w-[2px] rounded -left-2 absolute",
     ball: [
