@@ -41,7 +41,7 @@ export function ListOrders() {
 
   function fetchOrders(): void {
     axios
-      .get(`https://admin.yeapdelivery.com.br/api/order`)
+      .get(`http://localhost:3000/api/order`)
       .then(({ data }) => {
         const ordersResponse = data.orders;
         setOrders({
@@ -92,13 +92,13 @@ export function ListOrders() {
 
   return (
     <div className="px-4  py-7">
-      <div className="flex flex-1 items-center justify-between gap-4">
+      <div className="flex flex-1 items-center justify-between gap-4 md:mt-12">
         <div className="flex items-center gap-1.5">
           <h1 className="font-bold text-sm xs:text-xl font-rubik text-gray-100">
             Pedidos
           </h1>
 
-          <div className="text-[8px] md:text-xs text-red-default border border-red-default rounded  p-[1px]">
+          <div className="text-[8px] md:text-xs text-red-default border border-red-default rounded  p-[4px]">
             {ordersOccurrences}{" "}
             {ordersOccurrences > 0 ? "ocorrencias" : "ocorrencia"}
           </div>
@@ -121,7 +121,7 @@ export function ListOrders() {
         </div>
       </div>
 
-      <div className="flex-1 md:hidden mt-8">
+      <div className="flex-1 md:hidden mt-10">
         <TextFiled error={null} htmlFor="search" label="">
           <TextFiled.Input
             id="search"
