@@ -24,7 +24,7 @@ const sideBar = tv({
       "data-[state=closed]:animate-menu-animation data-[state=closed]:translate-x-[calc(-100%+60px)]",
       "transition-all duration-400 ease-in-out",
     ],
-    itemContainer: ["flex flex-col gap-6 mt-10"],
+    itemContainer: ["flex flex-col gap-4 mt-10"],
     menuOpen: ["flex items-center gap-3 px-4", "text-gray-500"],
   },
 });
