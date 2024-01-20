@@ -75,7 +75,7 @@ export function CardOrder({
     <div
       ref={ref}
       data-enter={isNew}
-      className="p-2 data-[enter=true]:animate-card-order-animation bg-white rounded-lg font-inter  duration-500 animate-card-order-animation transition-all"
+      className="p-3 data-[enter=true]:animate-card-order-animation bg-white rounded-lg font-inter  duration-500 animate-card-order-animation transition-all"
     >
       <div className="flex items-center justify-between">
         <span className="font-bold text-sm text-gray-100">
