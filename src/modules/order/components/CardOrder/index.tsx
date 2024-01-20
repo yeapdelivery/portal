@@ -124,7 +124,7 @@ export function CardOrder({
               onClick={() =>
                 changeStatus(OrderStatus.CONFIRMED, OrderStatus.DELIVERING)
               }
-              className="border animate-card-order-animation border-red-default text-red-default font-rubik font-semibold rounded text-xs w-full h-8"
+              className="border animate-card-order-animation border-red-default text-red-default font-rubik font-semibold rounded text-[10px] w-full h-8"
             >
               Saiu para entrega
             </button>
@@ -134,7 +134,7 @@ export function CardOrder({
               onClick={() =>
                 changeStatus(OrderStatus.DELIVERING, OrderStatus.DELIVERED)
               }
-              className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-xs w-full h-8"
+              className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-[10px] w-full h-8"
             >
               Finalizar
             </button>
@@ -144,13 +144,13 @@ export function CardOrder({
               onClick={() =>
                 changeStatus(OrderStatus.CONFIRMED, OrderStatus.DELIVERED)
               }
-              className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-xs w-full h-8"
+              className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-[10px] w-full h-8"
             >
               Finalizar
             </button>
           )}
           {verifyDeliveredState && (
-            <button className="text-gray-500 animate-card-order-animation font-rubik font-bold rounded text-xs w-full h-8">
+            <button className="text-gray-500 animate-card-order-animation font-rubik font-bold rounded text-[10px] w-full h-8">
               VER DETALHES
             </button>
           )}
