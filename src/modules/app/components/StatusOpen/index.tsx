@@ -32,11 +32,11 @@ const statusOpenStyle = tv({
     statusOpen: {
       open: {
         currentStatus: ["bg-[#E7F8F7] text-green-primary-dark"],
-        ballOpen: ["w-'[1.5] h-1.5 rounded-full bg-green-primary-dark mr-2"],
+        ballOpen: ["w-1.5 h-1.5 rounded-full bg-green-primary-dark mr-2"],
       },
       close: {
         currentStatus: ["bg-[#FEEAEC] text-red-primary-dark"],
-        ballOpen: ["w-[1.5] h-1.5 rounded-full bg-red-primary-dark mr-2"],
+        ballOpen: ["w-1.5 h-1.5 rounded-full bg-red-primary-dark mr-2"],
       },
     },
 
@@ -91,8 +91,9 @@ export function StatusOpen() {
           data-cy="current-status"
         >
           <div className={ballOpen({ statusOpen })}></div>
-          {statusOpen === Status.OPEN ? "Loja aberta" : "Loja fechada"}
-
+          <div className="w-[5rem]">
+            {statusOpen === Status.OPEN ? "Loja aberta" : "Loja fechada"}
+          </div>
           <CaretDown
             size={16}
             data-cy="arrow"
