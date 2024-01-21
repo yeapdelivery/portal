@@ -91,8 +91,9 @@ export function StatusOpen() {
           data-cy="current-status"
         >
           <div className={ballOpen({ statusOpen })}></div>
-          {statusOpen === Status.OPEN ? "Loja aberta" : "Loja fechada"}
-
+          <div className="w-[5rem]">
+            {statusOpen === Status.OPEN ? "Loja aberta" : "Loja fechada"}
+          </div>
           <CaretDown
             size={16}
             data-cy="arrow"
