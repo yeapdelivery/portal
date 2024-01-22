@@ -6,7 +6,7 @@ const addProductButton = tv({
     container: [
       "flex flex-col items-center justify-center",
       "border border-dashed border-gray-500 rounded-lg",
-      "text-gray-500 font-medium",
+      "text-gray-500 font-medium w-full h-28 md:h-auto",
     ],
   },
 });
