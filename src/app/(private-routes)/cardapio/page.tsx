@@ -1,5 +1,6 @@
 import { Button, Input } from "@/modules/app/components";
 import { CardCatalog, SideBarCategory } from "@/modules/catalog/components";
+import { AddProductButton } from "@/modules/catalog/components/AddProductButton";
 import {
   MagnifyingGlass,
   Plus,
@@ -62,6 +63,8 @@ export default async function Catalog() {
             {Array.from({ length: 5 }).map((_, index) => (
               <CardCatalog key={index} />
             ))}
+
+            <AddProductButton />
           </div>
         </div>
 
@@ -82,6 +85,7 @@ export default async function Catalog() {
             {Array.from({ length: 5 }).map((_, index) => (
               <CardCatalog key={index} />
             ))}
+            <AddProductButton />
           </div>
         </div>
 
@@ -102,6 +106,7 @@ export default async function Catalog() {
             {Array.from({ length: 5 }).map((_, index) => (
               <CardCatalog key={index} />
             ))}
+            <AddProductButton />
           </div>
         </div>
 
@@ -122,6 +127,7 @@ export default async function Catalog() {
             {Array.from({ length: 5 }).map((_, index) => (
               <CardCatalog key={index} />
             ))}
+            <AddProductButton />
           </div>
         </div>
       </div>
