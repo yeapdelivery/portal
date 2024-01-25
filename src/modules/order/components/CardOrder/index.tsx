@@ -7,6 +7,7 @@ import { Order } from "../../Models";
 import { format, set } from "date-fns";
 import { currency, formatAddress } from "@/formatting";
 import { CardLoading } from "./CardLoading";
+import { tv } from "tailwind-variants";
 
 interface CardOrderProps {
   order: Order;
@@ -19,6 +20,16 @@ interface CardOrderProps {
   handleRemoveNewValue: (orderId: string) => void;
 }
 
+const cardStyle = tv({
+  slots: {
+    card: [
+      "hover:bg-gray-1000 p-3 data-[enter=true]:animate-card-order-animation",
+      "rounded-lg font-inter  duration-500 animate-card-order-animation transition-opacity",
+      "hover:border-solid hover:border hover:border-blue-default bg-white",
+    ],
+  },
+});
+
 const INITIAL_TIMER = 30;
 
 export function CardOrder({
@@ -27,6 +38,8 @@ export function CardOrder({
   handleChangeStatus,
   handleRemoveNewValue,
 }: CardOrderProps) {
+  const { card } = cardStyle();
+
   const ref = useRef<HTMLDivElement>(null);
   const [timer, setTimer] = useState<number>(INITIAL_TIMER);
 
@@ -72,11 +85,7 @@ export function CardOrder({
   }
 
   return (
-    <div
-      ref={ref}
-      data-enter={isNew}
-      className="p-3 data-[enter=true]:animate-card-order-animation bg-white rounded-lg font-inter  duration-500 animate-card-order-animation transition-all"
-    >
+    <div ref={ref} data-enter={isNew} className={card()}>
       <div className="flex items-center justify-between">
         <span className="font-bold text-sm text-gray-100">
           {order.customer.name}
@@ -87,7 +96,7 @@ export function CardOrder({
         </div>
       </div>
 
-      <hr className="mt-2 border border-gray-700 " />
+      <hr className="mt-2 border border-gray-700" />
 
       <div className="mt-2 text-gray-100">
         <div className="flex items-center justify-between">
