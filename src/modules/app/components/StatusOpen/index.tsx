@@ -18,7 +18,6 @@ const statusOpenStyle = tv({
     ],
     ballOpen: ["w-1.5 h-1.5 rounded-full bg-green-primary-dark mr-2"],
     container: [
-      "rounded-full bg-green-primary-dark",
       "data-[state=open]:animate-fade-in-dropdown data-[state=closed]:animate-fade-out-dropdown",
       "transition-all",
     ],
