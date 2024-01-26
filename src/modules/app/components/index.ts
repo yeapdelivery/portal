@@ -6,3 +6,4 @@ export * from "./Spinner";
 export * from "./SideBar";
 export * from "./Header";
 export * from "./DatePicker";
+export * from "./Dialog";
