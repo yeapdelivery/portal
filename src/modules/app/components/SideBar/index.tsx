@@ -157,7 +157,7 @@ export function SideBar({ name, img, children }: SideBarProps) {
 
       <aside
         data-state={stateMenu}
-        className="data-[state=closed]:ml-[4rem] md:ml-[14rem] transition-all duration-400 ease-in-out mb-20 lg:mb-0"
+        className="data-[state=closed]:ml-[4rem] md:ml-[14rem] mt-[8.2rem] md:mt-24  md: transition-all duration-400 ease-in-out mb-20 lg:mb-0"
       >
         {children}
       </aside>
