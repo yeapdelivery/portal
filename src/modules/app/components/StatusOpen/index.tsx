@@ -1,7 +1,7 @@
 "use client";
 
 import { CaretDown } from "@phosphor-icons/react";
-import * as Collapsible from "@radix-ui/react-collapsible";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
 import { tv } from "tailwind-variants";
 
@@ -13,12 +13,11 @@ enum Status {
 const statusOpenStyle = tv({
   slots: {
     currentStatus: [
-      "flex items-center px-4 py-2 rounded-xl text-xs font-medium",
+      "flex items-center px-4 py-2 rounded-xl text-xs font-medium w-40 outline-none ",
       "transition-all duration-300 ease-in-out",
     ],
     ballOpen: ["w-1.5 h-1.5 rounded-full bg-green-primary-dark mr-2"],
     container: [
-      "absolute right-0 left-0",
       "data-[state=open]:animate-fade-in-dropdown data-[state=closed]:animate-fade-out-dropdown",
       "transition-all",
     ],
@@ -50,7 +49,7 @@ const statusOpenStyle = tv({
       openDropDown: true,
       isCurrentStatus: false,
       class: {
-        currentStatus: ["rounded-b-xl rounded-t-none w-full"],
+        currentStatus: ["rounded-b-xl rounded-t-none "],
       },
     },
     {
@@ -79,13 +78,12 @@ export function StatusOpen() {
   }
 
   return (
-    <Collapsible.Root
+    <DropdownMenu.Root
       data-cy="status-open"
       open={openDropDown}
       onOpenChange={setOpenDropDown}
-      className="relative"
     >
-      <Collapsible.Trigger asChild>
+      <DropdownMenu.Trigger asChild>
         <button
           className={currentStatus({ statusOpen, isCurrentStatus: true })}
           data-cy="current-status"
@@ -101,9 +99,9 @@ export function StatusOpen() {
             data-state={stateMenu}
           />
         </button>
-      </Collapsible.Trigger>
+      </DropdownMenu.Trigger>
 
-      <Collapsible.Content className={container()}>
+      <DropdownMenu.Content className={container()}>
         <button
           data-cy="choice-status"
           className={currentStatus({
@@ -115,7 +113,7 @@ export function StatusOpen() {
           <div className={ballOpen({ statusOpen: inverseStatus })}></div>
           {statusOpen === Status.OPEN ? "Loja aberta" : "Loja fechada"}
         </button>
-      </Collapsible.Content>
-    </Collapsible.Root>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   );
 }
