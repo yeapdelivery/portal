@@ -11,9 +11,12 @@ interface SideBarCategoryProps {
   }[];
 }
 
-const catalog = tv({
+const sideBarCategory = tv({
   slots: {
-    container: ["w-56 bg-white fixed bottom-0 top-16 px-4 text-xs"],
+    container: [
+      "w-56 bg-white fixed bottom-0 top-16 px-4 text-xs",
+      "hidden lg:block",
+    ],
     barPrimary: "w-[2px] absolute bg-gray-800 top-0 bottom-0",
     barSecondary: "h-8 bg-red-default w-[2px] rounded -left-2 absolute",
     ball: [
@@ -36,7 +39,7 @@ const catalog = tv({
 });
 
 export function SideBarCategory({ categories }: SideBarCategoryProps) {
-  const { container, barPrimary, ball, barSecondary, item } = catalog();
+  const { container, barPrimary, ball, barSecondary, item } = sideBarCategory();
   const [active, setActive] = useState(1);
 
   return (
