@@ -21,7 +21,7 @@ const sideBar = tv({
       "fixed top-0 left-0 bottom-0 bg-white",
       "w-56 data-[state=closed]:w-16 border-r-2 border-gray-800",
       "p-2 flex flex-col justify-between font-outfit",
-      "data-[state=closed]:animate-menu-animation data-[state=closed]:translate-x-[calc(-100%+60px)]",
+      "data-[state=closed]:animate-menu-animation data-[state=closed]:translate-x-[calc(-94%+60px)]",
       "transition-all duration-400 ease-in-out",
     ],
     itemContainer: ["flex flex-col gap-4 mt-10"],
@@ -49,7 +49,13 @@ export default function SideBarDesktopLayout({
       >
         <div>
           <div className="flex justify-center">
-            <Image src="/logo-menu.png" alt="Logo" width={103} height={51} />
+            <Image
+              src="/logo-menu.png"
+              alt="Logo"
+              width={103}
+              height={51}
+              className="ml-2"
+            />
           </div>
           <nav>
             <ul className={itemContainer()}>
