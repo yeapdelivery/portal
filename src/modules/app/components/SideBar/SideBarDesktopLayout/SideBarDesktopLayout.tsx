@@ -49,7 +49,13 @@ export default function SideBarDesktopLayout({
       >
         <div>
           <div className="flex justify-center">
-            <Image src="/logo-menu.png" alt="Logo" width={103} height={51} />
+            <Image
+              src="/logo-menu.png"
+              alt="Logo"
+              width={103}
+              height={51}
+              className="ml-2"
+            />
           </div>
           <nav>
             <ul className={itemContainer()}>
