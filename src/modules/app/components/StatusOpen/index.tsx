@@ -13,34 +13,33 @@ enum Status {
 const statusOpenStyle = tv({
   slots: {
     currentStatus: [
-      "flex items-center px-4 py-2 rounded-xl text-xs font-medium w-40 outline-none ",
-      "transition-all duration-300 ease-in-out",
+      "flex items-center px-4 py-2 rounded-xl text-xs font-medium w-40",
+      "transition-all duration-300 ease-in-out outline-none",
     ],
     ballOpen: ["w-1.5 h-1.5 rounded-full bg-green-primary-dark mr-2"],
     container: [
-      "data-[state=open]:animate-fade-in-dropdown data-[state=closed]:animate-fade-out-dropdown",
+      "data-[state=open]:animate-fade-in-dropdown",
+      "data-[state=closed]:animate-fade-out-dropdown",
       "transition-all",
     ],
   },
 
   variants: {
-    openDropDown: {
-      true: {},
-    },
-
     statusOpen: {
       open: {
         currentStatus: ["bg-[#E7F8F7] text-green-primary-dark"],
         ballOpen: ["w-1.5 h-1.5 rounded-full bg-green-primary-dark mr-2"],
       },
+
       close: {
         currentStatus: ["bg-[#FEEAEC] text-red-primary-dark"],
         ballOpen: ["w-1.5 h-1.5 rounded-full bg-red-primary-dark mr-2"],
       },
     },
-
-    isCurrentStatus: {
-      false: {},
+    isUndoingStatus: {
+      true: {
+        currentStatus: "px-1.5",
+      },
     },
   },
 
@@ -62,19 +61,52 @@ const statusOpenStyle = tv({
   ],
 });
 
+const INITIAL_TIMER = 30;
+
+let timer: NodeJS.Timeout;
+
 export function StatusOpen() {
   const [statusOpen, setStatusOpen] = useState<Status>(Status.CLOSE);
   const [openDropDown, setOpenDropDown] = useState(false);
-  const { currentStatus, ballOpen, container } = statusOpenStyle({
-    openDropDown,
-  });
+  const [count, setCount] = useState(INITIAL_TIMER);
+  const { currentStatus, ballOpen, container } = statusOpenStyle();
 
   const inverseStatus = statusOpen === Status.OPEN ? Status.CLOSE : Status.OPEN;
   const stateMenu = openDropDown ? "open" : "closed";
 
+  const isCounting = count > 0 && count !== INITIAL_TIMER;
+
+  const labelOpen = isCounting
+    ? `Desfazer abrir loja em (${count})`
+    : "Loja aberta";
+
+  const labelClosed = isCounting
+    ? `Desfazer fechar loja em (${count})`
+    : "Loja fechada";
+
+  function startTimer() {
+    setCount(29);
+    timer = setInterval(() => {
+      if (count <= 0) {
+        clearInterval(timer);
+        setCount(INITIAL_TIMER);
+        return;
+      }
+
+      setCount((oldValue) => oldValue - 1);
+    }, 1000);
+  }
+
   function handleChangeStatus() {
+    startTimer();
     setStatusOpen(inverseStatus);
     setOpenDropDown(false);
+  }
+
+  function handleBackStatus() {
+    setStatusOpen(inverseStatus);
+    setCount(INITIAL_TIMER);
+    clearInterval(timer);
   }
 
   return (
@@ -83,35 +115,48 @@ export function StatusOpen() {
       open={openDropDown}
       onOpenChange={setOpenDropDown}
     >
-      <DropdownMenu.Trigger asChild>
+      {!isCounting ? (
+        <DropdownMenu.Trigger asChild>
+          <button
+            className={currentStatus({ statusOpen })}
+            data-cy="current-status"
+          >
+            <div className={ballOpen({ statusOpen })}></div>
+            <div className="w-[5rem]">
+              {statusOpen === Status.OPEN ? labelOpen : labelClosed}
+            </div>
+            <CaretDown
+              size={16}
+              data-cy="arrow"
+              className="ml-3 data-[state=open]:rotate-180 transition-all duration-100 w-fit"
+              data-state={stateMenu}
+            />
+          </button>
+        </DropdownMenu.Trigger>
+      ) : (
         <button
-          className={currentStatus({ statusOpen, isCurrentStatus: true })}
-          data-cy="current-status"
+          className={currentStatus({
+            statusOpen: statusOpen,
+            isUndoingStatus: true,
+          })}
+          onClick={handleBackStatus}
         >
-          <div className={ballOpen({ statusOpen })}></div>
-          <div className="w-[5rem]">
-            {statusOpen === Status.OPEN ? "Loja aberta" : "Loja fechada"}
+          <div className="">
+            {statusOpen === Status.OPEN ? labelOpen : labelClosed}
           </div>
-          <CaretDown
-            size={16}
-            data-cy="arrow"
-            className="ml-3 data-[state=open]:rotate-180 transition-all duration-100 w-fit "
-            data-state={stateMenu}
-          />
         </button>
-      </DropdownMenu.Trigger>
+      )}
 
       <DropdownMenu.Content className={container()}>
         <button
           data-cy="choice-status"
           className={currentStatus({
             statusOpen: inverseStatus,
-            isCurrentStatus: false,
           })}
           onClick={handleChangeStatus}
         >
           <div className={ballOpen({ statusOpen: inverseStatus })}></div>
-          {statusOpen === Status.OPEN ? "Loja aberta" : "Loja fechada"}
+          {inverseStatus === Status.OPEN ? "Loja aberta" : "Loja fechada"}
         </button>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
