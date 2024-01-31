@@ -27,18 +27,18 @@ const statusOpenStyle = tv({
   variants: {
     statusOpen: {
       open: {
-        currentStatus: ["bg-[#E7F8F7] text-green-primary-dark"],
+        currentStatus: ["bg-[#E7F8F7] text-green-primary-dark rounded-b-lg"],
         ballOpen: ["w-1.5 h-1.5 rounded-full bg-green-primary-dark mr-2"],
       },
 
       close: {
-        currentStatus: ["bg-[#FEEAEC] text-red-primary-dark"],
+        currentStatus: ["bg-[#FEEAEC] text-red-primary-dark rounded-t-lg"],
         ballOpen: ["w-1.5 h-1.5 rounded-full bg-red-primary-dark mr-2"],
       },
     },
     isUndoingStatus: {
       true: {
-        currentStatus: "px-1.5",
+        currentStatus: "px-5",
       },
     },
   },
@@ -76,12 +76,10 @@ export function StatusOpen() {
 
   const isCounting = count > 0 && count !== INITIAL_TIMER;
 
-  const labelOpen = isCounting
-    ? `Desfazer abrir loja em (${count})`
-    : "Loja aberta";
+  const labelOpen = isCounting ? `Abrindo loja em (${count})` : "Loja aberta";
 
   const labelClosed = isCounting
-    ? `Desfazer fechar loja em (${count})`
+    ? `Fechando loja em (${count})`
     : "Loja fechada";
 
   function startTimer() {
