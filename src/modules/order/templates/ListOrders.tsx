@@ -91,7 +91,7 @@ export function ListOrders() {
   }
 
   return (
-    <div className="px-4  py-7">
+    <div className="px-4 pb-7">
       <div className="flex flex-1 items-center justify-between gap-4 md:mt-12">
         <div className="flex items-center gap-1.5">
           <h1 className="font-bold text-sm xs:text-xl font-rubik text-gray-100">

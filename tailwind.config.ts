@@ -87,6 +87,9 @@ const config: Config = {
       },
       colors: {
         background: "#F2F5FA",
+        blue: {
+          default: "#7B58FF",
+        },
         red: {
           "primary-dark": "#B50010",
           default: "#E2272A",

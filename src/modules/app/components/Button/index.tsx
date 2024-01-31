@@ -8,7 +8,7 @@ const button = tv({
     container: [
       "h-10 w-full rounded-xl",
       "font-outfit font-bold text-sm",
-      "transition-all",
+      "transition-all px-1",
     ],
   },
 

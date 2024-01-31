@@ -1,11 +1,7 @@
 import { Button, Input } from "@/modules/app/components";
 import { CardCatalog, SideBarCategory } from "@/modules/catalog/components";
-import {
-  MagnifyingGlass,
-  Plus,
-  PencilSimple,
-} from "@phosphor-icons/react/dist/ssr";
-import Image from "next/image";
+import { AddProductButton } from "@/modules/catalog/components/AddProductButton";
+import { MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 
 const categories = [
   {
@@ -30,21 +26,28 @@ export default async function Catalog() {
   return (
     <div>
       <SideBarCategory categories={categories} />
-      <div className="pl-64  px-8 mt-8">
-        <div className="w-full flex items-center gap-3 md:mt-20">
+
+      <div className="lg:pl-64 px-5 mt-8">
+        <div className="w-full flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:mt-20">
           <h2 className="text-xl font-bold text-gray-100 font-rubik">
             Cardápio
           </h2>
 
           <Input
-            className="w-full"
+            className="w-full mt-6 lg:mt-0"
             placeholder="Pesquisar"
             startIcon={<MagnifyingGlass size={20} />}
           />
 
-          <Button className="w-80" startIcon={Plus}>
-            Adicionar categoria
-          </Button>
+          <div className="flex w-full lg:w-auto lg:block items-center justify-between mt-5 lg:mt-0">
+            <span className="lg:hidden text-lg font-bold text-gray-100 font-rubik">
+              Categorias
+            </span>
+
+            <Button className="w-34 lg:w-80" startIcon={Plus}>
+              Adicionar categoria
+            </Button>
+          </div>
         </div>
 
         <div className="mt-9">
@@ -58,10 +61,12 @@ export default async function Catalog() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5 mt-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
             {Array.from({ length: 5 }).map((_, index) => (
               <CardCatalog key={index} />
             ))}
+
+            <AddProductButton />
           </div>
         </div>
 
@@ -78,10 +83,11 @@ export default async function Catalog() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5 mt-4">
+          <div className="grid lg:grid-cols-2 gap-5 mt-4">
             {Array.from({ length: 5 }).map((_, index) => (
               <CardCatalog key={index} />
             ))}
+            <AddProductButton />
           </div>
         </div>
 
@@ -98,10 +104,11 @@ export default async function Catalog() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5 mt-4">
+          <div className="grid lg:grid-cols-2 gap-5 mt-4">
             {Array.from({ length: 5 }).map((_, index) => (
               <CardCatalog key={index} />
             ))}
+            <AddProductButton />
           </div>
         </div>
 
@@ -118,10 +125,11 @@ export default async function Catalog() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5 mt-4">
+          <div className="grid lg:grid-cols-2 gap-5 mt-4">
             {Array.from({ length: 5 }).map((_, index) => (
               <CardCatalog key={index} />
             ))}
+            <AddProductButton />
           </div>
         </div>
       </div>
