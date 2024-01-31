@@ -1,5 +1,7 @@
 "use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { tv } from "tailwind-variants";
 import { CaretDown } from "@phosphor-icons/react";
@@ -72,6 +74,8 @@ export function MenuItem({
   stateMenu,
   handleMenuClick,
 }: MenuItemProps) {
+  const pathname = usePathname();
+
   const [open, setOpen] = useState(false);
   const {
     itemMenu,
@@ -89,10 +93,14 @@ export function MenuItem({
       (subMenu) => subMenu.name === activeMenu
     );
 
+    if (pathname !== "/preferencias") {
+      setOpen(false);
+    }
+
     if (menu.subMenu && findMenu && activeMenu.includes(findMenu.name)) {
       setOpen(true);
     }
-  }, [activeMenu, menu]);
+  }, [activeMenu, menu, pathname]);
 
   return (
     <li data-cy={menu.name} onClick={() => handleMenuClick(menu.name)}>
