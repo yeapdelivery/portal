@@ -17,6 +17,22 @@ const config: Config = {
     },
     extend: {
       keyframes: {
+        "animation-modal-fade-in": {
+          "0%": { transform: "translateX(100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        "animation-modal-fade-out": {
+          "0%": { transform: "translateX(0)", opacity: "1" },
+          "100%": { transform: "translateX(100%)", opacity: "0" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "fade-out": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
         "animation-pulse": {
           "0%, 100%": { transform: "scale(1);" },
           "50%": { transform: "scale(0.95);" },
@@ -47,6 +63,8 @@ const config: Config = {
         },
       },
       animation: {
+        "fade-in": "fade-in 0.3s linear",
+        "fade-out": "fade-out 0.3s linear",
         "pulse-click": "animation-pulse 0.5s linear",
         "menu-animation": "menu-animation 2s linear",
         "subMenu-animation": "subMenu-animation-in 0.1s linear",
@@ -54,6 +72,8 @@ const config: Config = {
         "fade-in-dropdown": "fade-in-dropdown 0.1s linear",
         "fade-out-dropdown": "fade-out-dropdown 0.1s linear",
         "card-order-animation": "card-order-animation 0.5s linear",
+        "animation-modal-fade-in": "animation-modal-fade-in 0.3s linear",
+        "animation-modal-fade-out": "animation-modal-fade-out 0.3s linear",
       },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],

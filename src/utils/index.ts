@@ -1,2 +1,2 @@
 export * from "./delay";
-export * from "./getScreenSize";
+export { default as getScreenSize } from "./getScreenSize";
