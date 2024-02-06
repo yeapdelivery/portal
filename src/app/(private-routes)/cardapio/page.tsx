@@ -1,7 +1,11 @@
 import { Button, Input } from "@/modules/app/components";
-import { CardCatalog, SideBarCategory } from "@/modules/catalog/components";
-import { AddProductButton } from "@/modules/catalog/components/AddProductButton";
-import { MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
+import {
+  CardCatalog,
+  CategoryModal,
+  SideBarCategory,
+} from "@/modules/catalog/components";
+import { AddProductButton } from "@/modules/catalog/components/add-product-button";
+import { List, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 
 const categories = [
   {
@@ -49,6 +53,8 @@ export default async function Catalog() {
             </Button>
           </div>
         </div>
+
+        <CategoryModal />
 
         <div className="mt-9">
           <div className="flex items-center gap-2">

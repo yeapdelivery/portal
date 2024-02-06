@@ -7,9 +7,9 @@ import {
   ChatDots,
   FadersHorizontal,
 } from "@phosphor-icons/react";
-import SideBarDesktopLayout from "./SideBarDesktopLayout";
-import BottomBar from "./BottomBar";
-import { Header } from "../Header";
+import SideBarDesktopLayout from "./side-bar-desktop-layout";
+import BottomBar from "./bottom-bar";
+import { Header } from "../header";
 
 export enum Menu {
   ORDER = "order",

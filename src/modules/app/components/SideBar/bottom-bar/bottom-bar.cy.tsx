@@ -1,6 +1,6 @@
 import "@/style/global.css";
-import BottomBar from "./BottomBar";
-import { Menu, menus } from "../";
+import BottomBar from "./bottom-bar";
+import { Menu, menus } from "..";
 
 describe("<BottomBar />", () => {
   it("should render BottomBar", () => {

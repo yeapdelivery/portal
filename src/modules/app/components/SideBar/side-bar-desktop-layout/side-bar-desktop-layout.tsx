@@ -3,8 +3,8 @@ import Image from "next/image";
 import { tv } from "tailwind-variants";
 import { List, SignOut } from "@phosphor-icons/react";
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { MenuItem } from "./MenuItem";
-import { Menu, MenuProps } from "../";
+import { MenuItem } from "./menu-item";
+import { Menu, MenuProps } from "..";
 
 interface SideBarDesktopLayout {
   menus: MenuProps[];

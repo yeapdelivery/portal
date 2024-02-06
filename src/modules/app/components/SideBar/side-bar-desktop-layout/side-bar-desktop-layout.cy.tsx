@@ -1,6 +1,6 @@
 import "@/style/global.css";
-import SideBarDesktopLayout from "./SideBarDesktopLayout";
-import { Menu, menus } from "../";
+import SideBarDesktopLayout from "./side-bar-desktop-layout";
+import { Menu, menus } from "..";
 
 describe("<SideBarDesktopLayout />", () => {
   it("should render SideBarDesktopLayout", () => {

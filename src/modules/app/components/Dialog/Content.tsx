@@ -46,7 +46,9 @@ export function DialogContent({ titleSlot, title, children }: DialogContent) {
             )}
           </DialogRx.Title>
           <DialogRx.Close asChild data-test="dialog-close">
-            <X size={16} className="text-red-default" weight="bold" />
+            <button>
+              <X size={16} className="text-red-default" weight="bold" />
+            </button>
           </DialogRx.Close>
         </div>
         <div className="px-5">{children}</div>
