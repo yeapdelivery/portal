@@ -1,5 +1,6 @@
 import { PencilSimple } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
+import { ProductModal } from "../product-modal";
 
 export function CardCatalog() {
   return (
@@ -19,13 +20,7 @@ export function CardCatalog() {
             <div className="flex items-center justify-between">
               <span className="text-gray-100 font-bold">Insano Burguer</span>
 
-              <button className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded">
-                <PencilSimple
-                  weight="bold"
-                  size={16}
-                  className="text-red-default"
-                />
-              </button>
+              <ProductModal />
             </div>
 
             <div className="max-w-[80%] mt-1 font-outfit text-gray-100 text-[10px]">
