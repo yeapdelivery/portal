@@ -1,6 +1,6 @@
 import "@/style/global.css";
-import { MenuItem } from "./MenuItem";
-import { Menu, menus } from "../";
+import { MenuItem } from "./menu-item";
+import { Menu, menus } from "..";
 
 describe("<MenuItem />", () => {
   it("should render MenuItem", () => {

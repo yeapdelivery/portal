@@ -1,4 +1,4 @@
-import getScreenSize from "@/utils/getScreenSize";
+import getScreenSize from "@/utils/get-screen-size";
 import { Dialog } from ".";
 import "@/style/global.css";
 

@@ -1,2 +1,2 @@
-export * from "./useScreenSize";
-export * from "./useLoading";
+export * from "./use-screen-size";
+export * from "./use-loading";

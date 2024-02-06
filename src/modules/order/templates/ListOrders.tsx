@@ -6,7 +6,7 @@ import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { DatePicker, TextFiled } from "@/modules/app/components";
 import { OrderStatus } from "../enums";
 import { CardOrder, TabOrder } from "../components";
-import useScreenSize from "@/modules/app/hooks/useScreenSize";
+import useScreenSize from "@/modules/app/hooks/use-screen-size";
 import axios from "axios";
 import { Order } from "../Models";
 import { useLoading } from "@/modules/app/hooks";

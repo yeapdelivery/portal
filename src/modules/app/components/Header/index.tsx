@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { StatusOpen } from "../StatusOpen";
-import { HourHeader } from "./HourHeader";
+import { StatusOpen } from "../status-open";
+import { HourHeader } from "./hour-header";
 
 interface HeaderProps {
   img: string;

@@ -4,7 +4,7 @@ import {
   CategoryModal,
   SideBarCategory,
 } from "@/modules/catalog/components";
-import { AddProductButton } from "@/modules/catalog/components/AddProductButton";
+import { AddProductButton } from "@/modules/catalog/components/add-product-button";
 import { List, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 
 const categories = [
