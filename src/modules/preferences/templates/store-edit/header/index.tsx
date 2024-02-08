@@ -1,46 +1,38 @@
+"use client";
+
 import { Button } from "@/modules/app/components";
-import { tv } from "tailwind-variants";
 import Image from "next/image";
 
-const buttonStyle = tv({
-  slots: {
-    button: [
-      "w-36 h-8 flex items-center justify-center text-xs font-bold",
-      "text-gray-500 bg-transparent border border-solid border-gray-500",
-      "rounded-lg hover:bg-transparent hover:text-gray-400 hover:bg-gray-700",
-      "transition-all duration-300 hover:border-none",
-    ],
-  },
-  variants: {
-    save: {
-      true: {
-        button: [
-          "bg-red-default text-white border-none hover:bg-red-primary-dark",
-          "hover:text-white",
-        ],
-      },
-    },
-  },
-});
+interface HeaderProps {
+  backgroundImage: string;
+  profileImage: string;
+  name: string;
+  cancel: () => void;
+  save: () => void;
+}
 
-export function Header() {
-  const { button } = buttonStyle();
-
+export function Header({
+  backgroundImage,
+  profileImage,
+  cancel,
+  name,
+  save,
+}: HeaderProps) {
   return (
     <div>
       <Image
-        data-cy="background-image"
-        src="/Rectangle.svg"
+        data-test="background-image"
+        src={backgroundImage}
         alt="company background image"
         width={1227}
         height={186}
         className="w-full"
       />
-      <div className="flex justify-between" data-cy="container">
-        <div data-cy="container-logo-button" className="-mt-9 gap-6 flex">
+      <div className="flex justify-between" data-test="container">
+        <div data-test="container-logo-button" className="-mt-9 gap-6 flex">
           <Image
-            data-cy="type-logo"
-            src="/Ellipse.svg"
+            data-test="type-logo"
+            src={profileImage}
             alt="company logo type"
             width={121}
             height={121}
@@ -48,13 +40,13 @@ export function Header() {
           />
           <div className="flex flex-col gap-1 self-center mt-5">
             <span
-              data-cy="company-name"
+              data-test="company-name"
               className="text-gray-100 font-outfit text-lg font-bold"
             >
-              Insano Burguer
+              {name}
             </span>
             <span
-              data-cy="company-email"
+              data-test="company-email"
               className="text-gray-100 text-xs font-medium"
             >
               twopaypal@gmail.com
@@ -62,12 +54,24 @@ export function Header() {
           </div>
         </div>
         <div className="flex gap-5 mt-5 mr-4">
-          <Button data-cy="cancel-button" className={button()}>
-            Cancelar
-          </Button>
-          <Button data-cy="save-button" className={button({ save: true })}>
-            Salvar
-          </Button>
+          <div className="w-36">
+            <Button
+              data-test="cancel-button"
+              variant="error"
+              onClick={() => cancel()}
+            >
+              Cancelar
+            </Button>
+          </div>
+          <div className="w-36">
+            <Button
+              data-test="save-button"
+              variant="check"
+              onClick={() => save()}
+            >
+              Salvar
+            </Button>
+          </div>
         </div>
       </div>
     </div>
