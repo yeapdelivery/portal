@@ -17,11 +17,11 @@ const config: Config = {
     },
     extend: {
       keyframes: {
-        "animation-modal-fade-in": {
+        "fade-in-left": {
           "0%": { transform: "translateX(100%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
-        "animation-modal-fade-out": {
+        "fade-out-left": {
           "0%": { transform: "translateX(0)", opacity: "1" },
           "100%": { transform: "translateX(100%)", opacity: "0" },
         },
@@ -72,8 +72,10 @@ const config: Config = {
         "fade-in-dropdown": "fade-in-dropdown 0.1s linear",
         "fade-out-dropdown": "fade-out-dropdown 0.1s linear",
         "card-order-animation": "card-order-animation 0.5s linear",
-        "animation-modal-fade-in": "animation-modal-fade-in 0.3s linear",
-        "animation-modal-fade-out": "animation-modal-fade-out 0.3s linear",
+        "animation-modal-fade-in": "fade-in-lef 0.3s linear",
+        "animation-modal-fade-out": "fade-out-left 0.3s linear",
+        "fade-in-left": "fade-in-left 0.1s linear",
+        "fade-out-left": "fade-out-left 0.1s linear",
       },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],

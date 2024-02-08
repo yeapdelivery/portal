@@ -1,11 +1,35 @@
+"use client";
+
+import { Dropzone } from "@/modules/app/components/dropzone";
+import { DropFiles } from "@/modules/app/components/dropzone/types";
+import { useState } from "react";
+
 export function ScreenStore() {
+  const [files, setFiles] = useState<DropFiles[]>([]);
+
+  function onDrop(files: DropFiles[]) {
+    setFiles((oldValues) => [...oldValues, ...files]);
+  }
+
+  function onDelete(files: DropFiles[]) {
+    setFiles(files);
+  }
+
   return (
     <div>
       <section>{/* here put header */}</section>
 
       <section>
         <form>
-          <div>{/* put here store data */}</div>
+          <div className="bg-white p-10">
+            {/* put here store data */}
+            <Dropzone
+              files={files}
+              onDrop={onDrop}
+              multiple
+              onDelete={onDelete}
+            />
+          </div>
         </form>
       </section>
     </div>
