@@ -3,7 +3,7 @@ export * from "./input";
 export * from "./filed";
 export * from "./text-filed";
 export * from "./spinner";
-export * from "./sideBar";
+export * from "./side-bar";
 export * from "./header";
 export * from "./date-picker";
 export * from "./dialog";

@@ -1,13 +1,18 @@
 "use client";
 
 import { Dropzone } from "@/modules/app/components/dropzone";
+import { DropFiles } from "@/modules/app/components/dropzone/types";
 import { useState } from "react";
 
 export function ScreenStore() {
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<DropFiles[]>([]);
 
-  function onDrop(files: FileList) {
-    console.log(files);
+  function onDrop(files: DropFiles[]) {
+    setFiles((oldValues) => [...oldValues, ...files]);
+  }
+
+  function onDelete(files: DropFiles[]) {
+    setFiles(files);
   }
 
   return (
@@ -18,7 +23,12 @@ export function ScreenStore() {
         <form>
           <div className="bg-white p-10">
             {/* put here store data */}
-            <Dropzone files={files} onDrop={onDrop} />
+            <Dropzone
+              files={files}
+              onDrop={onDrop}
+              multiple
+              onDelete={onDelete}
+            />
           </div>
         </form>
       </section>
