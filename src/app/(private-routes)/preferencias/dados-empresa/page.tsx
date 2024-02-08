@@ -1,3 +1,5 @@
+import { Header } from "@/modules/preferences/templates/store-edit/header";
+
 export default function PreferencesCompany() {
-  return <h1>preferecias company</h1>;
+  return <Header />;
 }

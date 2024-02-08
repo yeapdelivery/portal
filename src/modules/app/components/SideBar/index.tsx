@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import SideBarDesktopLayout from "./side-bar-desktop-layout";
 import BottomBar from "./bottom-bar";
-import { Header } from "../header";
+import { Header } from "../Header";
 
 export enum Menu {
   ORDER = "order",
