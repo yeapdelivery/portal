@@ -1,2 +1,2 @@
-import { OrderStatus } from "./orderStatus";
+import { OrderStatus } from "./order-status";
 export { OrderStatus };

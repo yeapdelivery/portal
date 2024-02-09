@@ -8,7 +8,7 @@ import { OrderStatus } from "../enums";
 import { CardOrder, TabOrder } from "../components";
 import useScreenSize from "@/modules/app/hooks/use-screen-size";
 import axios from "axios";
-import { Order } from "../Models";
+import { Order } from "../models";
 import { useLoading } from "@/modules/app/hooks";
 import { getScreenSize } from "@/utils";
 
