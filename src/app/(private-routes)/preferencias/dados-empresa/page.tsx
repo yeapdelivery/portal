@@ -1,15 +1,5 @@
-"use client";
-
-import { Header } from "@/modules/preferences/templates/store-edit/header";
+import { ScreenStore } from "@/modules/preferences/templates";
 
 export default function PreferencesCompany() {
-  return (
-    <Header
-      backgroundImage="/Rectangle.svg"
-      profileImage="/Ellipse.svg"
-      cancel={() => {}}
-      save={() => {}}
-      name="Insano Burguer"
-    />
-  );
+  return <ScreenStore />;
 }

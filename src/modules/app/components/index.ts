@@ -1,9 +1,9 @@
-export { Button } from "./Button";
-export { Input } from "./Input";
-export { Filed } from "./Filed";
-export { TextFiled } from "./text-filed";
-export { Spinner } from "./Spinner";
-export { SideBar } from "./SideBar";
-export { Header } from "./Header";
-export { DatePicker } from "./date-picker";
-export { Dialog } from "./Dialog";
+export * from "./button";
+export * from "./input";
+export * from "./filed";
+export * from "./text-filed";
+export * from "./spinner";
+export * from "./side-bar";
+export * from "./header";
+export * from "./date-picker";
+export * from "./dialog";
