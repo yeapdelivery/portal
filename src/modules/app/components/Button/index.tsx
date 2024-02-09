@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { VariantProps, tv } from "tailwind-variants";
-import { Spinner } from "../spinner";
+import { Spinner } from "../Spinner";
 import { Icon } from "@phosphor-icons/react";
 
 const button = tv({
