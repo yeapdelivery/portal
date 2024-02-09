@@ -19,7 +19,7 @@ export function Header({
   save,
 }: HeaderProps) {
   return (
-    <div>
+    <div className="h-full">
       <Image
         data-test="background-image"
         src={backgroundImage}
@@ -28,7 +28,7 @@ export function Header({
         height={186}
         className="w-full"
       />
-      <div className="flex justify-between" data-test="container">
+      <div className="flex justify-between md:flex-col">
         <div data-test="container-logo-button" className="-mt-9 gap-6 flex">
           <Image
             data-test="type-logo"
