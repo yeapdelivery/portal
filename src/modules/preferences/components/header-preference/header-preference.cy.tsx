@@ -1,10 +1,10 @@
 import "@/style/global.css";
-import { Header } from ".";
+import { HeaderPreference } from ".";
 
-describe("<Header />", () => {
+describe("<HeaderPreference />", () => {
   it("should render background image", () => {
     cy.mount(
-      <Header
+      <HeaderPreference
         backgroundImage="/Rectangle.svg"
         cancel={() => {}}
         name="Insano Burguer"
@@ -18,7 +18,7 @@ describe("<Header />", () => {
 
   it("should render a type logo", () => {
     cy.mount(
-      <Header
+      <HeaderPreference
         backgroundImage="/Rectangle.svg"
         cancel={() => {}}
         name="Insano Burguer"
@@ -31,7 +31,7 @@ describe("<Header />", () => {
 
   it("should render company name", () => {
     cy.mount(
-      <Header
+      <HeaderPreference
         backgroundImage="/Rectangle.svg"
         cancel={() => {}}
         name="Insano Burguer"
@@ -47,7 +47,7 @@ describe("<Header />", () => {
 
   it("should render company email", () => {
     cy.mount(
-      <Header
+      <HeaderPreference
         backgroundImage="/Rectangle.svg"
         cancel={() => {}}
         name="Insano Burguer"
@@ -63,7 +63,7 @@ describe("<Header />", () => {
 
   it("should render a cancel button", () => {
     cy.mount(
-      <Header
+      <HeaderPreference
         backgroundImage="/Rectangle.svg"
         cancel={() => {}}
         name="Insano Burguer"
@@ -79,7 +79,7 @@ describe("<Header />", () => {
 
   it("should render a save button", () => {
     cy.mount(
-      <Header
+      <HeaderPreference
         backgroundImage="/Rectangle.svg"
         cancel={() => {}}
         name="Insano Burguer"
@@ -95,7 +95,7 @@ describe("<Header />", () => {
 
   it("there should be an onClick function on the save button", () => {
     cy.mount(
-      <Header
+      <HeaderPreference
         backgroundImage="/Rectangle.svg"
         cancel={() => {}}
         name="Insano Burguer"
@@ -113,7 +113,7 @@ describe("<Header />", () => {
 
   it("there should be an onClick function on the cancel button", () => {
     cy.mount(
-      <Header
+      <HeaderPreference
         backgroundImage="/Rectangle.svg"
         cancel={() => {}}
         name="Insano Burguer"
