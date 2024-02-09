@@ -6,7 +6,7 @@ import { CalendarBlank, CaretDown } from "@phosphor-icons/react";
 import ptBr from "date-fns/locale/pt-BR";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { Input } from "../Input";
+import { Input } from "../input";
 import "./style.css";
 
 registerLocale("pt-br", ptBr);

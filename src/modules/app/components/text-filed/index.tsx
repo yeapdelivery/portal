@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import { Filed } from "../Filed";
-import { Input } from "../Input";
+import { Filed, Input } from "@/modules/app/components/";
 
 interface TextFiledProps {
   htmlFor: string;
