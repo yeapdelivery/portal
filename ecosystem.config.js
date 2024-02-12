@@ -9,10 +9,5 @@ module.exports = {
       watch: false,
       max_memory_restart: "128M",
     },
-    {
-      name: "admin-front-json-server",
-      script: "npx",
-      args: "json-server --watch db.json --port 3333",
-    },
   ],
 };
