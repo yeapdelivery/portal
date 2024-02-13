@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { ToastType } from "../components/toast/types";
 
 interface Toast {
   message: string;
   open: boolean;
+  type?: ToastType;
 }
 
 interface ToastHook {
@@ -27,24 +29,28 @@ export function useToast(): ToastHook {
       setToast({
         message,
         open: true,
+        type: ToastType.SUCCESS,
       });
     },
     error: (message: string) => {
       setToast({
         message,
         open: true,
+        type: ToastType.ERROR,
       });
     },
     warning: (message: string) => {
       setToast({
         message,
         open: true,
+        type: ToastType.WARNING,
       });
     },
     info: (message: string) => {
       setToast({
         message,
         open: true,
+        type: ToastType.INFO,
       });
     },
   };
