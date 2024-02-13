@@ -71,15 +71,22 @@ export function Toast({ open, message, type, setOpen }: ToastProps) {
 
   return (
     <ToastRx.Provider duration={5000} swipeDirection="right">
-      <ToastRx.Root open={open} onOpenChange={setOpen} className={root()}>
+      <ToastRx.Root
+        data-test="toast-container"
+        open={open}
+        onOpenChange={setOpen}
+        className={root()}
+      >
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className={ball()}>{iconFromType}</div>
 
-            <span className={messageStyle()}>{message}</span>
+            <span className={messageStyle()} data-test="toast-message">
+              {message}
+            </span>
           </div>
 
-          <ToastRx.Close asChild>
+          <ToastRx.Close asChild data-test="toast-close">
             <X size={16} className={close()} />
           </ToastRx.Close>
         </div>
