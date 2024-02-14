@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog } from "@/modules/app/components";
+import Dialog from "@/modules/app/components/dialog";
 import { List } from "@phosphor-icons/react";
 
 export function CategoryModal() {

@@ -1,5 +1,5 @@
 import getScreenSize from "@/utils/get-screen-size";
-import { Dialog } from ".";
+import Dialog from ".";
 import "@/style/global.css";
 
 const largeScreenSize = getScreenSize("lg");
@@ -64,7 +64,7 @@ describe("<Dialog />", () => {
       .should(
         "have.css",
         "animation",
-        "0.3s linear 0s 1 normal none running animation-modal-fade-in"
+        "0.3s linear 0s 1 normal none running fade-in-left"
       );
   });
 

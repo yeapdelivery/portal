@@ -9,7 +9,7 @@ export function getHourAndMinutes(): string {
   return `${hour}:${minutes}`;
 }
 
-export function HourHeader() {
+export default function HourHeader() {
   const [hour, setHour] = useState(getHourAndMinutes());
 
   useEffect(() => {

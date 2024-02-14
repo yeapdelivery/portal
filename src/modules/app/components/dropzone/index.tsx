@@ -3,7 +3,7 @@
 import { CloudArrowUp, TrashSimple } from "@phosphor-icons/react/dist/ssr";
 import { MouseEvent, useCallback, useState } from "react";
 import { tv } from "tailwind-variants";
-import { Toast } from "../toast";
+import Toast from "../toast";
 import { ToastType } from "../toast/types";
 import { DropFiles } from "./types";
 import { fileToBase64 } from "@/utils";
@@ -47,7 +47,7 @@ const ACCEPTED_FORMATS = [
   "application/pdf",
 ];
 
-export function Dropzone({
+export default function Dropzone({
   files = [],
   accept = ACCEPTED_FORMATS,
   multiple,

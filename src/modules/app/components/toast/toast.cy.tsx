@@ -1,4 +1,4 @@
-import { Toast } from ".";
+import Toast from ".";
 import "@/style/global.css";
 import { ToastType } from "./types";
 

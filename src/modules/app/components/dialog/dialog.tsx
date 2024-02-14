@@ -7,7 +7,7 @@ interface DialogProps {
   children: React.ReactNode;
 }
 
-export function Dialog({ children }: DialogProps) {
+export default function Dialog({ children }: DialogProps) {
   return <DialogRx.Root>{children}</DialogRx.Root>;
 }
 

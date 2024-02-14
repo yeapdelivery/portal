@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Warning, X } from "@phosphor-icons/react/dist/ssr";
+import { Check, X } from "@phosphor-icons/react/dist/ssr";
 import * as ToastRx from "@radix-ui/react-toast";
 import { tv } from "tailwind-variants";
 import { ToastType } from "./types";
@@ -64,7 +64,7 @@ const icon = {
   [ToastType.INFO]: "i",
 };
 
-export function Toast({ open, message, type, setOpen }: ToastProps) {
+export default function Toast({ open, message, type, setOpen }: ToastProps) {
   const { root, message: messageStyle, ball, close } = toast({ type });
 
   const iconFromType = icon[type];

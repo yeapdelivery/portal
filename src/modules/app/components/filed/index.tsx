@@ -15,7 +15,7 @@ interface FiledProps {
   error: string | null;
 }
 
-export function Filed({ label, htmlFor, children, error }: FiledProps) {
+export default function Filed({ label, htmlFor, children, error }: FiledProps) {
   const { error: errorStyle, label: labelStyle } = filed();
 
   return (

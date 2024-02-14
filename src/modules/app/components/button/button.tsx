@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { VariantProps, tv } from "tailwind-variants";
-import { Spinner } from "../spinner";
+import Spinner from "../spinner";
 import { Icon } from "@phosphor-icons/react";
 
 const button = tv({
@@ -71,7 +71,7 @@ interface ButtonProps
   endIcon?: Icon;
 }
 
-export function Button({
+export default function Button({
   variant,
   children,
   disabled,

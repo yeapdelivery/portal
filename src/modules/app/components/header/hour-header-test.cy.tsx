@@ -1,5 +1,6 @@
 import "@/style/global.css";
-import { HourHeader, getHourAndMinutes } from "./hour-header";
+import { getHourAndMinutes } from "./hour-header";
+import HourHeader from "./hour-header";
 
 describe("<HourHeader />", () => {
   it("should render HourHeader", () => {

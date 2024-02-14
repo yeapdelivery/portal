@@ -1,11 +1,12 @@
-import { Button, Input } from "@/modules/app/components";
+import Input from "@/modules/app/components/input";
+import Button from "@/modules/app/components/button";
 import {
   CardCatalog,
   CategoryModal,
   SideBarCategory,
 } from "@/modules/catalog/components";
 import { AddProductButton } from "@/modules/catalog/components/add-product-button";
-import { List, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 
 const categories = [
   {

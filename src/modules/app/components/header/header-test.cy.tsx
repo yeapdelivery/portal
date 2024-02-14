@@ -1,5 +1,5 @@
 import "@/style/global.css";
-import { Header } from ".";
+import Header from ".";
 
 describe("<Header />", () => {
   beforeEach(() => {

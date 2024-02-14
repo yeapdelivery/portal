@@ -1,9 +1,9 @@
 "use client";
 
-import { Dropzone } from "@/modules/app/components/dropzone";
 import { DropFiles } from "@/modules/app/components/dropzone/types";
 import { useState } from "react";
 import { HeaderPreference } from "../../components/header-preference";
+import Dropzone from "@/modules/app/components/dropzone";
 
 export function ScreenStore() {
   const [files, setFiles] = useState<DropFiles[]>([]);
