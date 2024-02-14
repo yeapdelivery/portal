@@ -1,4 +1,4 @@
-import { Input } from ".";
+import Input from ".";
 import "@/style/global.css";
 
 describe("<Input />", () => {
