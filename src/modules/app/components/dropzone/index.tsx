@@ -7,6 +7,7 @@ import { Toast } from "../toast";
 import { ToastType } from "../toast/types";
 import { DropFiles } from "./types";
 import { fileToBase64 } from "@/utils";
+import { useToast } from "../../hooks";
 
 const dropzone = tv({
   slots: {
@@ -54,8 +55,8 @@ export function Dropzone({
   onDelete,
 }: DropzoneProps) {
   const [hasError, setHasError] = useState(false);
-  const [openToast, setOpenToast] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const { toast, setToast, error: toastError } = useToast();
   const { containerDropZone } = dropzone({ isDragging });
 
   async function addFiles(files: File[]): Promise<void> {
@@ -96,7 +97,7 @@ export function Dropzone({
 
       if (!isAccepted) {
         setHasError(true);
-        setOpenToast(true);
+        toastError("Formato de arquivo inválido");
         return true;
       }
     }
@@ -170,14 +171,14 @@ export function Dropzone({
       </div>
 
       <Toast
-        open={openToast}
-        type={ToastType.ERROR}
-        message="Formato de arquivo não suportado"
+        open={toast.open}
+        type={toast.type}
+        message={toast.message}
         setOpen={(open) => {
           if (!open) {
             setHasError(false);
           }
-          setOpenToast(open);
+          setToast({ message: "", open });
         }}
       />
     </>

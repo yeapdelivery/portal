@@ -1,7 +1,7 @@
 "use client";
 
 import * as DialogRx from "@radix-ui/react-dialog";
-import { DialogContent } from "./Content";
+import { DialogContent } from "./content";
 
 interface DialogProps {
   children: React.ReactNode;

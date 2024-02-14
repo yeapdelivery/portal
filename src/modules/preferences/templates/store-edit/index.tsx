@@ -3,7 +3,7 @@
 import { Dropzone } from "@/modules/app/components/dropzone";
 import { DropFiles } from "@/modules/app/components/dropzone/types";
 import { useState } from "react";
-import { Header } from "./header";
+import { HeaderPreference } from "../../components/header-preference";
 
 export function ScreenStore() {
   const [files, setFiles] = useState<DropFiles[]>([]);
@@ -19,11 +19,11 @@ export function ScreenStore() {
   return (
     <div>
       <section>
-        <Header
+        <HeaderPreference
           backgroundImage="/Rectangle.svg"
+          name="Insano Burguer"
           profileImage="/Ellipse.svg"
           cancel={() => {}}
-          name="Insano Burguer"
           save={() => {}}
         />
       </section>

@@ -11,7 +11,7 @@ interface HeaderProps {
   save: () => void;
 }
 
-export function Header({
+export function HeaderPreference({
   backgroundImage,
   profileImage,
   cancel,

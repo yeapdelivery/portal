@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { OrderStatus } from "../../enums";
-import { Order } from "../../Models";
+import { Order } from "../../models";
 import { format, set } from "date-fns";
 import { currency, formatAddress } from "@/formatting";
-import { CardLoading } from "./CardLoading";
+import { CardLoading } from "./card-loading";
 import { tv } from "tailwind-variants";
 
 interface CardOrderProps {
