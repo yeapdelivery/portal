@@ -65,7 +65,7 @@ const INITIAL_TIMER = 30;
 
 let timer: NodeJS.Timeout;
 
-export function StatusOpen() {
+export default function StatusOpen() {
   const [statusOpen, setStatusOpen] = useState<Status>(Status.CLOSE);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [count, setCount] = useState(INITIAL_TIMER);

@@ -6,7 +6,7 @@ import { CalendarBlank, CaretDown } from "@phosphor-icons/react";
 import ptBr from "date-fns/locale/pt-BR";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { Input } from "../input";
+import Input from "../input";
 import "./style.css";
 
 registerLocale("pt-br", ptBr);
@@ -17,7 +17,11 @@ interface DatePickerProps {
   minDate?: Date;
 }
 
-export function DatePicker({ maxDate, minDate, onChange }: DatePickerProps) {
+export default function DatePicker({
+  maxDate,
+  minDate,
+  onChange,
+}: DatePickerProps) {
   const [startDate, setStartDate] = useState(new Date());
   const [isFocus, setIsFocus] = useState(false);
   const [closedFocus, setClosedFocus] = useState(false);

@@ -1,5 +1,5 @@
 import "@/style/global.css";
-import { DatePicker } from ".";
+import DatePicker from ".";
 import { format, compareAsc } from "date-fns";
 
 describe("<DatePicker />", () => {
