@@ -28,14 +28,17 @@ export function HeaderPreference({
         height={186}
         className="w-full"
       />
-      <div className="flex justify-between md:flex-col">
-        <div data-test="container-logo-button" className="-mt-9 gap-6 flex">
+      <div className="flex flex-col md:flex-row md:justify-between">
+        <div
+          data-test="container-logo-button"
+          className="-mt-9 gap-2 md:gap-6 flex"
+        >
           <Image
             data-test="type-logo"
             src={profileImage}
-            alt="company logo type"
             width={121}
             height={121}
+            alt="company logo type"
             className="ml-6"
           />
           <div className="flex flex-col gap-1 self-center mt-5">
@@ -53,8 +56,8 @@ export function HeaderPreference({
             </span>
           </div>
         </div>
-        <div className="flex gap-5 mt-5 mr-4">
-          <div className="w-36">
+        <div className="flex gap-5 mt-5 mr-4 ml-10">
+          <div className="w-28 md:w-36 ">
             <Button
               data-test="cancel-button"
               variant="error"
@@ -63,7 +66,7 @@ export function HeaderPreference({
               Cancelar
             </Button>
           </div>
-          <div className="w-36">
+          <div className="w-28 md:w-36">
             <Button
               data-test="save-button"
               variant="check"
