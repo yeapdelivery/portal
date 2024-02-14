@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 
-import { DatePicker, TextFiled } from "@/modules/app/components";
+import TextFiled from "@/modules/app/components/text-filed";
+import DatePicker from "@/modules/app/components/date-picker";
 import { OrderStatus } from "../enums";
 import { CardOrder, TabOrder } from "../components";
 import useScreenSize from "@/modules/app/hooks/use-screen-size";

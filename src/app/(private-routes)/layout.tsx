@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { getSession } from "@auth0/nextjs-auth0";
 import { redirect } from "next/navigation";
-import { SideBar } from "@/modules/app/components";
+import SideBar from "@/modules/app/components/side-bar";
 
 interface PrivateLayoutProps {
   children: ReactNode;

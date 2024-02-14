@@ -24,7 +24,7 @@ const input = tv({
   },
 });
 
-interface InputProps
+export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof input> {
   startIcon?: ReactNode;
@@ -92,4 +92,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "Input";
 
-export { Input };
+export default Input;

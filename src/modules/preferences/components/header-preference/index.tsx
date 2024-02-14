@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/modules/app/components";
+import Button from "@/modules/app/components/button";
 import Image from "next/image";
 
 interface HeaderProps {

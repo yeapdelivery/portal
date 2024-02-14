@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { Filed, Input } from "@/modules/app/components/";
+import Filed from "@/modules/app/components/filed";
+import Input from "@/modules/app/components/input";
 
 interface TextFiledProps {
   htmlFor: string;
@@ -8,7 +9,12 @@ interface TextFiledProps {
   children: ReactNode;
 }
 
-export function TextFiled({ error, htmlFor, label, children }: TextFiledProps) {
+export default function TextFiled({
+  error,
+  htmlFor,
+  label,
+  children,
+}: TextFiledProps) {
   return (
     <Filed error={error} htmlFor={htmlFor} label={label}>
       {children}

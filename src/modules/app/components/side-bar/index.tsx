@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import SideBarDesktopLayout from "./side-bar-desktop-layout";
 import BottomBar from "./bottom-bar";
-import { Header } from "../header";
+import Header from "../header";
 
 export enum Menu {
   ORDER = "order",
@@ -87,7 +87,7 @@ export const menus: MenuProps[] = [
   },
 ];
 
-export function SideBar({ name, img, children }: SideBarProps) {
+export default function SideBar({ name, img, children }: SideBarProps) {
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<Menu>();
   const [open, setOpen] = useState(true);

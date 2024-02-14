@@ -1,5 +1,5 @@
 import "@/style/global.css";
-import { StatusOpen } from ".";
+import StatusOpen from ".";
 
 describe("<StatusOpen />", () => {
   it("should render StatusOpen", () => {

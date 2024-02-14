@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { StatusOpen } from "../status-open";
-import { HourHeader } from "./hour-header";
+import StatusOpen from "../status-open";
+import HourHeader from "./hour-header";
 
 interface HeaderProps {
   img: string;
   name: string;
 }
 
-export function Header({ img, name }: HeaderProps) {
+export default function Header({ img, name }: HeaderProps) {
   return (
     <div
       data-cy="header-container"
