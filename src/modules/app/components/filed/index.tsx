@@ -13,15 +13,22 @@ interface FiledProps {
   htmlFor: string;
   children: ReactNode;
   error: string | null;
+  required?: boolean;
 }
 
-export default function Filed({ label, htmlFor, children, error }: FiledProps) {
+export default function Filed({
+  label,
+  htmlFor,
+  required,
+  error,
+  children,
+}: FiledProps) {
   const { error: errorStyle, label: labelStyle } = filed();
 
   return (
     <div>
       <label htmlFor={htmlFor} className={labelStyle()}>
-        {label}
+        {label} {required && <span className="text-error-default">*</span>}
       </label>
 
       <div>{children}</div>

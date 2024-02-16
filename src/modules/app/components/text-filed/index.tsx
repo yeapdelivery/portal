@@ -6,6 +6,7 @@ interface TextFiledProps {
   htmlFor: string;
   label?: string;
   error: string | null;
+  required?: boolean;
   children: ReactNode;
 }
 
@@ -13,10 +14,11 @@ export default function TextFiled({
   error,
   htmlFor,
   label,
+  required,
   children,
 }: TextFiledProps) {
   return (
-    <Filed error={error} htmlFor={htmlFor} label={label}>
+    <Filed error={error} htmlFor={htmlFor} label={label} required={required}>
       {children}
     </Filed>
   );

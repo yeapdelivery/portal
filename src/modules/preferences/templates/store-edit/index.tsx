@@ -1,21 +1,10 @@
 "use client";
 
-import { DropFiles } from "@/modules/app/components/dropzone/types";
-import { useState } from "react";
+import { ContainerPreference } from "../../components/container-preference";
 import { HeaderPreference } from "../../components/header-preference";
-import Dropzone from "@/modules/app/components/dropzone";
+import { StoreData } from "../../components/store-data";
 
 export function ScreenStore() {
-  const [files, setFiles] = useState<DropFiles[]>([]);
-
-  function onDrop(files: DropFiles[]) {
-    setFiles((oldValues) => [...oldValues, ...files]);
-  }
-
-  function onDelete(files: DropFiles[]) {
-    setFiles(files);
-  }
-
   return (
     <div>
       <section>
@@ -29,15 +18,14 @@ export function ScreenStore() {
       </section>
 
       <section>
-        <form>
-          <div className="bg-white p-10">
-            {/* put here store data */}
-            <Dropzone
-              files={files}
-              onDrop={onDrop}
-              multiple
-              onDelete={onDelete}
-            />
+        <form className="flex flex-col md:flex-row">
+          <div className="w-full">
+            <ContainerPreference
+              title="Dados da loja"
+              description="Atualize o perfil da sua loja aqui"
+            >
+              <StoreData cancel={() => {}} save={() => {}} />
+            </ContainerPreference>
           </div>
         </form>
       </section>
