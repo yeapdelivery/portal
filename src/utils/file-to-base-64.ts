@@ -1,4 +1,4 @@
-export const fileToBase64 = async (
+const fileToBase64 = async (
   file: File
 ): Promise<string | ArrayBuffer | null> => {
   const reader = new FileReader();
@@ -10,3 +10,5 @@ export const fileToBase64 = async (
       reject(new Error("Não foi possivel abrir o arquivo"));
   });
 };
+
+export default fileToBase64;

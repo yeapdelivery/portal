@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useLoading = (
+const useLoading = (
   initialValue = false
 ): [boolean, () => void, () => void] => {
   const [isLoading, setIsLoading] = useState<boolean>(initialValue);
@@ -10,3 +10,5 @@ export const useLoading = (
 
   return [isLoading, startLoading, stopLoading];
 };
+
+export default useLoading;
