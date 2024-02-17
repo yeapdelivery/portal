@@ -10,6 +10,9 @@ import {
 import SideBarDesktopLayout from "./side-bar-desktop-layout";
 import BottomBar from "./bottom-bar";
 import Header from "../header";
+import { useWindowSize } from "../../hooks";
+import { getScreenSize } from "@/utils";
+import { tv } from "tailwind-variants";
 
 export enum Menu {
   ORDER = "order",
@@ -41,6 +44,15 @@ interface SideBarProps {
   img: string;
   name: string;
 }
+
+const sidebar = tv({
+  slots: {
+    content: [
+      "data-[state=closed]:ml-[4rem] md:ml-[14rem] mt-[8.2rem] md:mt-24",
+      "transition-all duration-400 ease-in-out mb-20 lg:mb-0",
+    ],
+  },
+});
 
 export const menus: MenuProps[] = [
   {
@@ -91,6 +103,8 @@ export default function SideBar({ name, img, children }: SideBarProps) {
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<Menu>();
   const [open, setOpen] = useState(true);
+  const windowSize = useWindowSize();
+  const { content } = sidebar();
 
   const stateMenu = open ? "open" : "closed";
 
@@ -100,6 +114,12 @@ export default function SideBar({ name, img, children }: SideBarProps) {
       setActiveMenu(menu);
     }
   }
+
+  useEffect(() => {
+    if (windowSize.width < getScreenSize("md")) {
+      setOpen(true);
+    }
+  }, [windowSize]);
 
   useEffect(() => {
     const menu = menus.find((menu) => {
@@ -155,10 +175,7 @@ export default function SideBar({ name, img, children }: SideBarProps) {
         <Header img={img} name={name} />
       </div>
 
-      <aside
-        data-state={stateMenu}
-        className="data-[state=closed]:ml-[4rem] md:ml-[14rem] mt-[8.2rem] md:mt-24  md: transition-all duration-400 ease-in-out mb-20 lg:mb-0"
-      >
+      <aside data-state={stateMenu} className={content()}>
         {children}
       </aside>
     </div>
