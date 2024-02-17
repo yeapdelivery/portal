@@ -4,8 +4,8 @@ import { tv } from "tailwind-variants";
 const containerPreferenceStyles = tv({
   slots: {
     containerStyles: [
-      "bg-white rounded-lg border border-gray-700 mt-2",
-      " p-3 md:p-6 mx-2 md:mr-6 md:mt-8 w-full",
+      "bg-white rounded-lg border border-gray-700",
+      "p-3 md:p-6 md:mr-6 w-full",
     ],
   },
 });
@@ -24,8 +24,8 @@ export function ContainerPreference({
   const { containerStyles } = containerPreferenceStyles();
 
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="flex flex-col ml-6 md:ml-10 mr-8 ">
+    <div className="flex flex-col p-2 md:p-0 md:items-start md:flex-row">
+      <div className="flex flex-col ml-6 md:ml-10 mr-8">
         <span className="text-sm text-gray-100 font-bold font-outfit tracking-tighter">
           {title}
         </span>
