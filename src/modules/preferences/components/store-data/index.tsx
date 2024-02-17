@@ -76,7 +76,11 @@ export function StoreData({ cancel, save }: StoreDataProps) {
             label="Telefone ou celular da loja como aparecerá no app"
             required
           >
-            <TextFiled.Input id="search" className="bg-gray-1000" />
+            <TextFiled.Input
+              id="search"
+              className="bg-gray-1000"
+              mask="99 99999-9999"
+            />
           </TextFiled>
           <TextFiled
             error={null}
