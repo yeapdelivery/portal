@@ -4,7 +4,6 @@ import { CloudArrowUp, TrashSimple } from "@phosphor-icons/react/dist/ssr";
 import { MouseEvent, useCallback, useState } from "react";
 import { tv } from "tailwind-variants";
 import Toast from "../toast";
-import { ToastType } from "../toast/types";
 import { DropFiles } from "./types";
 import { fileToBase64 } from "@/utils";
 import { useToast } from "../../hooks";
@@ -135,12 +134,14 @@ export default function Dropzone({
       <div>
         <div
           className={containerDropZone({ error: hasError })}
+          data-test="dropzone"
           onDrop={handleDrop}
           onDragOver={() => setIsDragging(true)}
           onDragLeave={() => setIsDragging(false)}
         >
           <input
             type="file"
+            data-test="input-file"
             multiple={multiple}
             className="absolute inset-0 opacity-0 cursor-pointer"
             onChange={(event) => {
@@ -162,7 +163,10 @@ export default function Dropzone({
           {files.map((file) => (
             <div key={file.id} className="flex items-center gap-2">
               <p className="text-gray-300 font-medium">{file.name}</p>
-              <button onClick={(event) => handleRemoveFile(event, file)}>
+              <button
+                data-test={`delete-${file.id}`}
+                onClick={(event) => handleRemoveFile(event, file)}
+              >
                 <TrashSimple size={18} />
               </button>
             </div>
