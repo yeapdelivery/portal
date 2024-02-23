@@ -4,7 +4,6 @@ import { CloudArrowUp, TrashSimple } from "@phosphor-icons/react/dist/ssr";
 import { MouseEvent, useCallback, useState } from "react";
 import { tv } from "tailwind-variants";
 import Toast from "../toast";
-import { ToastType } from "../toast/types";
 import { DropFiles } from "./types";
 import { fileToBase64 } from "@/utils";
 import { useToast } from "../../hooks";
@@ -142,7 +141,7 @@ export default function Dropzone({
           <input
             type="file"
             multiple={multiple}
-            className="absolute inset-0 opacity-0 cursor-pointer"
+            className="absolute -z-10 inset-0 opacity-0 cursor-pointer"
             onChange={(event) => {
               handleInputChange(event);
             }}

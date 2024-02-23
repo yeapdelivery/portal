@@ -66,6 +66,10 @@ describe("<Header />", () => {
     cy.get("[data-cy=logo-mobile]").should("be.visible");
     cy.get("[data-cy=logo-mobile]")
       .children()
-      .should("have.attr", "src", "logo-menu.svg");
+      .should(
+        "have.attr",
+        "src",
+        "https://yeap-delivery-public.s3.us-east-2.amazonaws.com/image/logo-menu.svg"
+      );
   });
 });

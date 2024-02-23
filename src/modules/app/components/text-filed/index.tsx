@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Filed from "@/modules/app/components/filed";
 import Input from "@/modules/app/components/input";
 
-interface TextFiledProps {
+interface TextFiledProps extends React.HTMLProps<HTMLDivElement> {
   htmlFor: string;
   label?: string;
   error: string | null;
@@ -16,9 +16,16 @@ export default function TextFiled({
   label,
   required,
   children,
+  ...rest
 }: TextFiledProps) {
   return (
-    <Filed error={error} htmlFor={htmlFor} label={label} required={required}>
+    <Filed
+      {...rest}
+      error={error}
+      htmlFor={htmlFor}
+      label={label}
+      required={required}
+    >
       {children}
     </Filed>
   );

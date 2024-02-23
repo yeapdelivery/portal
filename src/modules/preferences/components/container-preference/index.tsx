@@ -29,9 +29,9 @@ export function ContainerPreference({
         <span className="text-sm text-gray-100 font-bold font-outfit tracking-tighter">
           {title}
         </span>
-        <span className="text-gray-100 text-xs font-medium leading-6 whitespace-nowrap">
+        <p className="text-gray-100 text-xs font-medium leading-6 min-w-[170px] max-w-[170px]">
           {description}
-        </span>
+        </p>
       </div>
       <div className={containerStyles()}>{children}</div>
     </div>

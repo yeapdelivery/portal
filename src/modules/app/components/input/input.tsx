@@ -7,12 +7,14 @@ import InputMask from "react-input-mask";
 const input = tv({
   slots: {
     container: [
-      "border border-gray-700 h-10 rounded-xl w-full",
-      "bg-white flex items-center gap-1.5 px-2",
+      "border border-gray-700 bg-gray-1000 h-10 rounded-xl w-full",
+      "flex items-center gap-1.5 px-2",
       "font-inter text-sm",
     ],
-    inputStyle:
-      "w-full min-h-full bg-transparent outline-none placeholder:text-gray-500 placeholder:text-xs",
+    inputStyle: [
+      "w-full min-h-full bg-transparent outline-none",
+      "placeholder:text-gray-500 placeholder:text-xs",
+    ],
   },
 
   variants: {

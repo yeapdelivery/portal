@@ -11,7 +11,7 @@ export default function Header({ img, name }: HeaderProps) {
   return (
     <div
       data-cy="header-container"
-      className="h-24 md:h-16 border-b border-gray-800 bg-white px-6"
+      className="h-24 md:h-16 border-b border-gray-800 bg-white px-6 relative z-50"
     >
       <div className="h-full items-center justify-between hidden md:flex">
         <div className="flex items-center gap-2">
@@ -43,7 +43,12 @@ export default function Header({ img, name }: HeaderProps) {
         data-cy="logo-mobile"
         className="flex md:hidden items-end justify-center h-full py-2"
       >
-        <Image src="logo-menu.svg" height={42} width={98} alt="logo" />
+        <Image
+          src="https://yeap-delivery-public.s3.us-east-2.amazonaws.com/image/logo-menu.svg"
+          height={42}
+          width={98}
+          alt="logo"
+        />
       </div>
     </div>
   );
