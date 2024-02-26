@@ -87,7 +87,7 @@ export function StoreData({ cancel, save }: StoreDataProps) {
           >
             <TextFiled.Input />
           </TextFiled>
-          <div className="mt-1 ">
+          <div className="mt-1">
             <TextFiled
               error={null}
               htmlFor="search"

@@ -9,9 +9,7 @@ const input = tv({
       "border border-gray-700 rounded-xl w-full h-36",
       "bg-white flex items-center gap-1.5 px-2",
       "font-inter text-sm bg-gray-1000",
-    ],
-    textAreaStyle: [
-      "w-full h-full bg-transparent outline-none",
+      "bg-gray-1000 outline-none",
       "placeholder:text-gray-500 placeholder:text-xs resize-none m-0",
     ],
   },
@@ -37,7 +35,7 @@ export interface TextAreaProps
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ className, onInputFocus, onInputBlur, onInputClick }, ref) => {
     const [isFocus, setIsFocus] = useState(false);
-    const { container, textAreaStyle } = input({ isFocus });
+    const { container } = input({ isFocus });
 
     function handleFocus() {
       setIsFocus(true);
@@ -54,15 +52,14 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     }
 
     return (
-      <div
+      <textarea
         data-test="container-textArea"
         className={container({ className })}
         onClick={handleClick}
         onFocus={handleFocus}
         onBlur={handleBlur}
-      >
-        <textarea className={textAreaStyle()} ref={ref}></textarea>
-      </div>
+        ref={ref}
+      ></textarea>
     );
   }
 );

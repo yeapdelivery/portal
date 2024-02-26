@@ -21,7 +21,7 @@ describe("<TextArea/>", () => {
     cy.get("@textAreaClick").should("have.been.called");
   });
 
-  it("should render Input focus", () => {
+  it("should render TextArea focus", () => {
     cy.mount(<TextArea />);
 
     cy.get("[data-test=container-textArea]")
