@@ -4,6 +4,7 @@ import { useState } from "react";
 import Dropzone from "@/modules/app/components/dropzone";
 import Image from "next/image";
 import Button from "@/modules/app/components/button/button";
+import TextArea from "@/modules/app/components/text-area";
 
 interface StoreDataProps {
   cancel: () => void;
@@ -90,14 +91,14 @@ export function StoreData({ cancel, save }: StoreDataProps) {
           >
             <TextFiled.Input id="search" className="bg-gray-1000" />
           </TextFiled>
-          <div className="mt-1">
+          <div className="mt-1 ">
             <TextFiled
               error={null}
               htmlFor="search"
               label="Descrição como aparecerá no app"
               required
             >
-              <TextFiled.Input id="search" className="bg-gray-1000 h-36" />
+              <TextArea />
             </TextFiled>
           </div>
         </div>
