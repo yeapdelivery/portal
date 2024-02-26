@@ -1,8 +1,11 @@
 "use client";
 
+import { Select } from "@/modules/app/components/select";
 import { ContainerPreference } from "../../components/container-preference";
 import { HeaderPreference } from "../../components/header-preference";
 import { StoreData } from "../../components/store-data";
+import SelectField from "@/modules/app/components/select-filed/select-filed";
+import { AddressContent } from "@/modules/preferences/components/address-content";
 
 export function ScreenStore() {
   return (
@@ -18,13 +21,22 @@ export function ScreenStore() {
       </section>
 
       <section>
-        <form className="flex flex-col md:flex-row">
-          <div className="w-full">
+        <form>
+          <div className="w-full mb-10 space-y-5">
             <ContainerPreference
               title="Dados da loja"
               description="Atualize o perfil da sua loja aqui"
             >
               <StoreData cancel={() => {}} save={() => {}} />
+            </ContainerPreference>
+
+            <hr className="border border-gray-700" />
+
+            <ContainerPreference
+              title="Delivery da Loja"
+              description="Atualize as informações da sua loja aqui."
+            >
+              <AddressContent />
             </ContainerPreference>
           </div>
         </form>

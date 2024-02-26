@@ -69,7 +69,7 @@ export function StoreData({ cancel, save }: StoreDataProps) {
             label="Nome da loja como aparecerá no app"
             required
           >
-            <TextFiled.Input id="search" className="bg-gray-1000" />
+            <TextFiled.Input />
           </TextFiled>
           <TextFiled
             error={null}
@@ -77,11 +77,7 @@ export function StoreData({ cancel, save }: StoreDataProps) {
             label="Telefone ou celular da loja como aparecerá no app"
             required
           >
-            <TextFiled.Input
-              id="search"
-              className="bg-gray-1000"
-              mask="99 99999-9999"
-            />
+            <TextFiled.Input mask="99 99999-9999" />
           </TextFiled>
           <TextFiled
             error={null}
@@ -89,7 +85,7 @@ export function StoreData({ cancel, save }: StoreDataProps) {
             label="Endereço de email"
             required
           >
-            <TextFiled.Input id="search" className="bg-gray-1000" />
+            <TextFiled.Input />
           </TextFiled>
           <div className="mt-1 ">
             <TextFiled
