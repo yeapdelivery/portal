@@ -91,7 +91,7 @@ export function StoreData({ cancel, save }: StoreDataProps) {
           >
             <TextFiled.Input id="search" className="bg-gray-1000" />
           </TextFiled>
-          <div className="mt-1 ">
+          <div className="mt-1">
             <TextFiled
               error={null}
               htmlFor="search"
