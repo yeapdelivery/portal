@@ -1,7 +1,12 @@
 "use client";
 
 import { VariantProps, tv } from "tailwind-variants";
-import { ReactNode, forwardRef, useState } from "react";
+import { ReactNode, forwardRef, useCallback, useState } from "react";
+import {
+  currencyFormatation,
+  distanceFormatation,
+  timeFormatation,
+} from "./masks";
 import InputMask from "react-input-mask";
 
 const input = tv({
@@ -31,8 +36,10 @@ export interface InputProps
     VariantProps<typeof input> {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
-  mask?: string;
+  mask?: "currency" | "distance" | "time";
+  prefix?: string;
   customHeight?: string;
+  currency?: boolean;
   onInputFocus?(): void;
   onInputBlur?(): void;
   onInputClick?(): void;
@@ -44,7 +51,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       startIcon,
       endIcon,
       mask,
+      prefix,
       className,
+      currency,
       onInputFocus,
       onInputBlur,
       onInputClick,
@@ -69,6 +78,20 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       onInputClick && onInputClick();
     }
 
+    const Formatation = useCallback((e: React.FormEvent<HTMLInputElement>) => {
+      if (mask === "currency") {
+        currencyFormatation(e);
+      }
+
+      if (mask === "distance") {
+        distanceFormatation(e);
+      }
+
+      if (mask === "time") {
+        timeFormatation(e);
+      }
+    }, []);
+
     return (
       <div
         data-cy="container-input"
@@ -78,11 +101,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         onBlur={handleBlur}
       >
         {startIcon && startIcon}
+        {prefix && <span>{prefix}</span>}
         <InputMask
-          mask={mask}
           maskPlaceholder=""
           type="text"
           {...props}
+          onKeyUp={Formatation}
           className={inputStyle()}
           ref={ref}
         />

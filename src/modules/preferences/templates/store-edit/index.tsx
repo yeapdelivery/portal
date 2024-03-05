@@ -6,6 +6,7 @@ import { HeaderPreference } from "../../components/header-preference";
 import { StoreData } from "../../components/store-data";
 import SelectField from "@/modules/app/components/select-filed/select-filed";
 import { AddressContent } from "@/modules/preferences/components/address-content";
+import { Delivey } from "../../components/delivey-preference";
 
 export function ScreenStore() {
   return (
@@ -33,10 +34,19 @@ export function ScreenStore() {
             <hr className="border border-gray-700" />
 
             <ContainerPreference
-              title="Delivery da Loja"
+              title="Informações da Loja"
               description="Atualize as informações da sua loja aqui."
             >
               <AddressContent />
+            </ContainerPreference>
+
+            <hr className="border border-gray-700" />
+
+            <ContainerPreference
+              title="Delivey da loja"
+              description="Atualize as informações da sua loja aqui"
+            >
+              <Delivey />
             </ContainerPreference>
           </div>
         </form>
