@@ -1,13 +1,19 @@
 "use client";
 
 import { VariantProps, tv } from "tailwind-variants";
-import { ReactNode, forwardRef, useCallback, useState } from "react";
 import {
-  currencyFormatation,
-  distanceFormatation,
-  timeFormatation,
-} from "./masks";
-import InputMask from "react-input-mask";
+  LegacyRef,
+  ReactNode,
+  RefObject,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { currencyFormation } from "./masks";
+import InputMask, { ReactInputMask } from "react-input-mask";
+import { event } from "cypress/types/jquery";
 
 const input = tv({
   slots: {
@@ -36,10 +42,14 @@ export interface InputProps
     VariantProps<typeof input> {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
-  mask?: "currency" | "distance" | "time";
+  mask?: string | (string | RegExp)[];
   prefix?: string;
+  suffix?: string;
   customHeight?: string;
   currency?: boolean;
+  alwaysShowMask?: boolean;
+  maskChar?: string;
+  maskPlaceholder?: string;
   onInputFocus?(): void;
   onInputBlur?(): void;
   onInputClick?(): void;
@@ -54,6 +64,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       prefix,
       className,
       currency,
+      maskChar,
+      maskPlaceholder,
+      alwaysShowMask,
+      suffix,
       onInputFocus,
       onInputBlur,
       onInputClick,
@@ -63,6 +77,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const [isFocus, setIsFocus] = useState(false);
     const { container, inputStyle } = input({ isFocus });
+    const inputRef = useRef<HTMLInputElement>(null);
 
     function handleFocus() {
       setIsFocus(true);
@@ -78,19 +93,33 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       onInputClick && onInputClick();
     }
 
-    const Formatation = useCallback((e: React.FormEvent<HTMLInputElement>) => {
-      if (mask === "currency") {
-        currencyFormatation(e);
-      }
+    const formation = useCallback(
+      (e: React.FormEvent<HTMLInputElement>) => {
+        if (currency) {
+          currencyFormation(e);
+        }
 
-      if (mask === "distance") {
-        distanceFormatation(e);
-      }
+        if (suffix) {
+          let value = e.currentTarget.value;
+          value = value.replace(/\D/g, "");
+          value = value.replace(/^(\d*)$/, `$1${suffix}`);
+          e.currentTarget.value = value;
 
-      if (mask === "time") {
-        timeFormatation(e);
-      }
-    }, []);
+          const cursorStart = e.currentTarget.selectionStart;
+          const newCursorPosition = Math.min(
+            cursorStart,
+            value.length - suffix.length
+          );
+          e.currentTarget.setSelectionRange(
+            newCursorPosition,
+            newCursorPosition
+          );
+
+          return e;
+        }
+      },
+      [currency, suffix]
+    );
 
     return (
       <div
@@ -101,14 +130,31 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         onBlur={handleBlur}
       >
         {startIcon && startIcon}
-        {prefix && <span>{prefix}</span>}
         <InputMask
-          maskPlaceholder=""
+          id="input-mask"
+          maskPlaceholder={maskPlaceholder ? maskPlaceholder : ""}
+          alwaysShowMask={alwaysShowMask}
           type="text"
           {...props}
-          onKeyUp={Formatation}
+          mask={mask}
+          onKeyUp={formation}
           className={inputStyle()}
-          ref={ref}
+          onBlur={(event) => {
+            const value = event.currentTarget.value;
+
+            if (suffix && value === suffix) {
+              event.currentTarget.value = "";
+            }
+
+            if (prefix && value.trim() === prefix.trim()) {
+              event.currentTarget.value = "";
+            }
+          }}
+          ref={
+            (ref as unknown as LegacyRef<ReactInputMask>)
+              ? (ref as unknown as LegacyRef<ReactInputMask>)
+              : (inputRef as unknown as LegacyRef<ReactInputMask>)
+          }
         />
         {endIcon && endIcon}
       </div>

@@ -1,6 +1,6 @@
 import { Checkbox } from "@/modules/app/components/check-box";
 import TextFiled from "@/modules/app/components/text-filed";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export function Delivey() {
   const [freeTaxChecked, setFreeTaxChecked] = useState(false);
@@ -12,7 +12,7 @@ export function Delivey() {
       <div className="flex flex-col md:flex-row w-full md:w-3/12 mb-6">
         <div className="whitespace-nowrap">
           <TextFiled error={null} htmlFor="search" label="De(km)" required>
-            <TextFiled.Input mask="distance" />
+            <TextFiled.Input suffix="km" maxLength={5} />
           </TextFiled>
         </div>
 
@@ -21,7 +21,7 @@ export function Delivey() {
         </span>
         <div className="whitespace-nowrap">
           <TextFiled error={null} htmlFor="search" label="Até(km)" required>
-            <TextFiled.Input mask="distance" />
+            <TextFiled.Input suffix="km" maxLength={5} />
           </TextFiled>
         </div>
       </div>
@@ -34,7 +34,7 @@ export function Delivey() {
                   <TextFiled.Input
                     prefix="R$"
                     disabled={freeTaxChecked}
-                    mask="currency"
+                    currency
                   />
                 </TextFiled>
               </div>
@@ -49,7 +49,7 @@ export function Delivey() {
                 >
                   <TextFiled.Input
                     disabled={minTaxChecked}
-                    mask="currency"
+                    currency
                     prefix="R$"
                   />
                 </TextFiled>
@@ -82,7 +82,11 @@ export function Delivey() {
             label="Tempo mínimo de entrega"
             required
           >
-            <TextFiled.Input placeholder="Exemplo: 10min" mask="time" />
+            <TextFiled.Input
+              placeholder="Exemplo: 10min"
+              suffix=" min"
+              maxLength={7}
+            />
           </TextFiled>
           <TextFiled
             error={null}
@@ -90,7 +94,11 @@ export function Delivey() {
             label="Tempo máximo de entrega"
             required
           >
-            <TextFiled.Input placeholder="Exemplo: 60 min" mask="time" />
+            <TextFiled.Input
+              placeholder="Exemplo: 60 min"
+              suffix=" min"
+              maxLength={7}
+            />
           </TextFiled>
         </div>
       </div>
