@@ -16,7 +16,7 @@ interface ToastHook {
   info: (message: string) => void;
 }
 
-export function useToast(): ToastHook {
+export default function useToast(): ToastHook {
   const [toast, setToast] = useState<Toast>({
     message: "",
     open: false,

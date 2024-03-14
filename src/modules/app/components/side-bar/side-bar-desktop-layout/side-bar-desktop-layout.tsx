@@ -50,7 +50,7 @@ export default function SideBarDesktopLayout({
         <div>
           <div className="flex justify-center">
             <Image
-              src="/logo-menu.svg"
+              src="https://yeap-delivery-public.s3.us-east-2.amazonaws.com/image/logo-menu.svg"
               alt="Logo"
               width={103}
               height={51}

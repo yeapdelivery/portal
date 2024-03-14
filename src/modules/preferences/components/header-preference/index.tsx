@@ -19,7 +19,7 @@ export function HeaderPreference({
   save,
 }: HeaderProps) {
   return (
-    <div className="h-full">
+    <div className="h-full mb-8 md:mb-1.5">
       <Image
         data-test="background-image"
         src={backgroundImage}
@@ -39,12 +39,12 @@ export function HeaderPreference({
             width={121}
             height={121}
             alt="company logo type"
-            className="ml-6"
+            className="ml-2 md:ml-6"
           />
           <div className="flex flex-col gap-1 self-center mt-5">
             <span
               data-test="company-name"
-              className="text-gray-100 font-outfit text-lg font-bold"
+              className="text-gray-100 font-outfit text-lg font-bold tracking-tighter"
             >
               {name}
             </span>
@@ -56,7 +56,7 @@ export function HeaderPreference({
             </span>
           </div>
         </div>
-        <div className="flex gap-5 mt-5 mr-4 ml-10">
+        <div className="flex gap-5 mt-1 md:mt-5 mr-6 ml-6">
           <div className="w-28 md:w-36 ">
             <Button
               data-test="cancel-button"
