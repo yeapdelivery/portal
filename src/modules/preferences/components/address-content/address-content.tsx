@@ -3,6 +3,19 @@ import SelectField from "../../../app/components/select-filed/select-filed";
 import TextFiled from "../../../app/components/text-filed";
 import { Map } from "@/modules/app/components/map";
 import { useState } from "react";
+import {
+  FieldErrors,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
+import { EditStore } from "../../templates";
+
+interface AddressContentProps {
+  errors: FieldErrors<EditStore>;
+  register: UseFormRegister<EditStore>;
+  setValue: UseFormSetValue<EditStore>;
+}
 
 const optionsStoreType = [
   { id: "1", title: "Restaurantes", value: StoreType.RESTAURANT },
@@ -22,18 +35,19 @@ const optionsSpecialty = [
   { id: "10", title: "Bebidas", value: "Bebidas" },
 ];
 
-export default function AddressContent() {
-  const [city, setCity] = useState("");
-  const [uf, setUf] = useState("");
-
+export default function AddressContent({
+  errors,
+  setValue,
+  register,
+}: AddressContentProps) {
   async function getByCep(cep: string) {
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
       const data = await response.json();
 
       // TODO: Change state to react-hook-form
-      setCity(data.localidade);
-      setUf(data.uf);
+      setValue("address.city", data.localidade);
+      setValue("address.state", data.uf);
     } catch (error) {
       console.log(error);
     }
@@ -45,15 +59,13 @@ export default function AddressContent() {
         <div className="flex-1">
           <SelectField
             label="Tipo de Loja"
-            error={null}
             htmlFor="category"
+            error={errors?.type?.message}
             required
           >
             <SelectField.Select
               options={optionsStoreType}
-              onChange={(option) => {
-                console.log(option);
-              }}
+              {...register("type")}
             />
           </SelectField>
         </div>
@@ -61,15 +73,13 @@ export default function AddressContent() {
         <div className="flex-1">
           <SelectField
             label="Categoria"
-            error={null}
+            error={errors?.type?.message}
             htmlFor="category"
             required={true}
           >
             <SelectField.Select
               options={optionsSpecialty}
-              onChange={(option) => {
-                console.log(option);
-              }}
+              {...register("category")}
             />
           </SelectField>
         </div>
@@ -83,7 +93,7 @@ export default function AddressContent() {
           <div className="mt-4 flex items-center justify-between gap-9">
             <TextFiled
               className="flex-1"
-              error={null}
+              error={errors?.address?.zipCode?.message}
               label="CEP"
               htmlFor="cep"
               required
@@ -92,6 +102,7 @@ export default function AddressContent() {
                 id="cep"
                 placeholder="Digite seu CEP"
                 mask="99999-999"
+                {...register("address.zipCode")}
                 onChange={(e) => {
                   if (e.target.value.length === 9) {
                     getByCep(e.target.value.replace("-", ""));
@@ -102,62 +113,74 @@ export default function AddressContent() {
 
             <TextFiled
               className="flex-1"
-              error={null}
+              error={errors?.address?.state?.message}
               label="Estado"
               htmlFor="state"
               required
             >
               <TextFiled.Input
-                id="cep"
-                value={uf}
-                onChange={(e) => setUf(e.currentTarget.value)}
+                id="state"
+                placeholder="Digite seu estado"
+                {...register("address.state")}
               />
             </TextFiled>
           </div>
 
           <TextFiled
             className="mt-6"
-            error={null}
+            error={errors?.address?.city?.message}
             label="Cidade"
             htmlFor="city"
             required
           >
             <TextFiled.Input
               id="city"
-              value={city}
-              onChange={(e) => setCity(e.currentTarget.value)}
+              placeholder="Digite sua cidade"
+              {...register("address.city")}
             />
           </TextFiled>
 
           <TextFiled
             className="mt-6"
-            error={null}
+            error={errors?.address?.neighborhood?.message}
             label="Bairro"
             htmlFor="neighborhood"
             required
           >
-            <TextFiled.Input id="neighborhood" />
+            <TextFiled.Input
+              id="neighborhood"
+              placeholder="Digite o barrio"
+              {...register("address.neighborhood")}
+            />
           </TextFiled>
 
           <div className="mt-6 flex items-center justify-between gap-9">
             <TextFiled
               className="flex-1"
-              error={null}
+              error={errors?.address?.street?.message}
               label="Endereço"
               htmlFor="street"
               required
             >
-              <TextFiled.Input id="street" />
+              <TextFiled.Input
+                id="street"
+                {...register("address.street")}
+                placeholder="Digite o endereço"
+              />
             </TextFiled>
 
             <TextFiled
               className="flex-1"
-              error={null}
+              error={errors?.address?.number?.message}
               label="Número"
               htmlFor="number"
               required
             >
-              <TextFiled.Input id="number" />
+              <TextFiled.Input
+                id="number"
+                {...register("address.number")}
+                placeholder="Digite o número"
+              />
             </TextFiled>
           </div>
         </div>

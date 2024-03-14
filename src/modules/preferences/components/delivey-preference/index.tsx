@@ -1,6 +1,7 @@
 import { Checkbox } from "@/modules/app/components/check-box";
 import TextFiled from "@/modules/app/components/text-filed";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import CommercialHour from "../commercial-hour";
 
 export function Delivey() {
   const [freeTaxChecked, setFreeTaxChecked] = useState(false);
@@ -102,6 +103,8 @@ export function Delivey() {
           </TextFiled>
         </div>
       </div>
+
+      <CommercialHour />
     </div>
   );
 }

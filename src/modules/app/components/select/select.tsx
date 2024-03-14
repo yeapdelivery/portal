@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { useRef, useState } from "react";
+import { ForwardedRef, RefObject, forwardRef, useRef, useState } from "react";
 import { Combobox, ComboboxList, ComboboxProvider } from "@ariakit/react";
 import * as RadixPopover from "@radix-ui/react-popover";
 import { tv } from "tailwind-variants";
@@ -8,14 +8,10 @@ import { SelectOptions } from "./types";
 import { CaretDown, Icon } from "@phosphor-icons/react";
 import { SelectOption } from "./select-option";
 
-interface SelectProps {
+export interface SelectProps {
   startIcon?: Icon;
   options: SelectOptions[];
-  label?: string;
-  hasError?: boolean;
-  errorMessage?: string;
   disabled?: boolean;
-  onChange?: (option: SelectOptions) => void;
 }
 
 const select = tv({
@@ -53,145 +49,143 @@ const select = tv({
   },
 });
 
-export default function Select({
-  label,
-  startIcon,
-  options: optionsProps,
-  errorMessage,
-  hasError,
-  disabled,
-  onChange,
-}: SelectProps) {
-  const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState<SelectOptions[]>(optionsProps);
-  const [selectedOption, setSelectedOption] = useState<SelectOptions | null>(
-    null
-  );
-  const [value, setValue] = useState<string>("");
-  const [itemFocused, setItemFocused] = useState<string>("");
-  const comboboxRef = useRef<HTMLInputElement>(null);
-  const listboxRef = useRef<HTMLDivElement>(null);
-
-  const { containerList, content, containerInput, inputStyle } = select({
-    isOpen: open,
-  });
-
-  const state = open ? "open" : "closed";
-
-  function searchOption(query: string): void {
-    setValue(query);
-
-    if (query.trim() === "") {
-      setOptions(optionsProps);
-      return;
-    }
-
-    const newOptions = optionsProps.filter((option) =>
-      option.title
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036F]/g, "")
-        .includes(
-          query
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036F]/g, "")
-        )
+const Select = forwardRef<HTMLInputElement, SelectProps>(
+  ({ startIcon, options: optionsProps, disabled }, ref) => {
+    const [open, setOpen] = useState(false);
+    const [options, setOptions] = useState<SelectOptions[]>(optionsProps);
+    const [selectedOption, setSelectedOption] = useState<SelectOptions | null>(
+      null
     );
+    const [value, setValue] = useState<string>("");
+    const [itemFocused, setItemFocused] = useState<string>("");
+    const listboxRef = useRef<HTMLDivElement>(null);
 
-    setOptions(newOptions);
-  }
+    const { containerList, content, containerInput, inputStyle } = select({
+      isOpen: open,
+    });
 
-  function onFocused(option: SelectOptions) {
-    if (option.subTitle) {
-      setItemFocused(option.value);
-      return;
+    const state = open ? "open" : "closed";
+
+    function searchOption(query: string): void {
+      setValue(query);
+
+      if (query.trim() === "") {
+        setOptions(optionsProps);
+        return;
+      }
+
+      const newOptions = optionsProps.filter((option) =>
+        option.title
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036F]/g, "")
+          .includes(
+            query
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036F]/g, "")
+          )
+      );
+
+      setOptions(newOptions);
     }
 
-    setItemFocused("");
-  }
+    function onFocused(option: SelectOptions) {
+      if (option.subTitle) {
+        setItemFocused(option.value);
+        return;
+      }
 
-  function onSelectedOption(option: SelectOptions) {
-    setSelectedOption(option);
-    setOptions(optionsProps);
-    setValue(option.title);
-    setOpen(false);
-    onChange && onChange(option);
-  }
+      setItemFocused("");
+    }
 
-  return (
-    <RadixPopover.Root
-      open={open}
-      onOpenChange={(isOpen) => {
-        if (!isOpen) {
-          setValue(selectedOption?.title || "");
-        }
+    function onSelectedOption(option: SelectOptions) {
+      setSelectedOption(option);
+      setOptions(optionsProps);
+      setValue(option.title);
+      setOpen(false);
+      // onChange && onChange(option);
+    }
 
-        setOpen(isOpen);
-      }}
-    >
-      <ComboboxProvider open={open} setOpen={setOpen}>
-        <RadixPopover.Anchor asChild>
-          <div className={containerInput()}>
-            <div className="flex items-center gap-3 flex-1">
-              {startIcon && (
-                <button>
-                  {/* <Icon icon={startIcon} className="text-gray-400" /> */}
-                </button>
-              )}
-              <Combobox
-                ref={comboboxRef}
-                value={value}
-                placeholder="Selecione uma opção"
-                className={inputStyle()}
+    return (
+      <RadixPopover.Root
+        open={open}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) {
+            setValue(selectedOption?.title || "");
+          }
+
+          setOpen(isOpen);
+        }}
+      >
+        <ComboboxProvider open={open} setOpen={setOpen}>
+          <RadixPopover.Anchor asChild>
+            <div className={containerInput()}>
+              <div className="flex items-center gap-3 flex-1">
+                {startIcon && (
+                  <button>
+                    {/* <Icon icon={startIcon} className="text-gray-400" /> */}
+                  </button>
+                )}
+                <Combobox
+                  ref={ref}
+                  value={value}
+                  placeholder="Selecione uma opção"
+                  className={inputStyle()}
+                  disabled={disabled}
+                  onChange={(event) => searchOption(event.target.value)}
+                />
+              </div>
+              <button
+                data-state={state}
                 disabled={disabled}
-                onChange={(event) => searchOption(event.target.value)}
-              />
+                className="data-[state=open]:rotate-180 transition-all duration-200"
+                onClick={() => setOpen((oldValue) => !oldValue)}
+              >
+                <CaretDown size={16} className="text-gray-500" />
+              </button>
             </div>
-            <button
-              data-state={state}
-              disabled={disabled}
-              className="data-[state=open]:rotate-180 transition-all duration-200"
-              onClick={() => setOpen((oldValue) => !oldValue)}
-            >
-              <CaretDown size={16} className="text-gray-500" />
-            </button>
-          </div>
-        </RadixPopover.Anchor>
-        <RadixPopover.Content
-          asChild
-          sideOffset={8}
-          className={content()}
-          onOpenAutoFocus={(event) => event.preventDefault()}
-          onInteractOutside={(event) => {
-            const target = event.target as Element | null;
-            const isCombobox = target === comboboxRef.current;
-            const inListbox = target && listboxRef.current?.contains(target);
-            if (isCombobox || inListbox) {
-              event.preventDefault();
-            }
-          }}
-        >
-          <ComboboxList
-            ref={listboxRef}
-            role="listbox"
-            className={containerList()}
+          </RadixPopover.Anchor>
+          <RadixPopover.Content
+            asChild
+            sideOffset={8}
+            className={content()}
+            onOpenAutoFocus={(event) => event.preventDefault()}
+            onInteractOutside={(event) => {
+              const target = event.target as Element | null;
+              const combobox = ref as RefObject<HTMLInputElement>;
+              const isCombobox = target === combobox?.current;
+              const inListbox = target && listboxRef.current?.contains(target);
+              if (isCombobox || inListbox) {
+                event.preventDefault();
+              }
+            }}
           >
-            {options.map((option, index, originalArray) => (
-              <SelectOption
-                key={option.value}
-                option={option}
-                isLast={index === originalArray.length - 1}
-                selected={selectedOption?.value === option.value}
-                itemFocused={itemFocused}
-                onFocused={onFocused}
-                setItemFocused={setItemFocused}
-                onSelectedOption={onSelectedOption}
-              />
-            ))}
-          </ComboboxList>
-        </RadixPopover.Content>
-      </ComboboxProvider>
-    </RadixPopover.Root>
-  );
-}
+            <ComboboxList
+              ref={listboxRef}
+              role="listbox"
+              className={containerList()}
+            >
+              {options.map((option, index, originalArray) => (
+                <SelectOption
+                  key={option.value}
+                  option={option}
+                  isLast={index === originalArray.length - 1}
+                  selected={selectedOption?.value === option.value}
+                  itemFocused={itemFocused}
+                  onFocused={onFocused}
+                  setItemFocused={setItemFocused}
+                  onSelectedOption={onSelectedOption}
+                />
+              ))}
+            </ComboboxList>
+          </RadixPopover.Content>
+        </ComboboxProvider>
+      </RadixPopover.Root>
+    );
+  }
+);
+
+Select.displayName = "Select";
+
+export default Select;

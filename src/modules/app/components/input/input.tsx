@@ -13,7 +13,6 @@ import {
 } from "react";
 import { currencyFormation } from "./masks";
 import InputMask, { ReactInputMask } from "react-input-mask";
-import { event } from "cypress/types/jquery";
 
 const input = tv({
   slots: {

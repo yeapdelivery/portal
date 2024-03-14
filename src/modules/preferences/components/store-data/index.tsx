@@ -5,13 +5,15 @@ import Dropzone from "@/modules/app/components/dropzone";
 import Image from "next/image";
 import Button from "@/modules/app/components/button/button";
 import TextArea from "@/modules/app/components/text-area";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { EditStore } from "../../templates";
 
 interface StoreDataProps {
-  cancel: () => void;
-  save: () => void;
+  register: UseFormRegister<EditStore>;
+  errors: FieldErrors<EditStore>;
 }
 
-export function StoreData({ cancel, save }: StoreDataProps) {
+export function StoreData({ errors, register }: StoreDataProps) {
   const [files, setFiles] = useState<DropFiles[]>([]);
 
   function onDrop(files: DropFiles[]) {
@@ -41,60 +43,53 @@ export function StoreData({ cancel, save }: StoreDataProps) {
               onDelete={onDelete}
             />
           </div>
-          <div className="flex w-full gap-5 mt-1 md:hidden justify-end">
-            <div className="w-28">
-              <Button
-                data-test="cancel-button"
-                variant="error"
-                onClick={() => cancel()}
-              >
-                Cancelar
-              </Button>
-            </div>
-            <div className="w-28">
-              <Button
-                data-test="save-button"
-                variant="check"
-                onClick={() => save()}
-              >
-                Salvar
-              </Button>
-            </div>
-          </div>
         </div>
         <div className="flex flex-col gap-6">
           <TextFiled
-            error={null}
+            error={errors?.name?.message}
             htmlFor="search"
             label="Nome da loja como aparecerá no app"
             required
           >
-            <TextFiled.Input />
+            <TextFiled.Input
+              {...register("name")}
+              placeholder="Digite o nome da loja"
+            />
           </TextFiled>
           <TextFiled
-            error={null}
             htmlFor="search"
             label="Telefone ou celular da loja como aparecerá no app"
+            error={errors?.phone?.message}
             required
           >
-            <TextFiled.Input mask="99 99999-9999" />
+            <TextFiled.Input
+              mask="99 99999-9999"
+              {...register("phone")}
+              placeholder="Digite seu telefone"
+            />
           </TextFiled>
           <TextFiled
-            error={null}
+            error={errors?.email?.message}
             htmlFor="search"
             label="Endereço de email"
             required
           >
-            <TextFiled.Input />
+            <TextFiled.Input
+              {...register("email")}
+              placeholder="Digite seu email"
+            />
           </TextFiled>
           <div className="mt-1">
             <TextFiled
-              error={null}
               htmlFor="search"
               label="Descrição como aparecerá no app"
+              error={errors?.description?.message}
               required
             >
-              <TextArea />
+              <TextArea
+                {...register("description")}
+                placeholder="Digite uma descrição"
+              />
             </TextFiled>
           </div>
         </div>

@@ -1,6 +1,6 @@
-import { delay } from "@/utils/delay";
 import { NextResponse } from "next/server";
 import db from "../../../../db.json";
+import { delay } from "@/utils";
 
 export async function GET() {
   try {

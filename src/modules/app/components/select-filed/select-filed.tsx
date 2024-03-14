@@ -6,7 +6,7 @@ interface SelectFieldProps {
   label: string;
   htmlFor: string;
   error: string | null;
-  required: boolean;
+  required?: boolean;
 }
 
 export default function SelectField({
