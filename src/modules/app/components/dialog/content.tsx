@@ -7,7 +7,7 @@ import { tv } from "tailwind-variants";
 const dialog = tv({
   slots: {
     overlay: [
-      "data-[state=open]:animate-fade-in-left data-[state=closed]:animate-fade-out-left",
+      "data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out",
       "bg-black/50 fixed inset-0",
     ],
     content: [

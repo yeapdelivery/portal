@@ -65,8 +65,6 @@ export function ScreenStore() {
     resolver: zodResolver(editStoreSchema),
   });
 
-  console.log({ errors });
-
   function onSubmit(data: EditStore) {
     console.log("entrou");
     console.log({ data });
