@@ -4,11 +4,13 @@ import { PencilSimple } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import { tv } from "tailwind-variants";
 
+export interface Categories {
+  id: string;
+  name: string;
+}
+
 interface SideBarCategoryProps {
-  categories: {
-    id: number;
-    name: string;
-  }[];
+  categories: Categories[];
 }
 
 const sideBarCategory = tv({
@@ -40,7 +42,7 @@ const sideBarCategory = tv({
 
 export function SideBarCategory({ categories }: SideBarCategoryProps) {
   const { container, barPrimary, ball, barSecondary, item } = sideBarCategory();
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(categories[0].id);
 
   return (
     <div className={container()}>
