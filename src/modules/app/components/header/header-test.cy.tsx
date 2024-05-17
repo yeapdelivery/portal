@@ -7,35 +7,20 @@ describe("<Header />", () => {
   });
 
   it("should render Header", () => {
-    cy.mount(
-      <Header
-        img="https://s.gravatar.com/avatar/acae2c8179348cfd3bd5013b49d4c4be?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fye.png"
-        name="yeap delivery"
-      />
-    );
+    cy.mount(<Header name="yeap delivery" />);
 
     cy.get("[data-cy=logo-mobile]").should("not.be.visible");
     cy.get("[data-cy=header-container]").should("exist");
   });
 
   it("should render Header with text need help", () => {
-    cy.mount(
-      <Header
-        img="https://s.gravatar.com/avatar/acae2c8179348cfd3bd5013b49d4c4be?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fye.png"
-        name="yeap delivery"
-      />
-    );
+    cy.mount(<Header name="yeap delivery" />);
 
     cy.get("[data-cy=help]").should("have.text", "Preciso de ajuda");
   });
 
   it("should render Header correct profile", () => {
-    cy.mount(
-      <Header
-        img="https://s.gravatar.com/avatar/acae2c8179348cfd3bd5013b49d4c4be?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fye.png"
-        name="yeap delivery"
-      />
-    );
+    cy.mount(<Header name="yeap delivery" />);
 
     cy.get("[data-cy=profile]")
       .should("exist")
@@ -53,12 +38,7 @@ describe("<Header />", () => {
   it("should render Header on mobile", () => {
     cy.viewport(375, 812);
 
-    cy.mount(
-      <Header
-        img="https://s.gravatar.com/avatar/acae2c8179348cfd3bd5013b49d4c4be?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fye.png"
-        name="yeap delivery"
-      />
-    );
+    cy.mount(<Header name="yeap delivery" />);
 
     cy.get("[data-cy=profile]").should("not.be.visible");
     cy.get("[data-cy=help]").should("not.be.visible");
