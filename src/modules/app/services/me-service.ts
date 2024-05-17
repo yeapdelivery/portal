@@ -1,8 +1,7 @@
 import api from "@/api";
-import { env } from "@/env";
 import ApiService from "@/modules/app/services/api-service";
 
-const baseUrl = `${env.NEXT_PUBLIC_API_HOST}/admin/stores`;
+const baseUrl = `${process.env.NEXT_PUBLIC_API_HOST}/admin/stores`;
 
 export class MeService extends ApiService {
   constructor() {
