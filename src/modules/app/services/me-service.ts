@@ -1,3 +1,4 @@
+import api from "@/api";
 import { env } from "@/env";
 import ApiService from "@/modules/app/services/api-service";
 
@@ -9,7 +10,7 @@ export class MeService extends ApiService {
   }
 
   async me() {
-    const data = await this.GET("/me");
+    const data = await api.get(`/admin/stores/me`);
     return data;
   }
 }

@@ -42,7 +42,7 @@ const sideBarCategory = tv({
 
 export function SideBarCategory({ categories }: SideBarCategoryProps) {
   const { container, barPrimary, ball, barSecondary, item } = sideBarCategory();
-  const [active, setActive] = useState(categories[0].id);
+  const [active, setActive] = useState(categories[0]?.id || 0);
 
   return (
     <div className={container()}>

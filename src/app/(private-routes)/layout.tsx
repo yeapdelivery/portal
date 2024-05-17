@@ -1,8 +1,8 @@
+import { getServerSession } from "next-auth";
 import { ReactNode } from "react";
-import { getSession } from "@auth0/nextjs-auth0";
+import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import SideBar from "@/modules/app/components/side-bar";
-import { meService } from "@/modules/app/services/me-service";
 import { PrivateRouterProvider } from "@/modules/app/provider/private-router-provider";
 
 interface PrivateLayoutProps {
@@ -10,19 +10,16 @@ interface PrivateLayoutProps {
 }
 
 export default async function PrivateLayout({ children }: PrivateLayoutProps) {
-  const user = await getSession();
-  const me = await meService.me();
+  const session = await getServerSession(nextAuthOptions);
 
-  if (!user) {
+  if (!session) {
     redirect("/");
   }
 
   return (
     <>
-      <SideBar img={user?.user?.picture} name={user?.user?.nickname}>
-        {children}
-      </SideBar>
-      <PrivateRouterProvider storeFromLayout={me} />
+      <SideBar name={session?.store.name}>{children}</SideBar>
+      <PrivateRouterProvider storeFromLayout={session.store} />
     </>
   );
 }

@@ -5,6 +5,7 @@ import { List, SignOut } from "@phosphor-icons/react";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { MenuItem } from "./menu-item";
 import { Menu, MenuProps } from "..";
+import { signOut } from "next-auth/react";
 
 interface SideBarDesktopLayout {
   menus: MenuProps[];
@@ -38,6 +39,14 @@ export default function SideBarDesktopLayout({
   handleMenuClick,
 }: SideBarDesktopLayout) {
   const { container, itemContainer, menuOpen } = sideBar();
+
+  async function sighOut() {
+    try {
+      await signOut();
+    } catch {
+      console.log("Error ao loging out");
+    }
+  }
 
   return (
     <div>
@@ -97,21 +106,19 @@ export default function SideBarDesktopLayout({
             <hr className="border border-gray-800 " />
           </div>
 
-          <a
+          <button
             data-cy="sign-out"
-            href="/api/auth/logout"
             className="px-4 flex items-center gap-4"
+            onClick={sighOut}
           >
-            <div className="text-red-default">
-              <SignOut size={22} weight="bold" />
-            </div>
+            <SignOut size={22} weight="bold" className="text-red-default" />
             <span
               data-state={stateMenu}
               className="data-[state=closed]:opacity-0 transition-all duration-400 ease-in-out text-gray-500"
             >
               Sair
             </span>
-          </a>
+          </button>
         </div>
       </Collapsible.Root>
     </div>

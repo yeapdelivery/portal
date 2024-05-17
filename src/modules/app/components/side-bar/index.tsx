@@ -41,7 +41,6 @@ export interface MenuProps {
 
 interface SideBarProps {
   children: ReactNode;
-  img: string;
   name: string;
 }
 
@@ -99,7 +98,7 @@ export const menus: MenuProps[] = [
   },
 ];
 
-export default function SideBar({ name, img, children }: SideBarProps) {
+export default function SideBar({ name, children }: SideBarProps) {
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<Menu>();
   const [open, setOpen] = useState(true);
@@ -172,7 +171,7 @@ export default function SideBar({ name, img, children }: SideBarProps) {
         data-state={stateMenu}
         className="fixed top-0 left-0 right-0 data-[state=closed]:ml-[4rem] md:ml-[14rem] "
       >
-        <Header img={img} name={name} />
+        <Header name={name} />
       </div>
 
       <aside data-state={stateMenu} className={content()}>

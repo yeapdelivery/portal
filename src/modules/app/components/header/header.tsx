@@ -3,11 +3,10 @@ import StatusOpen from "../status-open";
 import HourHeader from "./hour-header";
 
 interface HeaderProps {
-  img: string;
   name: string;
 }
 
-export default function Header({ img, name }: HeaderProps) {
+export default function Header({ name }: HeaderProps) {
   return (
     <div
       data-cy="header-container"
@@ -26,14 +25,6 @@ export default function Header({ img, name }: HeaderProps) {
           <hr className="border h-6 border-gray-700" />
 
           <div data-cy="profile" className="flex items-center gap-2">
-            <Image
-              src={img}
-              alt="profile"
-              width={36}
-              height={36}
-              className="rounded-full"
-            />
-
             <span className="text-sm font-medium">{name}</span>
           </div>
         </div>

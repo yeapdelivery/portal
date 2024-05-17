@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { getSession } from "@auth0/nextjs-auth0";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 
 interface PrivateLayoutProps {
@@ -7,9 +8,9 @@ interface PrivateLayoutProps {
 }
 
 export default async function PrivateLayout({ children }: PrivateLayoutProps) {
-  const user = await getSession();
+  const session = await getServerSession(nextAuthOptions);
 
-  if (user) {
+  if (session) {
     redirect("/pedidos");
   }
 
