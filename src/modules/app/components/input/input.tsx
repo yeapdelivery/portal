@@ -4,15 +4,14 @@ import { VariantProps, tv } from "tailwind-variants";
 import {
   LegacyRef,
   ReactNode,
-  RefObject,
   forwardRef,
   useCallback,
-  useEffect,
   useRef,
   useState,
 } from "react";
 import { currencyFormation } from "./masks";
 import InputMask, { ReactInputMask } from "react-input-mask";
+import { Eye, EyeSlash } from "@phosphor-icons/react";
 
 const input = tv({
   slots: {
@@ -67,6 +66,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       maskPlaceholder,
       alwaysShowMask,
       suffix,
+      type,
       onInputFocus,
       onInputBlur,
       onInputClick,
@@ -77,6 +77,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const [isFocus, setIsFocus] = useState(false);
     const { container, inputStyle } = input({ isFocus });
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const [inputType, setInputType] = useState(type || "text");
 
     function handleFocus() {
       setIsFocus(true);
@@ -133,7 +135,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id="input-mask"
           maskPlaceholder={maskPlaceholder ? maskPlaceholder : ""}
           alwaysShowMask={alwaysShowMask}
-          type="text"
+          type={inputType}
           {...props}
           mask={mask}
           onKeyUp={formation}
@@ -155,7 +157,25 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               : (inputRef as unknown as LegacyRef<ReactInputMask>)
           }
         />
-        {endIcon && endIcon}
+        {endIcon && type !== "password" && endIcon}
+
+        {type === "password" && (
+          <>
+            {inputType === "password" ? (
+              <Eye
+                onClick={() =>
+                  setInputType(inputType === "password" ? "text" : "password")
+                }
+              />
+            ) : (
+              <EyeSlash
+                onClick={() =>
+                  setInputType(inputType === "text" ? "password" : "text")
+                }
+              />
+            )}
+          </>
+        )}
       </div>
     );
   }

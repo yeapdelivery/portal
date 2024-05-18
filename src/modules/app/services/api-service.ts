@@ -40,8 +40,6 @@ export default class ApiService {
     // const token = this.getToken();
     // const user = await getSession();
 
-    // console.log({ token });
-
     const token = "";
 
     const params = qs.stringify(

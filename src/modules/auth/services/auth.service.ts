@@ -1,8 +1,24 @@
 import api from "@/api";
-import { User } from "@/types/user";
+import StoreTypeEnum from "@/modules/app/enums/store-type";
+import { User } from "@/modules/app/models/user";
+import { AxiosResponse } from "axios";
 
-interface SignUpData extends Omit<User, "id" | "address"> {
+export interface SignUpData extends Omit<User, "id" | "address"> {
   password: string;
+}
+
+export interface CreateStoreData {
+  name: string;
+  email: string;
+  phone: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  userId: string;
+  city: string;
+  state: string;
+  zip: string;
+  type: StoreTypeEnum;
 }
 
 class AuthService {
@@ -14,7 +30,9 @@ class AuthService {
     return await api.get("/user");
   }
 
-  async signUp(data: SignUpData) {
+  async signUp(
+    data: SignUpData
+  ): Promise<AxiosResponse<Omit<User, "address">>> {
     return await api.post("/user", data);
   }
 
@@ -36,6 +54,10 @@ class AuthService {
 
   async changePassword(token: string, email: string, password: string) {
     return await api.put("/user/reset-password", { token, email, password });
+  }
+
+  async createStore(data: CreateStoreData) {
+    return await api.post("/admin/stores", data);
   }
 }
 

@@ -6,6 +6,7 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import { MenuItem } from "./menu-item";
 import { Menu, MenuProps } from "..";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface SideBarDesktopLayout {
   menus: MenuProps[];
@@ -39,12 +40,17 @@ export default function SideBarDesktopLayout({
   handleMenuClick,
 }: SideBarDesktopLayout) {
   const { container, itemContainer, menuOpen } = sideBar();
+  const route = useRouter();
 
-  async function sighOut() {
+  async function handleSighOut() {
     try {
-      await signOut();
-    } catch {
-      console.log("Error ao loging out");
+      await signOut({
+        redirect: false,
+      });
+
+      route.push("/");
+    } catch (error) {
+      console.log("Error ao loging out", error);
     }
   }
 
@@ -109,7 +115,7 @@ export default function SideBarDesktopLayout({
           <button
             data-cy="sign-out"
             className="px-4 flex items-center gap-4"
-            onClick={sighOut}
+            onClick={handleSighOut}
           >
             <SignOut size={22} weight="bold" className="text-red-default" />
             <span

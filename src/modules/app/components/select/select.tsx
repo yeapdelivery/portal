@@ -12,6 +12,7 @@ export interface SelectProps {
   startIcon?: Icon;
   options: SelectOptions[];
   disabled?: boolean;
+  onSelected?: (option: SelectOptions) => void;
 }
 
 const select = tv({
@@ -50,7 +51,7 @@ const select = tv({
 });
 
 const Select = forwardRef<HTMLInputElement, SelectProps>(
-  ({ startIcon, options: optionsProps, disabled }, ref) => {
+  ({ startIcon, options: optionsProps, disabled, onSelected }, ref) => {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<SelectOptions[]>(optionsProps);
     const [selectedOption, setSelectedOption] = useState<SelectOptions | null>(
@@ -104,7 +105,7 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
       setOptions(optionsProps);
       setValue(option.title);
       setOpen(false);
-      // onChange && onChange(option);
+      onSelected && onSelected(option);
     }
 
     return (

@@ -12,6 +12,7 @@ import TextFiled from "@/modules/app/components/text-filed";
 import Button from "@/modules/app/components/button/button";
 import Toast from "@/modules/app/components/toast";
 import { ToastType } from "@/modules/app/components/toast/types";
+import { FormEvent } from "react";
 
 const authenticationFormSchema = z.object({
   email: z.string().email({ message: "Adicione um email válido" }).min(1),
@@ -34,7 +35,12 @@ export default function Login() {
   });
   const { error: toastError, toast, setToast } = useToast();
 
-  async function onSubmit({ email, password }: AuthenticationFormSchema) {
+  async function onSubmit(
+    { email, password }: AuthenticationFormSchema,
+    event: any
+  ) {
+    event.preventDefault();
+
     startLoadingAuth();
     try {
       const response = await signIn("credentials", {
@@ -42,8 +48,6 @@ export default function Login() {
         password,
         redirect: false,
       });
-
-      console.log(response);
 
       if (response?.error) {
         throw new Error(response.error);
@@ -55,6 +59,15 @@ export default function Login() {
     } finally {
       stopLoadingAuth();
     }
+  }
+
+  async function mySubmitHandler(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    handleSubmit(onSubmit)(event);
+  }
+
+  function goToRegister() {
+    router.push("/register");
   }
 
   return (
@@ -78,7 +91,7 @@ export default function Login() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={mySubmitHandler}>
               <div className="mt-5 flex flex-col gap-5">
                 <TextFiled
                   htmlFor="email"
@@ -108,20 +121,32 @@ export default function Login() {
                   Entrar
                 </Button>
               </div>
+            </form>
 
-              <div className="flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
+              <button
+                type="button"
+                className="flex justify-center mt-5 items-center gap-2"
+              >
+                <LockKey size={20} weight="regular" color="#B50010" />
+
+                <p className="font-outfit font-medium text-gray-100">
+                  Esqueci minha senha
+                </p>
+              </button>
+
+              <div className="flex mt-5 gap-1">
+                <p className="font-outfit font-medium text-gray-100">
+                  Ja está cadastrado?
+                </p>
                 <button
-                  type="button"
-                  className="flex justify-center mt-5 items-center gap-2"
+                  onClick={goToRegister}
+                  className="font-outfit font-medium text-red-default"
                 >
-                  <LockKey size={20} weight="regular" color="#B50010" />
-
-                  <p className="font-outfit font-medium text-gray-100">
-                    Esqueci minha senha
-                  </p>
+                  CADASTRE - SE
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

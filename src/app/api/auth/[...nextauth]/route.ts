@@ -3,7 +3,7 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import configureAxiosInterceptors from "@/api/interceptor";
-import { authService } from "@/app/(public-routes)/(services)";
+import { authService } from "@/modules/auth/services";
 import { cookies } from "next/headers";
 import { meService } from "@/modules/app/services/me-service";
 
@@ -25,8 +25,6 @@ const nextAuthOptions: NextAuthOptions = {
 
           if (user) {
             const cookie = cookies();
-
-            console.log({ user });
 
             cookie.set("yeap-delivery-token", user.accessToken);
             return user;
