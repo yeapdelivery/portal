@@ -6,6 +6,7 @@ import { z } from "zod";
 import Button from "@/modules/app/components/button/button";
 import TextFiled from "@/modules/app/components/text-filed";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format, parse } from "date-fns";
 
 const createUserSchema = z
   .object({
@@ -18,7 +19,11 @@ const createUserSchema = z
     birthday: z
       .string()
       .min(1, { message: "Aniversário é obrigatório" })
-      .transform((value) => value.replace(/\D/g, "")),
+      .transform((value) => {
+        const originalDate = parse(value, "dd/MM/yyyy", new Date());
+
+        return format(originalDate, "yyyy-MM-dd'T'HH:mm");
+      }),
     password: z
       .string()
       .min(6, { message: "Senha é obrigatório e no mínimo 6 caractéres" }),

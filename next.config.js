@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     domains: [
       "localhost",
-      "yeap-delivery-public.s3.us-east-2.amazonaws.com",
+      "yeap-delivery.s3-us-east-2.amazonaws.com",
       "lh3.googleusercontent.com",
       "res.cloudinary.com",
       "s.gravatar.com",

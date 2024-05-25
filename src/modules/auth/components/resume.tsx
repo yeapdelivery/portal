@@ -4,6 +4,8 @@ import { useState } from "react";
 import Button from "@/modules/app/components/button/button";
 import { formatDate } from "@/formatting/date";
 import { formatPhone } from "@/formatting/phone";
+import { StoreTypeEnumMap } from "@/modules/app/enums/store-type";
+import { formatZipCode } from "@/formatting";
 
 interface ResumeProps {
   user: SignUpData;
@@ -17,7 +19,7 @@ function TitleAndSubtitle({ title, subtitle }) {
   return (
     <div className="flex flex-col gap-2">
       <span className="font-bold text-gray-100">{title}:</span>
-      <span className="text-gray-100">{subtitle}</span>
+      <span className="text-gray-100 break-words">{subtitle}</span>
     </div>
   );
 }
@@ -47,7 +49,7 @@ export function Resume({
             <TitleAndSubtitle title="Nome" subtitle={user?.name} />
             <TitleAndSubtitle title="E-mail" subtitle={user?.email} />
             <TitleAndSubtitle
-              title="phone"
+              title="Telefone"
               subtitle={formatPhone(user?.phone || "")}
             />
             <TitleAndSubtitle
@@ -65,10 +67,20 @@ export function Resume({
           <div className="grid grid-cols-4 gap-3">
             <TitleAndSubtitle title="Nome" subtitle={store?.name} />
             <TitleAndSubtitle title="E-mail" subtitle={store?.email} />
-            <TitleAndSubtitle title="phone" subtitle={store?.phone} />
-            <TitleAndSubtitle title="Tipo de loja" subtitle={store?.type} />
-            <TitleAndSubtitle title="Cep" subtitle={store?.zip} />
+            <TitleAndSubtitle
+              title="Telefone"
+              subtitle={formatPhone(store?.phone)}
+            />
+            <TitleAndSubtitle
+              title="Tipo de loja"
+              subtitle={StoreTypeEnumMap[store?.type]}
+            />
+            <TitleAndSubtitle
+              title="Cep"
+              subtitle={formatZipCode(store?.zip)}
+            />
             <TitleAndSubtitle title="Cidade" subtitle={store?.city} />
+            <TitleAndSubtitle title="Estado" subtitle={store?.state} />
             <TitleAndSubtitle title="Barrio" subtitle={store?.neighborhood} />
             <TitleAndSubtitle title="Endereço" subtitle={store?.street} />
           </div>

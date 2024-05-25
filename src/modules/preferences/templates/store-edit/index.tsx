@@ -10,6 +10,7 @@ import { StoreData } from "../../components/store-data";
 import { AddressContent } from "@/modules/preferences/components/address-content";
 import { Delivey } from "../../components/delivey-preference";
 import Button from "@/modules/app/components/button/button";
+import { useStore } from "@/modules/app/store/stores";
 
 const editStoreSchema = z.object({
   name: z
@@ -56,6 +57,7 @@ const editStoreSchema = z.object({
 export type EditStore = z.infer<typeof editStoreSchema>;
 
 export function ScreenStore() {
+  const store = useStore((state) => state.store);
   const {
     formState: { errors },
     setValue,
@@ -63,6 +65,9 @@ export function ScreenStore() {
     register,
   } = useForm<EditStore>({
     resolver: zodResolver(editStoreSchema),
+    defaultValues: {
+      name: store.name,
+    },
   });
 
   function onSubmit(data: EditStore) {
@@ -74,9 +79,9 @@ export function ScreenStore() {
     <div>
       <section>
         <HeaderPreference
-          backgroundImage="/Rectangle.svg"
+          backgroundImage={store.cover}
           name="Insano Burguer"
-          profileImage="/Ellipse.svg"
+          profileImage={store.logo}
           cancel={() => {}}
           save={() => {}}
         />

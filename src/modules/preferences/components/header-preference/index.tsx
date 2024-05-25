@@ -26,7 +26,7 @@ export function HeaderPreference({
         alt="company background image"
         width={1227}
         height={186}
-        className="w-full"
+        className="w-full  h-[186px] object-cover"
       />
       <div className="flex flex-col md:flex-row md:justify-between">
         <div
@@ -39,7 +39,7 @@ export function HeaderPreference({
             width={121}
             height={121}
             alt="company logo type"
-            className="ml-2 md:ml-6"
+            className="ml-2 md:ml-6  rounded-full w-[121px] h-[121px]"
           />
           <div className="flex flex-col gap-1 self-center mt-5">
             <span

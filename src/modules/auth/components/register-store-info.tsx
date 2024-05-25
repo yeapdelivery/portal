@@ -38,6 +38,7 @@ const storeSchema = z
     documentNumber: z
       .string()
       .min(1, { message: "Cpf ou Cnpj é obrigatório" })
+      .max(18, { message: "Cpf ou Cnpj inválido" })
       .transform((value) => value.replace(/\D/g, "")),
     type: z.string().min(1, { message: "Tipo de loja é obrigatório" }),
     specialties: z.array(z.string()),
@@ -66,6 +67,7 @@ export function RegisterStoreInfo({
 }: RegisterStoreInfoProps) {
   const [storeType, setStoreType] = useState<StoreType>();
   const [specialties, setSpecialties] = useState<string[]>([]);
+  const [documentNumber, setDocumentNumber] = useState<string>("");
 
   const {
     formState: { errors },
@@ -79,6 +81,14 @@ export function RegisterStoreInfo({
 
   function submit(data: StoreSchema) {
     onUpdateStore(data);
+  }
+
+  function getMask(value: string) {
+    if (value.replace(/\D/g, "").length > 11) {
+      return "99.999.999/9999-99"; // CNPJ
+    } else {
+      return "999.999.999-99999"; // CPF
+    }
   }
 
   return (
@@ -145,7 +155,12 @@ export function RegisterStoreInfo({
             <TextFiled.Input
               id="store-name"
               placeholder="000.000.000-00"
-              {...register("documentNumber")}
+              mask={getMask(documentNumber)}
+              value={documentNumber}
+              onChange={(e) => {
+                setDocumentNumber(e.target.value);
+                setValue("documentNumber", e.target.value);
+              }}
             />
           </TextFiled>
         </div>

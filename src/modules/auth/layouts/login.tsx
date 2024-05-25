@@ -143,7 +143,7 @@ export default function Login() {
                   onClick={goToRegister}
                   className="font-outfit font-medium text-red-default"
                 >
-                  CADASTRE - SE
+                  CADASTRE-SE
                 </button>
               </div>
             </div>
