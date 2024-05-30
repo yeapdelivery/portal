@@ -1,6 +1,13 @@
 import "./style.css";
 
-import { ForwardedRef, RefObject, forwardRef, useRef, useState } from "react";
+import {
+  ForwardedRef,
+  RefObject,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Combobox, ComboboxList, ComboboxProvider } from "@ariakit/react";
 import * as RadixPopover from "@radix-ui/react-popover";
 import { tv } from "tailwind-variants";
@@ -12,6 +19,8 @@ export interface SelectProps {
   startIcon?: Icon;
   options: SelectOptions[];
   disabled?: boolean;
+  defaultValue?: string;
+  readonly?: boolean;
   onSelected?: (option: SelectOptions) => void;
 }
 
@@ -47,17 +56,33 @@ const select = tv({
         ],
       },
     },
+
+    disabled: {
+      true: {
+        containerInput: ["bg-gray-700 text-gray-500"],
+      },
+    },
   },
 });
 
 const Select = forwardRef<HTMLInputElement, SelectProps>(
-  ({ startIcon, options: optionsProps, disabled, onSelected }, ref) => {
+  (
+    {
+      startIcon,
+      options: optionsProps,
+      disabled,
+      defaultValue,
+      readonly = true,
+      onSelected,
+    },
+    ref
+  ) => {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<SelectOptions[]>(optionsProps);
     const [selectedOption, setSelectedOption] = useState<SelectOptions | null>(
       null
     );
-    const [value, setValue] = useState<string>("");
+    const [value, setValue] = useState<string>(defaultValue || "");
     const [itemFocused, setItemFocused] = useState<string>("");
     const listboxRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +91,34 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
     });
 
     const state = open ? "open" : "closed";
+
+    useEffect(() => {
+      if (defaultValue) {
+        setValue(defaultValue);
+      }
+    }, [defaultValue]);
+
+    useEffect(() => {
+      if (disabled) {
+        setValue("");
+      } else {
+        if (selectedOption?.id) {
+          setValue(selectedOption.title);
+          return;
+        }
+
+        if (defaultValue) {
+          setValue(defaultValue);
+          return;
+        }
+      }
+    }, [disabled]);
+
+    useEffect(() => {
+      if (defaultValue && !selectedOption?.id) {
+        setValue(defaultValue);
+      }
+    }, [open, defaultValue, selectedOption]);
 
     function searchOption(query: string): void {
       setValue(query);
@@ -121,7 +174,7 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
       >
         <ComboboxProvider open={open} setOpen={setOpen}>
           <RadixPopover.Anchor asChild>
-            <div className={containerInput()}>
+            <div className={containerInput({ disabled })}>
               <div className="flex items-center gap-3 flex-1">
                 {startIcon && (
                   <button>
@@ -135,6 +188,7 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
                   className={inputStyle()}
                   disabled={disabled}
                   onChange={(event) => searchOption(event.target.value)}
+                  readOnly={readonly}
                 />
               </div>
               <button

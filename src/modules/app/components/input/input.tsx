@@ -32,6 +32,13 @@ const input = tv({
         container: ["border-[#7B58FF]"],
       },
     },
+
+    disabled: {
+      true: {
+        container: ["bg-gray-800 cursor-not-allowed border-gray-800"],
+        inputStyle: ["text-gray-700 cursor-not-allowed"],
+      },
+    },
   },
 });
 
@@ -48,6 +55,8 @@ export interface InputProps
   alwaysShowMask?: boolean;
   maskChar?: string;
   maskPlaceholder?: string;
+  disabled?: boolean;
+  onInputChange?: (value: string) => void;
   onInputFocus?(): void;
   onInputBlur?(): void;
   onInputClick?(): void;
@@ -67,15 +76,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       alwaysShowMask,
       suffix,
       type,
+      disabled,
       onInputFocus,
       onInputBlur,
       onInputClick,
+      onInputChange,
       ...props
     },
     ref
   ) => {
     const [isFocus, setIsFocus] = useState(false);
-    const { container, inputStyle } = input({ isFocus });
+    const { container, inputStyle } = input({ isFocus, disabled });
     const inputRef = useRef<HTMLInputElement>(null);
 
     const [inputType, setInputType] = useState(type || "text");
@@ -95,9 +106,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }
 
     const formation = useCallback(
-      (e: React.FormEvent<HTMLInputElement>) => {
+      (e: React.ChangeEvent<HTMLInputElement>) => {
         if (currency) {
-          currencyFormation(e);
+          const value = currencyFormation(e);
+          onInputChange && onInputChange(value.currentTarget.value);
+          return currencyFormation(e);
         }
 
         if (suffix) {
@@ -116,16 +129,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             newCursorPosition
           );
 
+          onInputChange && onInputChange(e.currentTarget.value);
           return e;
         }
       },
-      [currency, suffix]
+      [currency, onInputChange, suffix]
     );
 
     return (
       <div
         data-cy="container-input"
-        className={container({ className })}
+        className={container({ className, disabled })}
         onClick={handleClick}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -138,8 +152,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           type={inputType}
           {...props}
           mask={mask}
-          onKeyUp={formation}
+          onInput={formation}
           className={inputStyle()}
+          disabled={disabled}
           onBlur={(event) => {
             const value = event.currentTarget.value;
 

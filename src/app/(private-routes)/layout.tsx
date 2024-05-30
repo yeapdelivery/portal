@@ -19,7 +19,10 @@ export default async function PrivateLayout({ children }: PrivateLayoutProps) {
   return (
     <>
       <SideBar name={session?.store.name}>{children}</SideBar>
-      <PrivateRouterProvider storeFromLayout={session.store} />
+      <PrivateRouterProvider
+        storeFromLayout={session.store}
+        accessToken={session.store.accessToken}
+      />
     </>
   );
 }

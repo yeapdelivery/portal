@@ -8,80 +8,208 @@ import { ContainerPreference } from "../../components/container-preference";
 import { HeaderPreference } from "../../components/header-preference";
 import { StoreData } from "../../components/store-data";
 import { AddressContent } from "@/modules/preferences/components/address-content";
-import { Delivey } from "../../components/delivey-preference";
+import { Delivery } from "../../components/delivey-preference";
 import Button from "@/modules/app/components/button/button";
 import { useStore } from "@/modules/app/store/stores";
+import { useEffect } from "react";
+import { formatPhone } from "@/formatting/phone";
+import { formatDocumentNumber } from "@/formatting";
+import { useLoading, useToast } from "@/modules/app/hooks";
+import Toast from "@/modules/app/components/toast";
+import { preferencesService } from "../../services";
+import StoreModel, { OpeningHours } from "@/modules/app/models/store";
+import { availableHasOpeningHour, availableOpeningHour } from "@/utils";
 
-const editStoreSchema = z.object({
-  name: z
-    .string()
-    .min(3, "O nome precisa ter menos mais de 3 caracteres")
-    .max(255),
-
-  description: z.string().min(10, "Descrição obrigatória").max(255),
-  phone: z
-    .string()
-    .min(14, "Telefone inválido")
-    .transform((value) => value.replace(/\D/g, "")),
-  email: z.string().email("Email inválido"),
-  cnpj: z.string().transform((value) => value.replace(/\D/g, "")),
-  type: z.string().min(3, "Tipo de loja obrigatório"),
-  category: z.string().min(3, "Categoria obrigatória"),
-  cep: z
-    .string()
-    .min(9, "CEP obrigatório")
-    .transform((value) => value.replace(/\D/g, "")),
-  address: z.object({
-    street: z.string().min(3, "Rua obrigatória"),
-    number: z.string().min(1, "Número obrigatório"),
-    neighborhood: z.string().min(3, "Bairro obrigatório"),
-    city: z.string().min(3, "Cidade obrigatória"),
-    state: z.string().min(2, "Estado obrigatório"),
-    zipCode: z
+const editStoreSchema = z
+  .object({
+    name: z
       .string()
-      .min(9, "Cep obrigatório")
+      .min(3, "O nome precisa ter menos mais de 3 caracteres")
+      .max(255),
+
+    phone: z
+      .string()
+      .min(0, "Telefone inválido")
       .transform((value) => value.replace(/\D/g, "")),
-  }),
-  delivery: z.object({
-    start: z.string(),
-    end: z.string(),
-    freeTax: z.boolean(),
-    minTax: z.boolean(),
-    minTaxValue: z.number(),
-    freeTaxValue: z.number(),
-    minTaxDistance: z.number(),
-    freeTaxDistance: z.number(),
-  }),
-});
+    email: z.string().email("Email inválido"),
+    documentNumber: z
+      .string()
+      .min(1, { message: "Cpf ou Cnpj é obrigatório" })
+      .max(18, { message: "Cpf ou Cnpj inválido" })
+      .transform((value) => value.replace(/\D/g, "")),
+    type: z.string().min(3, "Tipo de loja obrigatório"),
+    specialties: z.array(z.string().min(3, "Especialidade obrigatória")),
+    address: z.object({
+      street: z.string().min(3, "Rua obrigatória"),
+      number: z.string().min(1, "Número obrigatório"),
+      neighborhood: z.string().min(3, "Bairro obrigatório"),
+      city: z.string().min(3, "Cidade obrigatória"),
+      state: z.string().min(2, "Estado obrigatório"),
+      zip: z
+        .string()
+        .min(1, "Cep obrigatório")
+        .transform((value) => value.replace(/\D/g, "")),
+    }),
+    delivery: z.object({
+      price: z
+        .number()
+        .or(z.string())
+        .transform((value) => Number(value)),
+      estimatedMaxTime: z.number().min(1, "Tempo máximo obrigatório"),
+      minOrder: z
+        .number()
+        .or(z.string())
+        .transform((value) => Number(value)),
+      estimatedMinTime: z.number().min(1, "Tempo máximo obrigatório"),
+    }),
+    openingHours: z.object({
+      sunday: z
+        .object({
+          openHour: z.string().optional(),
+          closeHour: z.string().optional(),
+        })
+        .nullable(),
+      monday: z
+        .object({
+          openHour: z.string().optional(),
+          closeHour: z.string().optional(),
+        })
+        .nullable(),
+      tuesday: z
+        .object({
+          openHour: z.string().optional(),
+          closeHour: z.string().optional(),
+        })
+        .nullable(),
+      wednesday: z
+        .object({
+          openHour: z.string().optional(),
+          closeHour: z.string().optional(),
+        })
+        .nullable(),
+      thursday: z
+        .object({
+          openHour: z.string().optional(),
+          closeHour: z.string().optional(),
+        })
+        .nullable(),
+      friday: z
+        .object({
+          openHour: z.string().optional(),
+          closeHour: z.string().optional(),
+        })
+        .nullable(),
+      saturday: z
+        .object({
+          openHour: z.string().optional(),
+          closeHour: z.string().optional(),
+        })
+        .nullable(),
+    }),
+  })
+  .refine(
+    (data) => {
+      if (data.delivery.estimatedMinTime >= data.delivery.estimatedMaxTime) {
+        return false;
+      }
+
+      return true;
+    },
+    {
+      message: "Tempo mínimo não pode ser maior ou igual ao tempo máximo",
+      path: ["delivery", "estimatedMinTime"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.openingHours) {
+        return availableHasOpeningHour(data.openingHours as OpeningHours);
+      }
+    },
+    {
+      message: "Preencha o horário de abertura e fechamento",
+      path: ["openingHours"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.openingHours) {
+        return availableOpeningHour(data.openingHours as OpeningHours);
+      }
+    },
+    {
+      message:
+        "Horário de abertura não pode ser maior ou igual ao de fechamento",
+      path: ["openingHours"],
+    }
+  );
 
 export type EditStore = z.infer<typeof editStoreSchema>;
 
 export function ScreenStore() {
-  const store = useStore((state) => state.store);
+  const [isLoadingSubmit, startLoading, stopLoading] = useLoading();
+  const { error: errorToast, toast, setToast, success } = useToast();
+  const [store, setStore] = useStore((state) => [state.store, state.setStore]);
   const {
     formState: { errors },
     setValue,
     handleSubmit,
+    getValues,
     register,
   } = useForm<EditStore>({
     resolver: zodResolver(editStoreSchema),
-    defaultValues: {
-      name: store.name,
-    },
   });
 
-  function onSubmit(data: EditStore) {
-    console.log("entrou");
-    console.log({ data });
+  useEffect(() => {
+    if (errors?.openingHours) {
+      errorToast(errors.openingHours.root.message);
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    if (store) {
+      Object.keys(store).forEach((key) => {
+        switch (key) {
+          case "phone":
+            setValue(key, formatPhone(store[key]));
+            break;
+          case "documentNumber":
+            setValue(key, formatDocumentNumber(store[key]));
+          default:
+            setValue(key as any, store[key]);
+        }
+      });
+    }
+  }, [store]);
+
+  async function onSubmit(data: EditStore) {
+    startLoading();
+    try {
+      await preferencesService.updateStore(
+        store.id,
+        data as unknown as StoreModel
+      );
+
+      success("Loja atualizada com sucesso!");
+      setStore(data as unknown as StoreModel);
+    } catch (error) {
+      console.log(error);
+      errorToast("Erro ao salvar, tente novamente.");
+    } finally {
+      stopLoading();
+    }
   }
+
+  if (!store.id) return <h1>Carregando</h1>;
 
   return (
     <div>
       <section>
         <HeaderPreference
           backgroundImage={store.cover}
-          name="Insano Burguer"
+          name={store.name}
           profileImage={store.logo}
+          email={store.email}
           cancel={() => {}}
           save={() => {}}
         />
@@ -94,7 +222,11 @@ export function ScreenStore() {
               title="Dados da loja"
               description="Atualize o perfil da sua loja aqui"
             >
-              <StoreData register={register} errors={errors} />
+              <StoreData
+                register={register}
+                errors={errors}
+                setValue={setValue}
+              />
             </ContainerPreference>
 
             <hr className="border border-gray-700" />
@@ -105,6 +237,7 @@ export function ScreenStore() {
             >
               <AddressContent
                 errors={errors}
+                getValues={getValues}
                 register={register}
                 setValue={setValue}
               />
@@ -116,13 +249,33 @@ export function ScreenStore() {
               title="Delivey da loja"
               description="Atualize as informações da sua loja aqui"
             >
-              <Delivey />
+              <Delivery
+                errors={errors}
+                getValues={getValues}
+                register={register}
+                setValue={setValue}
+              />
             </ContainerPreference>
           </div>
 
-          <Button type="submit">salvar</Button>
+          <div className="px-5 pb-5">
+            <Button
+              isLoading={isLoadingSubmit}
+              disabled={isLoadingSubmit}
+              type="submit"
+            >
+              salvar
+            </Button>
+          </div>
         </form>
       </section>
+
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        setOpen={(open) => setToast({ ...toast, open })}
+        type={toast.type}
+      />
     </div>
   );
 }

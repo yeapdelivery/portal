@@ -70,7 +70,7 @@ export function Pill({
       </div>
 
       {closable && (
-        <button onClick={onClose} data-testid="pill-close">
+        <button type="button" onClick={onClose} data-testid="pill-close">
           <X size={14} />
         </button>
       )}

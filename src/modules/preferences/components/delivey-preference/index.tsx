@@ -1,31 +1,63 @@
 import { Checkbox } from "@/modules/app/components/check-box";
 import TextFiled from "@/modules/app/components/text-filed";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommercialHour from "../commercial-hour";
+import {
+  FieldErrors,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
+import { EditStore } from "../../templates";
+import { currency } from "@/formatting";
 
-export function Delivey() {
+interface DeliveryContentProps {
+  errors: FieldErrors<EditStore>;
+  getValues: UseFormGetValues<EditStore>;
+  register: UseFormRegister<EditStore>;
+  setValue: UseFormSetValue<EditStore>;
+}
+
+export function Delivery({
+  errors,
+  register,
+  setValue,
+  getValues,
+}: DeliveryContentProps) {
   const [freeTaxChecked, setFreeTaxChecked] = useState(false);
   const [minTaxChecked, setMinTaxChecked] = useState(false);
+  const [price, setPrice] = useState("");
+  const [minOrder, setMinOrder] = useState("");
+
+  useEffect(() => {
+    if (freeTaxChecked) {
+      setPrice("R$ 0.00");
+      setValue("delivery.price", 0);
+    }
+  }, [freeTaxChecked]);
+
+  useEffect(() => {
+    const priceValue = getValues("delivery.price");
+    const minOrderValue = getValues("delivery.minOrder");
+
+    if (priceValue || priceValue === 0) {
+      setPrice(currency(priceValue));
+      setValue("delivery.price", formatNumber(priceValue.toString()));
+    }
+
+    if (minOrderValue || minOrderValue === 0) {
+      setMinOrder(currency(minOrderValue));
+      setValue("delivery.minOrder", formatNumber(minOrderValue.toString()));
+    }
+  }, [getValues, setValue]);
+
+  function formatNumber(value: string): number {
+    return Number(value.replace(/[^\d.,]/g, "").replace(",", "."));
+  }
 
   return (
     <div className="flex flex-col">
       <span className="mb-3 text-gray-100 font-bold font-outfit">Entrega</span>
-      <div className="flex flex-col md:flex-row w-full md:w-3/12 mb-6">
-        <div className="whitespace-nowrap">
-          <TextFiled error={null} htmlFor="search" label="De(km)" required>
-            <TextFiled.Input suffix="km" maxLength={5} />
-          </TextFiled>
-        </div>
-
-        <span className="hidden md:flex self-end pb-2 text-[#C7C9D9] mx-1">
-          -
-        </span>
-        <div className="whitespace-nowrap">
-          <TextFiled error={null} htmlFor="search" label="Até(km)" required>
-            <TextFiled.Input suffix="km" maxLength={5} />
-          </TextFiled>
-        </div>
-      </div>
       <div className="flex flex-col md:flex-row w-full gap-6">
         <div className="flex gap-6 w-full md:w-3/5">
           <div className="flex flex-col w-full gap-6">
@@ -35,7 +67,17 @@ export function Delivey() {
                   <TextFiled.Input
                     prefix="R$"
                     disabled={freeTaxChecked}
+                    value={price}
                     currency
+                    onInputChange={(value) => {
+                      const number = value
+                        .replace(/[^\d.,]/g, "")
+                        .replace(",", ".");
+
+                      setPrice(`R$ ${number}`);
+
+                      setValue("delivery.price", Number(number));
+                    }}
                   />
                 </TextFiled>
               </div>
@@ -52,6 +94,16 @@ export function Delivey() {
                     disabled={minTaxChecked}
                     currency
                     prefix="R$"
+                    value={minOrder}
+                    onInputChange={(value) => {
+                      const number = value
+                        .replace(/[^\d.,]/g, "")
+                        .replace(",", ".");
+
+                      setMinOrder(`R$ ${number}`);
+
+                      setValue("delivery.minOrder", Number(number));
+                    }}
                   />
                 </TextFiled>
               </div>
@@ -87,6 +139,7 @@ export function Delivey() {
               placeholder="Exemplo: 10min"
               suffix=" min"
               maxLength={7}
+              {...register("delivery.estimatedMinTime")}
             />
           </TextFiled>
           <TextFiled
@@ -99,12 +152,18 @@ export function Delivey() {
               placeholder="Exemplo: 60 min"
               suffix=" min"
               maxLength={7}
+              {...register("delivery.estimatedMaxTime")}
             />
           </TextFiled>
         </div>
       </div>
 
-      <CommercialHour />
+      <CommercialHour
+        errors={errors}
+        register={register}
+        setValue={setValue}
+        getValues={getValues}
+      />
     </div>
   );
 }

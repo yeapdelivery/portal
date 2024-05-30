@@ -10,7 +10,7 @@ export default function Header({ name }: HeaderProps) {
   return (
     <div
       data-cy="header-container"
-      className="h-24 md:h-16 border-b border-gray-800 bg-white px-6 relative z-50"
+      className="h-24 md:h-16 border-b border-gray-800 bg-white px-6 relative z-[1000]"
     >
       <div className="h-full items-center justify-between hidden md:flex">
         <div className="flex items-center gap-2">

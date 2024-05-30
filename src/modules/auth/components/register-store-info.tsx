@@ -85,9 +85,9 @@ export function RegisterStoreInfo({
 
   function getMask(value: string) {
     if (value.replace(/\D/g, "").length > 11) {
-      return "99.999.999/9999-99"; // CNPJ
+      return "99.999.999/9999-99";
     } else {
-      return "999.999.999-99999"; // CPF
+      return "999.999.999-99999";
     }
   }
 

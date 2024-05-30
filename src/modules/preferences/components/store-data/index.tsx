@@ -3,36 +3,73 @@ import { DropFiles } from "@/modules/app/components/dropzone/types";
 import { useState } from "react";
 import Dropzone from "@/modules/app/components/dropzone";
 import Image from "next/image";
-import Button from "@/modules/app/components/button/button";
-import TextArea from "@/modules/app/components/text-area";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { EditStore } from "../../templates";
+import { useStore } from "@/modules/app/store/stores";
+import { preferencesService } from "../../services";
+import Toast from "@/modules/app/components/toast";
+import { useLoading, useToast } from "@/modules/app/hooks";
 
 interface StoreDataProps {
-  register: UseFormRegister<EditStore>;
   errors: FieldErrors<EditStore>;
+  register: UseFormRegister<EditStore>;
+  setValue: UseFormSetValue<EditStore>;
 }
 
-export function StoreData({ errors, register }: StoreDataProps) {
+export function StoreData({ errors, register, setValue }: StoreDataProps) {
   const [files, setFiles] = useState<DropFiles[]>([]);
+  const [store, setStore] = useStore((state) => [state.store, state.setStore]);
+  const [documentNumber, setDocumentNumber] = useState<string>("");
+  const { toast, error, success, setToast } = useToast();
+  const [isLogoUpdating, startLoaderLogo, stopLoaderLogo] = useLoading();
 
-  function onDrop(files: DropFiles[]) {
-    setFiles((oldValues) => [...oldValues, ...files]);
+  async function onDrop(_: DropFiles[], files: File[]) {
+    startLoaderLogo();
+    try {
+      const form = new FormData();
+      form.append("logo", files[0]);
+
+      const { data: responseData } = await preferencesService.uploadLogo(
+        form,
+        store.id
+      );
+
+      setStore({
+        ...store,
+        logo: responseData.logo,
+      });
+
+      success("Logo atualizado com sucesso!");
+    } catch {
+      error("Erro ao atualizar logo");
+    } finally {
+      stopLoaderLogo();
+    }
   }
 
   function onDelete(files: DropFiles[]) {
     setFiles(files);
   }
+
+  function getMask(value: string) {
+    if (value.replace(/\D/g, "").length > 11) {
+      return "99.999.999/9999-99";
+    } else {
+      return "999.999.999-99999";
+    }
+  }
+
   return (
     <div className="flex w-full">
       <div className="flex flex-col-reverse md:flex-col w-full">
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col gap-4 md:flex-row">
           <div>
             <Image
-              src="/Ellipse.svg"
+              src={store.logo}
               width={121}
               height={121}
               alt="company logo type"
+              className="rounded-full z-50"
             />
           </div>
           <div className="w-full">
@@ -41,6 +78,7 @@ export function StoreData({ errors, register }: StoreDataProps) {
               onDrop={onDrop}
               multiple
               onDelete={onDelete}
+              isLoading={isLogoUpdating}
             />
           </div>
         </div>
@@ -56,18 +94,42 @@ export function StoreData({ errors, register }: StoreDataProps) {
               placeholder="Digite o nome da loja"
             />
           </TextFiled>
-          <TextFiled
-            htmlFor="search"
-            label="Telefone ou celular da loja como aparecerá no app"
-            error={errors?.phone?.message}
-            required
-          >
-            <TextFiled.Input
-              mask="99 99999-9999"
-              {...register("phone")}
-              placeholder="Digite seu telefone"
-            />
-          </TextFiled>
+
+          <div className="flex items-start gap-4">
+            <TextFiled
+              htmlFor="search"
+              label="Telefone ou celular"
+              error={errors?.phone?.message}
+              className="flex-1"
+              required
+            >
+              <TextFiled.Input
+                mask="99 99999-9999"
+                {...register("phone")}
+                placeholder="Digite seu telefone"
+              />
+            </TextFiled>
+
+            <TextFiled
+              label="Cpf ou Cnpj"
+              htmlFor="store-phone"
+              error={errors.documentNumber?.message}
+              required
+              className="flex-1"
+            >
+              <TextFiled.Input
+                id="store-name"
+                placeholder="000.000.000-00"
+                mask={getMask(documentNumber)}
+                {...register("documentNumber")}
+                onChange={(e) => {
+                  setDocumentNumber(e.target.value);
+                  setValue("documentNumber", e.target.value);
+                }}
+              />
+            </TextFiled>
+          </div>
+
           <TextFiled
             error={errors?.email?.message}
             htmlFor="search"
@@ -79,21 +141,15 @@ export function StoreData({ errors, register }: StoreDataProps) {
               placeholder="Digite seu email"
             />
           </TextFiled>
-          <div className="mt-1">
-            <TextFiled
-              htmlFor="search"
-              label="Descrição como aparecerá no app"
-              error={errors?.description?.message}
-              required
-            >
-              <TextArea
-                {...register("description")}
-                placeholder="Digite uma descrição"
-              />
-            </TextFiled>
-          </div>
         </div>
       </div>
+
+      <Toast
+        open={toast.open}
+        type={toast.type}
+        message={toast.message}
+        setOpen={() => setToast({ open: false, message: "" })}
+      />
     </div>
   );
 }

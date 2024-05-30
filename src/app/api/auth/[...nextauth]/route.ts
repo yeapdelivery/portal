@@ -54,7 +54,10 @@ const nextAuthOptions: NextAuthOptions = {
 
         const { data: me } = await meService.me();
 
-        session.store = me;
+        session.store = {
+          ...me,
+          accessToken: token,
+        };
 
         return session;
       } catch (error) {

@@ -7,6 +7,7 @@ import Toast from "../toast";
 import { DropFiles } from "./types";
 import { fileToBase64 } from "@/utils";
 import { useToast } from "../../hooks";
+import Spinner from "../spinner/spinner";
 
 const dropzone = tv({
   slots: {
@@ -28,6 +29,12 @@ const dropzone = tv({
         containerDropZone: "border-blue-default bg-blue-100",
       },
     },
+
+    disabled: {
+      true: {
+        containerDropZone: "bg-gray-800",
+      },
+    },
   },
 });
 
@@ -35,7 +42,9 @@ interface DropzoneProps {
   accept?: string[];
   multiple?: boolean;
   files: DropFiles[];
-  onDrop: (files: DropFiles[]) => void;
+  disabled?: boolean;
+  isLoading?: boolean;
+  onDrop: (files: DropFiles[], file: File[]) => void;
   onDelete?: (file: DropFiles[]) => void;
 }
 
@@ -50,6 +59,8 @@ export default function Dropzone({
   files = [],
   accept = ACCEPTED_FORMATS,
   multiple,
+  disabled,
+  isLoading,
   onDrop,
   onDelete,
 }: DropzoneProps) {
@@ -75,7 +86,7 @@ export default function Dropzone({
     });
 
     const filesResolved = await Promise.all(newFiles);
-    onDrop(filesResolved);
+    onDrop(filesResolved, files);
   }
 
   function handleRemoveFile(
@@ -133,30 +144,41 @@ export default function Dropzone({
     <>
       <div>
         <div
-          className={containerDropZone({ error: hasError })}
+          className={containerDropZone({ error: hasError, disabled })}
           data-test="dropzone"
           onDrop={handleDrop}
           onDragOver={() => setIsDragging(true)}
           onDragLeave={() => setIsDragging(false)}
         >
-          <input
-            type="file"
-            data-test="input-file"
-            multiple={multiple}
-            className="absolute -z-10 inset-0 opacity-0 cursor-pointer"
-            onChange={(event) => {
-              handleInputChange(event);
-            }}
-          />
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <input
+                type="file"
+                data-test="input-file"
+                multiple={multiple}
+                className="absolute z-10 inset-0 opacity-0 cursor-pointer"
+                onChange={(event) => {
+                  handleInputChange(event);
+                }}
+                disabled={disabled}
+              />
 
-          <div className="flex flex-col items-center gap-2">
-            <CloudArrowUp weight="bold" size={32} className="text-gray-500" />
+              <div className="flex flex-col items-center gap-2">
+                <CloudArrowUp
+                  weight="bold"
+                  size={32}
+                  className="text-gray-500"
+                />
 
-            <p className="text-center">
-              <span className="text-red-default">Clique para carregar</span> ou
-              arraste e solte <br /> {getAcceptedFormats()}
-            </p>
-          </div>
+                <p className="text-center">
+                  <span className="text-red-default">Clique para carregar</span>{" "}
+                  ou arraste e solte <br /> {getAcceptedFormats()}
+                </p>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="mt-3">
