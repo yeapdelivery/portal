@@ -1,5 +1,6 @@
 "use client";
 
+import Catalog from "@/app/(private-routes)/cardapio/page";
 import { PencilSimple } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import { tv } from "tailwind-variants";
@@ -54,8 +55,11 @@ export function SideBarCategory({ categories }: SideBarCategoryProps) {
         <div className={barPrimary()}></div>
 
         <ul className="ml-2 space-y-4">
-          {categories.map((category) => (
-            <li key={category.id} className="relative flex items-center">
+          {categories.map((category, index) => (
+            <li
+              key={category.id + index}
+              className="relative flex items-center"
+            >
               {category.id === active && (
                 <div className={barSecondary()}>
                   <div className={ball()}></div>

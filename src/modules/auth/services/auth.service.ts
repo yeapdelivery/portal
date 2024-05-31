@@ -30,6 +30,16 @@ class AuthService {
     return await api.get("/user");
   }
 
+  async userMe() {
+    const data = await api.get(`/user`);
+
+    return data;
+  }
+
+  async changePassword(data: { currentPassword: string; newPassword: string }) {
+    return await api.put("/user/change-password", data);
+  }
+
   async signUp(
     data: SignUpData
   ): Promise<AxiosResponse<Omit<User, "address">>> {
@@ -52,9 +62,9 @@ class AuthService {
     });
   }
 
-  async changePassword(token: string, email: string, password: string) {
-    return await api.put("/user/reset-password", { token, email, password });
-  }
+  // async changePassword(token: string, email: string, password: string) {
+  //   return await api.put("/user/reset-password", { token, email, password });
+  // }
 
   async createStore(data: CreateStoreData) {
     return await api.post("/admin/stores", data);

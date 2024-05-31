@@ -13,6 +13,7 @@ import Header from "../header";
 import { useWindowSize } from "../../hooks";
 import { getScreenSize } from "@/utils";
 import { tv } from "tailwind-variants";
+import { useStore } from "../../store/stores";
 
 export enum Menu {
   ORDER = "order",
@@ -41,7 +42,6 @@ export interface MenuProps {
 
 interface SideBarProps {
   children: ReactNode;
-  name: string;
 }
 
 const sidebar = tv({
@@ -98,12 +98,13 @@ export const menus: MenuProps[] = [
   },
 ];
 
-export default function SideBar({ name, children }: SideBarProps) {
+export default function SideBar({ children }: SideBarProps) {
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<Menu>();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
   const { content } = sidebar();
+  const { name } = useStore((state) => state.store);
 
   const stateMenu = open ? "open" : "closed";
 

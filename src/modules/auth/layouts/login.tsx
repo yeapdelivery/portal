@@ -117,7 +117,11 @@ export default function Login() {
                   />
                 </TextFiled>
 
-                <Button type="submit" isLoading={isLoadingAuth}>
+                <Button
+                  type="submit"
+                  isLoading={isLoadingAuth}
+                  disabled={isLoadingAuth}
+                >
                   Entrar
                 </Button>
               </div>

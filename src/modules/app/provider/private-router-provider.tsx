@@ -5,17 +5,22 @@ import { setCookie } from "nookies";
 import { useStore } from "../store/stores";
 import StoreModel from "../models/store";
 import configureAxiosInterceptors from "@/api/interceptor";
+import { User } from "../models/user";
+import { useUser } from "../store/user";
 
 interface PrivateRouterProviderProps {
   storeFromLayout: StoreModel;
+  userFromLayout: User;
   accessToken: string;
 }
 
 export function PrivateRouterProvider({
   storeFromLayout,
+  userFromLayout,
   accessToken,
 }: PrivateRouterProviderProps) {
   const setStore = useStore((state) => state.setStore);
+  const setUser = useUser((state) => state.setUser);
 
   useEffect(() => {
     setStore(storeFromLayout);
@@ -26,6 +31,10 @@ export function PrivateRouterProvider({
       path: "/",
     });
   }, [setStore, storeFromLayout, accessToken]);
+
+  useEffect(() => {
+    setUser(userFromLayout);
+  }, [setUser, userFromLayout]);
 
   return <></>;
 }

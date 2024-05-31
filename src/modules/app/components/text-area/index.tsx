@@ -7,7 +7,7 @@ const input = tv({
   slots: {
     container: [
       "border border-gray-700 rounded-xl w-full h-36",
-      "bg-white flex items-center gap-1.5 px-2",
+      "bg-white flex items-center gap-1.5 p-2",
       "font-inter text-sm bg-gray-1000",
       "bg-gray-1000 outline-none",
       "placeholder:text-gray-500 placeholder:text-xs resize-none m-0",
@@ -24,7 +24,7 @@ const input = tv({
 });
 
 export interface TextAreaProps
-  extends React.InputHTMLAttributes<HTMLInputElement>,
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
     VariantProps<typeof input> {
   customHeight?: string;
   onInputFocus?(): void;
@@ -33,7 +33,7 @@ export interface TextAreaProps
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ className, onInputFocus, onInputBlur, onInputClick }, ref) => {
+  ({ className, onInputFocus, onInputBlur, onInputClick, ...rest }, ref) => {
     const [isFocus, setIsFocus] = useState(false);
     const { container } = input({ isFocus });
 
@@ -59,6 +59,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         onFocus={handleFocus}
         onBlur={handleBlur}
         ref={ref}
+        {...rest}
       ></textarea>
     );
   }

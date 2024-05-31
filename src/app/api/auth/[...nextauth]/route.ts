@@ -53,11 +53,14 @@ const nextAuthOptions: NextAuthOptions = {
         configureAxiosInterceptors(token);
 
         const { data: me } = await meService.me();
+        const { data: userMe } = await authService.userMe();
 
         session.store = {
           ...me,
           accessToken: token,
         };
+
+        session.user = userMe;
 
         return session;
       } catch (error) {

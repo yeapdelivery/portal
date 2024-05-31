@@ -1,5 +1,6 @@
 import api from "@/api";
 import StoreModel from "@/modules/app/models/store";
+import { User } from "@/modules/app/models/user";
 import { AxiosResponse } from "axios";
 
 class PreferencesService {
@@ -27,6 +28,12 @@ class PreferencesService {
         "Content-Type": "multipart/form-data",
       },
     });
+  }
+
+  async updateUser(
+    data: Omit<User, "id" | "address">
+  ): Promise<AxiosResponse<User>> {
+    return await api.put("/user", data);
   }
 }
 

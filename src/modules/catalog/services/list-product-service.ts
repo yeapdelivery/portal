@@ -1,15 +1,38 @@
-import ApiService from "@/modules/app/services/api-service";
+import api from "@/api";
+import { CategoryWithProducts, ProductModel } from "../models/product-model";
+import { AxiosResponse } from "axios";
 
-const baseUrl = `${process.env.NEXT_PUBLIC_API_HOST}/admin/stores`;
+interface Product {
+  items: CategoryWithProducts[];
+}
 
-export class ProductsService extends ApiService {
-  constructor() {
-    super(baseUrl);
+export interface CreateProduct {
+  name: string;
+  server: number;
+  category: string;
+  price: {
+    original: number;
+    promotional: number;
+  };
+  status: string;
+  type: string;
+  description: string;
+}
+
+export class ProductsService {
+  async loadProducts(storeId: string): Promise<AxiosResponse<Product>> {
+    return await api.get(`/admin/stores/${storeId}/products`);
   }
 
-  async loadProducts(storeId: string) {
-    const data = await this.GET(`/${storeId}/products`);
-    return data;
+  async createProduct(storeId: string, product: CreateProduct) {
+    return await api.post(`/admin/stores/${storeId}/products`, product);
+  }
+
+  async uploadImage(storeId: string, productId: string, form: FormData) {
+    return await api.post(
+      `/admin/stores/${storeId}/products/${productId}/image`,
+      form
+    );
   }
 }
 

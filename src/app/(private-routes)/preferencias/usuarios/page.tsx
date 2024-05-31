@@ -1,3 +1,5 @@
+import { UserEditTemplate } from "@/modules/preferences/templates/user-edit/user-edit";
+
 export default function Users() {
-  return <h1>Users</h1>;
+  return <UserEditTemplate />;
 }

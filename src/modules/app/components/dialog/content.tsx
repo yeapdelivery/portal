@@ -22,16 +22,25 @@ interface DialogContent {
   children: React.ReactNode;
   titleSlot?: React.ReactNode;
   title?: string;
+  className?: string;
 }
 
-export function DialogContent({ titleSlot, title, children }: DialogContent) {
+export function DialogContent({
+  titleSlot,
+  title,
+  children,
+  className,
+}: DialogContent) {
   const { content, overlay } = dialog();
 
   return (
     <DialogRx.Portal>
       <DialogRx.Overlay className={overlay()} data-test="overlay" />
-      <DialogRx.Content className={content()} data-test="dialog-content">
-        <div className="flex items-center justify-between py-6 px-5">
+      <DialogRx.Content
+        className={content({ className })}
+        data-test="dialog-content"
+      >
+        <div className="flex items-center justify-between py-6 px-5 ">
           <div />
           <DialogRx.Title asChild={!!titleSlot}>
             {titleSlot ? (

@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { tv } from "tailwind-variants";
+import { ErrorMessage } from "../error-message";
 
 const filed = tv({
   slots: {
@@ -36,11 +37,7 @@ export default function Filed({
 
       <div>{children}</div>
 
-      {error && (
-        <span className={errorStyle()}>
-          <strong>Erro:</strong> {error}
-        </span>
-      )}
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 }

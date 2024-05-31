@@ -1,43 +1,41 @@
 "use client";
 
-import { useState } from "react";
-import { CategoryModal } from "../components";
+import { useEffect, useState } from "react";
+import { Categories, CategoryModal, SideBarCategory } from "../components";
 import { HeaderSearch } from "../components/header-search";
 import { ProductsList } from "../components/products-list";
-import { ProductModel } from "../models/product-model";
+import { CategoryWithProducts, ProductModel } from "../models/product-model";
+import { productsService } from "../services/list-product-service";
+import { useStore } from "@/modules/app/store/stores";
+import Spinner from "@/modules/app/components/spinner/spinner";
 
-interface ListProductProps {
-  products: ProductModel[];
-}
+export default function ListProduct() {
+  const [products, setProducts] = useState<CategoryWithProducts[]>([]);
+  const store = useStore((state) => state.store);
 
-export default function ListProduct({
-  products: productsFromParams,
-}: ListProductProps) {
-  const [products, setProducts] = useState(productsFromParams);
+  useEffect(() => {
+    loadProducts();
+  }, [store]);
 
-  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
-    const search = event.target.value.toLowerCase();
-    const filteredProducts = productsFromParams.filter((product) =>
-      product.name
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036F]/g, "")
-        .includes(
-          search
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036F]/g, "")
-        )
-    );
+  async function loadProducts() {
+    if (!store.id) return;
+    const { data } = await productsService.loadProducts(store.id || "");
 
-    setProducts(filteredProducts);
+    setProducts(data.items);
   }
 
+  if (!products.length)
+    return (
+      <div className="flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+
   return (
-    <div className="lg:pl-64 px-5 mt-8">
-      <HeaderSearch handleSearch={handleSearch} />
+    <div className="px-5 mt-8">
+      <HeaderSearch />
       <CategoryModal />
-      <ProductsList product={products} />
+      <ProductsList products={products} onUpdateProducts={loadProducts} />
     </div>
   );
 }

@@ -131,7 +131,7 @@ export function MenuItem({
               hasSubmenu: !!menu.subMenu,
             })}
           >
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
               <div>{menu.icon}</div>
               <span
                 data-state={stateMenu}

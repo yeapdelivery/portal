@@ -1,6 +1,7 @@
 import StoreModel from "@/modules/app/models/store";
 import { CategoryStatusModel } from "../enums/category-status-model";
 import { ProductStatusModel } from "../enums/product-status-model";
+import { ProductTypeEnum } from "../enums/product-type.enum";
 
 export interface PriceModel {
   original: number;
@@ -13,6 +14,11 @@ export interface CategoryModel {
   status: CategoryStatusModel;
 }
 
+export interface CategoryWithProducts {
+  category: CategoryModel;
+  products: ProductModel[];
+}
+
 export interface ProductModel {
   id: string;
   name: string;
@@ -21,5 +27,7 @@ export interface ProductModel {
   price: PriceModel;
   store: StoreModel;
   status: ProductStatusModel;
+  type: ProductTypeEnum;
   description: string;
+  image: string;
 }
