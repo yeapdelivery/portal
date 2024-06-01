@@ -22,7 +22,7 @@ export interface CategoryWithProducts {
 export interface ProductModel {
   id: string;
   name: string;
-  server: number;
+  serves: number;
   category: CategoryModel;
   price: PriceModel;
   store: StoreModel;
@@ -30,4 +30,5 @@ export interface ProductModel {
   type: ProductTypeEnum;
   description: string;
   image: string;
+  cooled: boolean;
 }

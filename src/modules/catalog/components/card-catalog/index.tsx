@@ -6,9 +6,15 @@ import { ImageSquare } from "@phosphor-icons/react/dist/ssr";
 
 interface CardCatalogProps {
   product: ProductModel;
+  category: string;
+  onUpdateProducts: () => void;
 }
 
-export function CardCatalog({ product }: CardCatalogProps) {
+export function CardCatalog({
+  product,
+  category,
+  onUpdateProducts,
+}: CardCatalogProps) {
   return (
     <div className="p-3 bg-white rounded-xl flex gap-4">
       {product.image ? (
@@ -33,7 +39,11 @@ export function CardCatalog({ product }: CardCatalogProps) {
             <div className="flex items-center justify-between">
               <span className="text-gray-100 font-bold">{product?.name}</span>
 
-              <ProductModal />
+              <ProductModal
+                product={product}
+                category={category}
+                onUpdateProducts={onUpdateProducts}
+              />
             </div>
 
             <div className="max-w-[80%] mt-1 font-outfit text-gray-100 text-[10px]">

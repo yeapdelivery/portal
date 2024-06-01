@@ -28,6 +28,17 @@ export class ProductsService {
     return await api.post(`/admin/stores/${storeId}/products`, product);
   }
 
+  async updateProduct(
+    storeId: string,
+    productId: string,
+    product: CreateProduct
+  ) {
+    return await api.patch(
+      `/admin/stores/${storeId}/products/${productId}`,
+      product
+    );
+  }
+
   async uploadImage(storeId: string, productId: string, form: FormData) {
     return await api.post(
       `/admin/stores/${storeId}/products/${productId}/image`,

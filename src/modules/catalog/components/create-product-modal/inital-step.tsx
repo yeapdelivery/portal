@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Coffee } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
+import { Coffee, X } from "@phosphor-icons/react";
 import { tv } from "tailwind-variants";
 import { useForm } from "react-hook-form";
 
@@ -21,6 +21,8 @@ import {
 import { useStore } from "@/modules/app/store/stores";
 import Dropzone from "@/modules/app/components/dropzone";
 import { DropFiles } from "@/modules/app/components/dropzone/types";
+import { ProductModel } from "../../models/product-model";
+import { currency } from "@/formatting";
 
 const initialStep = tv({
   slots: {
@@ -93,12 +95,14 @@ export type InitialStepSchema = z.input<typeof initialStepSchema>;
 
 interface InitialStepProps {
   category: string;
+  product?: ProductModel;
   onClose: () => void;
   onUpdateProducts: () => void;
 }
 
 export function InitialStep({
   category,
+  product,
   onClose,
   onUpdateProducts,
 }: InitialStepProps) {
@@ -112,6 +116,11 @@ export function InitialStep({
   const store = useStore((state) => state.store);
   const [files, setFiles] = useState<DropFiles[]>([]);
   const [originalFiles, setOriginalFiles] = useState<File[]>(null);
+  const [shouldShowImage, setShouldShowImage] = useState<boolean>(
+    !product.image
+  );
+
+  const isEdit = !!product;
 
   const {
     formState: { errors },
@@ -122,31 +131,64 @@ export function InitialStep({
     resolver: zodResolver(initialStepSchema),
     mode: "onSubmit",
     defaultValues: {
-      type: "",
-      serves: 0,
+      name: product?.name || "",
+      description: product?.description || "",
+      price: {
+        original: currency(product?.price?.original) || "",
+        promotional: currency(product?.price?.promotional) || "",
+      },
+      cooled: product?.cooled || false,
+      type: product?.type || "",
+      serves: product?.serves || 0,
     },
   });
+
+  useEffect(() => {
+    if (product) {
+      setType(product.type);
+      setPromotional(!!product.price.promotional);
+      setCooled(product.cooled);
+    }
+  }, [product]);
 
   async function onSubmit(data: InitialStepSchema) {
     startProductLoading();
     try {
-      const product = {
-        ...data,
-        category,
-      };
+      if (!isEdit) {
+        const product = {
+          ...data,
+          category,
+        };
 
-      const { data: productResponse } = await productsService.createProduct(
-        store.id,
-        product as unknown as CreateProduct
-      );
+        const { data: productResponse } = await productsService.createProduct(
+          store.id,
+          product as unknown as CreateProduct
+        );
 
-      const form = new FormData();
+        const form = new FormData();
 
-      form.append("image", originalFiles[0]);
+        form.append("image", originalFiles[0]);
 
-      await productsService.uploadImage(store.id, productResponse.id, form);
+        await productsService.uploadImage(store.id, productResponse.id, form);
 
-      success("Produto criado com sucesso");
+        success("Produto criado com sucesso");
+      } else {
+        await productsService.updateProduct(
+          store.id,
+          product?.id,
+          data as unknown as CreateProduct
+        );
+
+        if (originalFiles) {
+          const form = new FormData();
+          form.append("image", originalFiles[0]);
+
+          await productsService.uploadImage(store.id, product.id, form);
+        }
+
+        success("Produto editado com sucesso");
+      }
+
       onUpdateProducts();
       onClose();
     } catch (catchError) {
@@ -161,15 +203,33 @@ export function InitialStep({
     <div className="mb-10">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4">
-          <Filed label="Image" error={null} htmlFor="image">
-            <Dropzone
-              files={files}
-              onDrop={(files, originalFile) => {
-                setFiles(files);
-                setOriginalFiles(originalFile);
-              }}
-            />
-          </Filed>
+          {shouldShowImage ? (
+            <Filed label="Image" error={null} htmlFor="image">
+              <Dropzone
+                files={files}
+                onDrop={(files, originalFile) => {
+                  setFiles(files);
+                  setOriginalFiles(originalFile);
+                }}
+              />
+            </Filed>
+          ) : (
+            <div className="flex items-center justify-center w-full h-40 bg-gray-800 rounded-lg relative">
+              <img
+                src={product?.image}
+                alt="product"
+                className="w-full h-40 object-cover rounded-lg"
+              />
+
+              <button
+                type="button"
+                className="absolute -right-2 -top-2 w-5 h-5 bg-gray-200 rounded-full flex items-center justify-center"
+                onClick={() => setShouldShowImage(true)}
+              >
+                <X size={20} className="text-white" />
+              </button>
+            </div>
+          )}
 
           <TextFiled
             label="Nome do produto"
