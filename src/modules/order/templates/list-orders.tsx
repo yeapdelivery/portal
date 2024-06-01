@@ -42,7 +42,7 @@ export function ListOrders() {
 
   function fetchOrders(): void {
     axios
-      .get(`https://api.yeapdelivery.com.br/api/order`)
+      .get(`https://admin.yeapdelivery.com.br/api/order`)
       .then(({ data }) => {
         const ordersResponse = data.orders;
         setOrders({
