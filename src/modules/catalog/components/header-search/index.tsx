@@ -1,8 +1,11 @@
-import Button from "@/modules/app/components/button/button";
 import useDebounce from "@/modules/app/hooks/use-debounce";
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import { CategoryModal } from "../category-modal";
 
-export function HeaderSearch() {
+interface HeaderSearchProps {
+  updateProducts: () => void;
+}
+
+export function HeaderSearch({ updateProducts }: HeaderSearchProps) {
   const debouncedChange = useDebounce(handleChange, 500);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -17,10 +20,9 @@ export function HeaderSearch() {
         <span className="lg:hidden text-lg font-bold text-gray-100 font-rubik">
           Categorias
         </span>
-
-        <Button className="w-34 lg:w-80" startIcon={Plus}>
-          Adicionar categoria
-        </Button>
+        <div>
+          <CategoryModal updateProducts={updateProducts} />
+        </div>
       </div>
     </div>
   );

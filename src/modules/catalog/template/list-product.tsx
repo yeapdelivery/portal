@@ -32,9 +32,8 @@ export default function ListProduct() {
     );
 
   return (
-    <div className="px-5 mt-8">
-      <HeaderSearch />
-      <CategoryModal />
+    <div className="px-5 mt-8 mb-20">
+      <HeaderSearch updateProducts={loadProducts} />
       <ProductsList products={products} onUpdateProducts={loadProducts} />
     </div>
   );

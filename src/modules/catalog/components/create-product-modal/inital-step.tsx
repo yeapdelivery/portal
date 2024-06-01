@@ -117,7 +117,7 @@ export function InitialStep({
   const [files, setFiles] = useState<DropFiles[]>([]);
   const [originalFiles, setOriginalFiles] = useState<File[]>(null);
   const [shouldShowImage, setShouldShowImage] = useState<boolean>(
-    !product.image
+    !product?.image
   );
 
   const isEdit = !!product;
@@ -165,11 +165,13 @@ export function InitialStep({
           product as unknown as CreateProduct
         );
 
-        const form = new FormData();
+        if (originalFiles.length) {
+          const form = new FormData();
 
-        form.append("image", originalFiles[0]);
+          form.append("image", originalFiles[0]);
 
-        await productsService.uploadImage(store.id, productResponse.id, form);
+          await productsService.uploadImage(store.id, productResponse.id, form);
+        }
 
         success("Produto criado com sucesso");
       } else {
@@ -179,7 +181,7 @@ export function InitialStep({
           data as unknown as CreateProduct
         );
 
-        if (originalFiles) {
+        if (originalFiles.length) {
           const form = new FormData();
           form.append("image", originalFiles[0]);
 

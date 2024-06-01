@@ -16,7 +16,7 @@ export function ProductsList({
   return (
     <div>
       {products.map((categoryWithProducts, index, originalArray) => (
-        <div key={index}>
+        <div key={index} id={categoryWithProducts.category.id}>
           <div className="mt-9">
             <div className="flex items-center gap-2">
               <span className="text-gray-100 text-lg font-bold font-outfit">

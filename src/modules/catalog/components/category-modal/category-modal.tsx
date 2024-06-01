@@ -1,110 +1,103 @@
 "use client";
 
+import Button from "@/modules/app/components/button/button";
 import Dialog from "@/modules/app/components/dialog";
-import { List, PencilSimple } from "@phosphor-icons/react";
-import { tv } from "tailwind-variants";
+import TextFiled from "@/modules/app/components/text-filed";
+import { useLoading, useToast } from "@/modules/app/hooks";
+import { useStore } from "@/modules/app/store/stores";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus } from "@phosphor-icons/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { categoryService } from "../../services/category.service";
+import Toast from "@/modules/app/components/toast";
+import { useState } from "react";
 
-const categoriesStyle = tv({
-  slots: {
-    button: [
-      "flex px-2 lg:hidden mt-6 justify-between",
-      "items-center h-9 text-gray-100 bg-white w-full rounded",
-    ],
-
-    items: [
-      "w-full text-gray-500 text- rounded h-7",
-      "flex items-center justify-center hover:justify-between rounded",
-      "px-2 group hover:text-red-primary-dark hover:bg-red-secondary-100",
-    ],
-  },
-
-  variants: {
-    active: {
-      true: {
-        items: "text-red-primary-dark bg-[#FEEAEC]",
-      },
-    },
-  },
+const categorySchema = z.object({
+  name: z.string().min(0, "Nome da categoria é obrigatório"),
 });
 
-export function CategoryModal() {
-  const { button, items } = categoriesStyle();
+type CategorySchema = z.infer<typeof categorySchema>;
+
+interface CategoryModalProps {
+  updateProducts: () => void;
+}
+
+export function CategoryModal({ updateProducts }: CategoryModalProps) {
+  const [open, setOpen] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CategorySchema>({
+    resolver: zodResolver(categorySchema),
+  });
+  const [isLoading, startLoading, stopLoading] = useLoading();
+  const { error: errorToast, success, setToast, toast } = useToast();
+
+  const store = useStore((state) => state.store);
+
+  async function onSubmit(data: CategorySchema) {
+    startLoading();
+    try {
+      await categoryService.addCategory(data.name, store.id);
+      success("Categoria adicionada com sucesso");
+
+      setOpen(false);
+      updateProducts();
+    } catch (error) {
+      console.error(error);
+      errorToast("Erro ao adicionar categoria");
+    } finally {
+      stopLoading();
+    }
+  }
 
   return (
-    <Dialog>
-      <Dialog.Button asChild>
-        <button className={button()}>
-          <span>Hamburgers</span>
-          <List size={32} />
-        </button>
-      </Dialog.Button>
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog.Button asChild>
+          <Button className="w-34 lg:w-80" startIcon={Plus}>
+            Adicionar categoria
+          </Button>
+        </Dialog.Button>
 
-      <Dialog.Content
-        titleSlot={
-          <div className="flex justify-between items-center relative">
-            <h1 className="text-lg font-bold">Categorias</h1>
-          </div>
-        }
-      >
-        <hr className="border border-dashed border-gray-700" />
-        <ul className="mt-10 space-y-4">
-          <li>
-            <button className={items()}>
-              <span></span>
-              <span className="text-gray-500 group-hover:text-red-primary-dark">
-                Hamburgueres
-              </span>
-              <PencilSimple
-                weight="bold"
-                size={16}
-                className="text-red-default hidden group-hover:block"
+        <Dialog.Content title="Adicionar categoria">
+          <form
+            className="flex flex-col gap-4"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <TextFiled
+              label="Nome da categoria"
+              error={errors?.name?.message}
+              htmlFor="category"
+            >
+              <TextFiled.Input
+                id="category"
+                placeholder="Nome da categoria"
+                {...register("name")}
               />
-            </button>
-          </li>
+            </TextFiled>
 
-          <li>
-            <button className={items()}>
-              <span></span>
-              <span className="text-gray-500 group-hover:text-red-primary-dark">
-                Bebidas
-              </span>
-              <PencilSimple
-                weight="bold"
-                size={16}
-                className="text-red-default hidden group-hover:block"
-              />
-            </button>
-          </li>
-
-          <li>
-            <button className={items()}>
-              <span></span>
-              <span className="text-gray-500 group-hover:text-red-primary-dark">
-                Sobremesas
-              </span>
-              <PencilSimple
-                weight="bold"
-                size={16}
-                className="text-red-default hidden group-hover:block"
-              />
-            </button>
-          </li>
-
-          <li>
-            <button className={items()}>
-              <span></span>
-              <span className="text-gray-500 group-hover:text-red-primary-dark">
-                Combos
-              </span>
-              <PencilSimple
-                weight="bold"
-                size={16}
-                className="text-red-default hidden group-hover:block"
-              />
-            </button>
-          </li>
-        </ul>
-      </Dialog.Content>
-    </Dialog>
+            <Button
+              className="w-full h-9"
+              type="submit"
+              isLoading={isLoading}
+              disabled={isLoading}
+            >
+              Adicionar
+            </Button>
+          </form>
+        </Dialog.Content>
+      </Dialog>
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        type={toast.type}
+        setOpen={() => {
+          setToast({ open: false, message: "" });
+        }}
+      />
+    </>
   );
 }
