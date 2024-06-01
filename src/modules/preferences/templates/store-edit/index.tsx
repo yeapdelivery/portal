@@ -210,8 +210,6 @@ export function ScreenStore() {
           name={store.name}
           profileImage={store.logo}
           email={store.email}
-          cancel={() => {}}
-          save={() => {}}
         />
       </section>
 

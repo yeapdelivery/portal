@@ -9,6 +9,7 @@ import { useStore } from "@/modules/app/store/stores";
 import { preferencesService } from "../../services";
 import Toast from "@/modules/app/components/toast";
 import { useLoading, useToast } from "@/modules/app/hooks";
+import { EmptyImage } from "@/modules/app/components/empty-image";
 
 interface StoreDataProps {
   errors: FieldErrors<EditStore>;
@@ -64,13 +65,19 @@ export function StoreData({ errors, register, setValue }: StoreDataProps) {
       <div className="flex flex-col-reverse md:flex-col w-full">
         <div className="flex flex-col gap-4 md:flex-row">
           <div>
-            <Image
-              src={store.logo}
-              width={121}
-              height={121}
-              alt="company logo type"
-              className="rounded-full z-50"
-            />
+            {store.logo ? (
+              <Image
+                src={store.logo}
+                width={121}
+                height={121}
+                alt="company logo type"
+                className="rounded-full z-50"
+              />
+            ) : (
+              <div className="rounded-full w-[121px] h-[121px]">
+                <EmptyImage className="rounded-full" />
+              </div>
+            )}
           </div>
           <div className="w-full">
             <Dropzone

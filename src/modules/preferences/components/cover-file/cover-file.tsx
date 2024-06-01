@@ -6,6 +6,7 @@ import Image from "next/image";
 import { tv } from "tailwind-variants";
 import { preferencesService } from "../../services";
 import Spinner from "@/modules/app/components/spinner/spinner";
+import { EmptyImage } from "@/modules/app/components/empty-image";
 
 const coverFile = tv({
   slots: {
@@ -57,6 +58,8 @@ export function CoverFile() {
     }
   }
 
+  console.log(store);
+
   return (
     <div className={container()}>
       <input
@@ -66,7 +69,7 @@ export function CoverFile() {
         onChange={handleFileChange}
       />
       <div className={overlay()}>Alterar imagem de fundo</div>
-      {!isLoading ? (
+      {!isLoading && store?.cover?.length > 0 && (
         <img
           data-test="background-image"
           src={store.cover}
@@ -75,9 +78,14 @@ export function CoverFile() {
           height={186}
           className="w-full h-[186px] object-cover"
         />
-      ) : (
-        <Spinner />
       )}
+      {isLoading && <Spinner />}
+      {!store.cover && !isLoading && (
+        <div className="w-full h-[186px]">
+          <EmptyImage />
+        </div>
+      )}
+
       <Toast
         message={toast.message}
         open={toast.open}
