@@ -13,7 +13,7 @@ interface PrivateLayoutProps {
 export default async function PrivateLayout({ children }: PrivateLayoutProps) {
   const session = await getServerSession(nextAuthOptions);
 
-  configureAxiosInterceptors(session.store.accessToken);
+  configureAxiosInterceptors(session?.store?.accessToken);
 
   if (!session) {
     redirect("/");

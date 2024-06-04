@@ -55,12 +55,18 @@ const editStoreSchema = z
         .number()
         .or(z.string())
         .transform((value) => Number(value)),
-      estimatedMaxTime: z.number().min(1, "Tempo máximo obrigatório"),
+      estimatedMaxTime: z
+        .string()
+        .min(1, "Tempo máximo obrigatório")
+        .transform((value) => Number(value.replace(/\D/g, ""))),
       minOrder: z
-        .number()
-        .or(z.string())
-        .transform((value) => Number(value)),
-      estimatedMinTime: z.number().min(1, "Tempo máximo obrigatório"),
+        .string()
+        .min(1, "Pedido mínimo obrigatório")
+        .transform((value) => Number(value.replace(/\D/g, ""))),
+      estimatedMinTime: z
+        .string()
+        .min(1, "Tempo máximo obrigatório")
+        .transform((value) => Number(value.replace(/\D/g, ""))),
     }),
     openingHours: z.object({
       sunday: z
@@ -109,7 +115,10 @@ const editStoreSchema = z
   })
   .refine(
     (data) => {
-      if (data.delivery.estimatedMinTime >= data.delivery.estimatedMaxTime) {
+      if (
+        Number(data.delivery.estimatedMinTime) >=
+        Number(data.delivery.estimatedMaxTime)
+      ) {
         return false;
       }
 
@@ -199,6 +208,8 @@ export function ScreenStore() {
       stopLoading();
     }
   }
+
+  console.log(errors);
 
   if (!store.id) return <h1>Carregando</h1>;
 

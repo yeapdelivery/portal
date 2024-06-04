@@ -4,6 +4,7 @@ import StoreModel from "../models/store";
 interface Store {
   store: StoreModel;
   setStore: (settings: Partial<StoreModel>) => void;
+  clearStore: () => void;
 }
 
 export const useStore = create<Store>((set) => ({
@@ -14,5 +15,9 @@ export const useStore = create<Store>((set) => ({
         ...state.store,
         ...settings,
       },
+    })),
+  clearStore: () =>
+    set(() => ({
+      store: {} as StoreModel,
     })),
 }));

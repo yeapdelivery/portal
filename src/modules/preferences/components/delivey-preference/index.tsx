@@ -102,7 +102,7 @@ export function Delivery({
 
                       setMinOrder(`R$ ${number}`);
 
-                      setValue("delivery.minOrder", Number(number));
+                      setValue("delivery.minOrder", `${number}` as any);
                     }}
                   />
                 </TextFiled>
