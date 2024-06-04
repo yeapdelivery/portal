@@ -209,8 +209,6 @@ export function ScreenStore() {
     }
   }
 
-  console.log(errors);
-
   if (!store.id) return <h1>Carregando</h1>;
 
   return (
