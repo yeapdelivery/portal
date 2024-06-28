@@ -4,18 +4,22 @@ import Dialog from "@/modules/app/components/dialog";
 import { PencilSimple } from "@phosphor-icons/react";
 import { InitialStep } from "../create-product-modal/inital-step";
 import { useState } from "react";
-import { ProductModel } from "../../models/product-model";
+import { ProductModel, ProductVariant } from "../../models/product-model";
 
 interface ProductModalProps {
   product: ProductModel;
   category: string;
   onUpdateProducts: () => void;
+  openVariationProduct?: () => void;
+  selectVariationProduct?: (selectedVariant: ProductVariant) => void;
 }
 
 export function ProductModal({
   category,
   product,
   onUpdateProducts,
+  openVariationProduct,
+  selectVariationProduct,
 }: ProductModalProps) {
   const [open, setOpen] = useState(false);
 
@@ -27,12 +31,14 @@ export function ProductModal({
         </button>
       </Dialog.Button>
 
-      <Dialog.Content>
+      <Dialog.Content className="h-full overflow-scroll">
         <InitialStep
           product={product}
           category={category}
           onClose={() => setOpen(false)}
           onUpdateProducts={onUpdateProducts}
+          openVariationProduct={openVariationProduct}
+          selectVariationProduct={selectVariationProduct}
         />
       </Dialog.Content>
     </Dialog>

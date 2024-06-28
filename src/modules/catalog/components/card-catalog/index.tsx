@@ -1,8 +1,11 @@
 import Image from "next/image";
 import { ProductModal } from "../product-modal";
-import { ProductModel } from "../../models/product-model";
+import { ProductModel, ProductVariant } from "../../models/product-model";
 import { currency } from "@/formatting";
 import { ImageSquare } from "@phosphor-icons/react/dist/ssr";
+import { CreateVariationProductModal } from "../variation-product";
+import { useModal } from "@/modules/app/hooks";
+import React from "react";
 
 interface CardCatalogProps {
   product: ProductModel;
@@ -15,12 +18,25 @@ export function CardCatalog({
   category,
   onUpdateProducts,
 }: CardCatalogProps) {
+  const [selectedVariant, setSelectedVariant] =
+    React.useState<ProductVariant | null>();
+  const [productData, setProductData] = React.useState<ProductModel>(product);
+  const {
+    open: openCreateVariationProduct,
+    openModal: onOpenCreateVariationProduct,
+    closeModal: onCloseCreateVariationProduct,
+  } = useModal();
+
+  function updateProduct(product: ProductModel) {
+    setProductData(product);
+  }
+
   return (
     <div className="p-3 bg-white rounded-xl flex gap-4">
-      {product.image ? (
+      {productData.image ? (
         <div>
           <Image
-            src={product.image}
+            src={productData.image}
             alt="hamburguer"
             width={117}
             height={117}
@@ -37,25 +53,37 @@ export function CardCatalog({
         <div className="flex flex-col justify-between h-full">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-gray-100 font-bold">{product?.name}</span>
+              <span className="text-gray-100 font-bold">
+                {productData?.name}
+              </span>
 
               <ProductModal
-                product={product}
+                product={productData}
                 category={category}
                 onUpdateProducts={onUpdateProducts}
+                openVariationProduct={onOpenCreateVariationProduct}
+                selectVariationProduct={setSelectedVariant}
               />
             </div>
 
             <div className="max-w-[80%] mt-1 font-outfit text-gray-100 text-[10px]">
-              <p className="line-clamp-3">{product?.description}</p>
+              <p className="line-clamp-3">{productData?.description}</p>
             </div>
           </div>
 
           <span className="text-[10px] text-gray-100 font-bold">
-            {currency(product?.price?.original)}
+            {currency(productData?.price?.original)}
           </span>
         </div>
       </div>
+
+      <CreateVariationProductModal
+        open={openCreateVariationProduct}
+        variant={selectedVariant}
+        productId={productData?.id}
+        onClose={() => onCloseCreateVariationProduct()}
+        updateProducts={updateProduct}
+      />
     </div>
   );
 }

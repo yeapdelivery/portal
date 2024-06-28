@@ -3,7 +3,7 @@ import Filed from "@/modules/app/components/filed";
 import Input from "@/modules/app/components/input";
 
 interface TextFiledProps extends React.HTMLProps<HTMLDivElement> {
-  htmlFor: string;
+  htmlFor?: string;
   label?: string;
   error: string | null;
   required?: boolean;

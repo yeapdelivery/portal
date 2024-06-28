@@ -19,6 +19,22 @@ export interface CategoryWithProducts {
   products: ProductModel[];
 }
 
+export interface ProductVariationOption {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+}
+
+export interface ProductVariant {
+  id: string;
+  name: string;
+  isRequired: boolean;
+  min: number;
+  max: number;
+  options: ProductVariationOption[];
+}
+
 export interface ProductModel {
   id: string;
   name: string;
@@ -31,4 +47,5 @@ export interface ProductModel {
   description: string;
   image: string;
   cooled: boolean;
+  variations: ProductVariant[];
 }

@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
-import { Coffee, X } from "@phosphor-icons/react";
+import { Coffee, PencilSimple, X } from "@phosphor-icons/react";
 import { tv } from "tailwind-variants";
 import { useForm } from "react-hook-form";
 
@@ -21,7 +22,7 @@ import {
 import { useStore } from "@/modules/app/store/stores";
 import Dropzone from "@/modules/app/components/dropzone";
 import { DropFiles } from "@/modules/app/components/dropzone/types";
-import { ProductModel } from "../../models/product-model";
+import { ProductModel, ProductVariant } from "../../models/product-model";
 import { currency } from "@/formatting";
 
 const initialStep = tv({
@@ -79,8 +80,6 @@ const initialStepSchema = z
   })
   .refine(
     (value) => {
-      console.log(value.type);
-
       return Object.values(ProductTypeEnum).includes(
         value.type as unknown as ProductTypeEnum
       );
@@ -98,6 +97,8 @@ interface InitialStepProps {
   product?: ProductModel;
   onClose: () => void;
   onUpdateProducts: () => void;
+  openVariationProduct?: () => void;
+  selectVariationProduct?: (selectedVariation: ProductVariant) => void;
 }
 
 export function InitialStep({
@@ -105,6 +106,8 @@ export function InitialStep({
   product,
   onClose,
   onUpdateProducts,
+  openVariationProduct,
+  selectVariationProduct,
 }: InitialStepProps) {
   const { cardType } = initialStep();
   const [type, setType] = useState<ProductTypeEnum>();
@@ -165,7 +168,7 @@ export function InitialStep({
           product as unknown as CreateProduct
         );
 
-        if (originalFiles.length) {
+        if (originalFiles?.length) {
           const form = new FormData();
 
           form.append("image", originalFiles[0]);
@@ -181,7 +184,7 @@ export function InitialStep({
           data as unknown as CreateProduct
         );
 
-        if (originalFiles.length) {
+        if (originalFiles?.length) {
           const form = new FormData();
           form.append("image", originalFiles[0]);
 
@@ -381,7 +384,53 @@ export function InitialStep({
           )}
         </div>
 
-        <div className="flex gap-2 mt-10">
+        {product.type === ProductTypeEnum.COMPLEX && (
+          <div className="mt-4">
+            {!product?.variations?.length ? (
+              <div>
+                <span className="text-gray-100">
+                  Nenhuma variação adicionada
+                </span>
+              </div>
+            ) : (
+              <div>
+                <span className="text-gray-100">Variações adicionadas</span>
+                <div>
+                  {product.variations.map((variation, index) => (
+                    <div
+                      key={index}
+                      className="mt-1 flex items-center justify-between"
+                    >
+                      <span className="text-red-default ">
+                        {variation.name}
+                      </span>
+
+                      <button
+                        onClick={() =>
+                          selectVariationProduct &&
+                          selectVariationProduct(variation)
+                        }
+                      >
+                        <PencilSimple size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={openVariationProduct}
+              className="mt-2"
+            >
+              Adicionar variações
+            </Button>
+          </div>
+        )}
+
+        <div className="flex gap-2 mt-10 mb-20">
           <Button
             disabled={isProductLoading}
             type="button"

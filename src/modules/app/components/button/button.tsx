@@ -22,7 +22,7 @@ const button = tv({
       },
       secondary: {
         container: [
-          "bg-transparent text-red-default hover:bg-red-default hover:text-white",
+          "bg-transparent text-red-default hover:bg-red-100",
           "border border-red-default",
           "active:animate-pulse-click",
         ],

@@ -12,7 +12,7 @@ const filed = tv({
 
 interface FiledProps extends React.HTMLProps<HTMLDivElement> {
   label: string;
-  htmlFor: string;
+  htmlFor?: string;
   children: ReactNode;
   error: string | null;
   required?: boolean;

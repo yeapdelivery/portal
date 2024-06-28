@@ -58,8 +58,6 @@ export function CoverFile() {
     }
   }
 
-  console.log(store);
-
   return (
     <div className={container()}>
       <input
