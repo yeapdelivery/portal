@@ -45,6 +45,10 @@ export class ProductsService {
       form
     );
   }
+
+  async deleteProduct(storeId: string, productId: string) {
+    return await api.delete(`/admin/stores/${storeId}/products/${productId}`);
+  }
 }
 
 export const productsService = new ProductsService();

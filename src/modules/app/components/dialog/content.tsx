@@ -10,19 +10,37 @@ const dialog = tv({
       "data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out",
       "bg-black/50 fixed inset-0",
     ],
-    content: [
-      "bg-white fixed top-0 right-0 bottom-0 left-0 md:left-auto md:w-96",
-      "data-[state=open]:animate-animation-modal-fade-in",
-      "data-[state=closed]:animate-animation-modal-fade-out",
-    ],
+    content: ["bg-white fixed w-96"],
+  },
+
+  variants: {
+    position: {
+      left: {
+        content: [
+          "left-0 top-0 right-0 bottom-0 md:left-auto ",
+          "data-[state=open]:animate-animation-modal-fade-in",
+          "data-[state=closed]:animate-animation-modal-fade-out",
+        ],
+      },
+      center: {
+        content: [
+          "rounded-xl",
+          "transform translate-x-[-50%] translate-y-[-50%]",
+          "top-[50%] bottom-auto left-[50%] max-h-[85vh]",
+          "data-[state=open]:animate-fade-in-center-modal",
+          "data-[state=closed]:animate-fade-out-center-modal",
+        ],
+      },
+    },
   },
 });
 
-interface DialogContent {
+interface DialogContentProps {
   children: React.ReactNode;
   titleSlot?: React.ReactNode;
   title?: string;
   className?: string;
+  position?: "left" | "center";
 }
 
 export function DialogContent({
@@ -30,8 +48,9 @@ export function DialogContent({
   title,
   children,
   className,
-}: DialogContent) {
-  const { content, overlay } = dialog();
+  position = "left",
+}: DialogContentProps) {
+  const { content, overlay } = dialog({ position });
 
   return (
     <DialogRx.Portal>
@@ -41,17 +60,19 @@ export function DialogContent({
         data-test="dialog-content"
       >
         <div className="flex items-center justify-between py-6 px-5 ">
-          <div />
+          {position === "left" && <div />}
           <DialogRx.Title asChild={!!titleSlot}>
             {titleSlot ? (
               titleSlot
             ) : (
-              <span
-                data-test="dialog-title"
-                className="text-red-default text-sm font-medium"
-              >
-                {title}
-              </span>
+              <div className="w-80">
+                <span
+                  data-test="dialog-title"
+                  className="text-red-default text-sm font-medium"
+                >
+                  {title}
+                </span>
+              </div>
             )}
           </DialogRx.Title>
           <DialogRx.Close asChild data-test="dialog-close">
@@ -60,7 +81,7 @@ export function DialogContent({
             </button>
           </DialogRx.Close>
         </div>
-        <div className="px-5">{children}</div>
+        <div className="px-5 pb-5">{children}</div>
       </DialogRx.Content>
     </DialogRx.Portal>
   );

@@ -13,7 +13,7 @@ import { Checkbox } from "@/modules/app/components/check-box";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/modules/app/components/button/button";
-import { useLoading, useToast } from "@/modules/app/hooks";
+import { useLoading, useModal, useToast } from "@/modules/app/hooks";
 import Toast from "@/modules/app/components/toast";
 import {
   CreateProduct,
@@ -24,6 +24,9 @@ import Dropzone from "@/modules/app/components/dropzone";
 import { DropFiles } from "@/modules/app/components/dropzone/types";
 import { ProductModel, ProductVariant } from "../../models/product-model";
 import { currency } from "@/formatting";
+import { Trash } from "@phosphor-icons/react/dist/ssr";
+import Dialog from "@/modules/app/components/dialog/dialog";
+import { variantService } from "../../services/variant.service";
 
 const initialStep = tv({
   slots: {
@@ -113,15 +116,29 @@ export function InitialStep({
   const [type, setType] = useState<ProductTypeEnum>();
   const [promotional, setPromotional] = useState<boolean>(false);
   const [cooled, setCooled] = useState<boolean>(false);
-  const [isProductLoading, startProductLoading, stopProductLoading] =
-    useLoading();
   const { error, success, setToast, toast } = useToast();
   const store = useStore((state) => state.store);
   const [files, setFiles] = useState<DropFiles[]>([]);
   const [originalFiles, setOriginalFiles] = useState<File[]>(null);
+  const [variations, setVariations] = useState<ProductVariant[]>(
+    product?.variations
+  );
   const [shouldShowImage, setShouldShowImage] = useState<boolean>(
     !product?.image
   );
+  const [selectedVariation, setSelectedVariation] = useState<ProductVariant>();
+  const {
+    open: openDialogDeleteVariation,
+    openModal: onOpenDialogDeleteVariation,
+    closeModal: onCloseDialogDeleteVariation,
+  } = useModal();
+  const [isProductLoading, startProductLoading, stopProductLoading] =
+    useLoading();
+  const [
+    isLoadingDeleteVariation,
+    startDeleteVariationLoading,
+    stopDeleteVariationLoading,
+  ] = useLoading();
 
   const isEdit = !!product;
 
@@ -145,6 +162,12 @@ export function InitialStep({
       serves: product?.serves || 0,
     },
   });
+
+  useEffect(() => {
+    if (product) {
+      setVariations(product.variations);
+    }
+  }, [product]);
 
   useEffect(() => {
     if (product) {
@@ -201,6 +224,33 @@ export function InitialStep({
       error("Erro ao criar produto");
     } finally {
       stopProductLoading();
+    }
+  }
+
+  function handleSelectedVariant(variant: ProductVariant) {
+    setSelectedVariation(variant);
+    onOpenDialogDeleteVariation();
+  }
+
+  async function handleDeleteVariation() {
+    startDeleteVariationLoading();
+    try {
+      await variantService.deleteVariant(
+        selectedVariation.id,
+        store.id,
+        product.id
+      );
+
+      success("Variação deletada com sucesso");
+      onCloseDialogDeleteVariation();
+      setVariations((prev) =>
+        prev.filter((variation) => variation.id !== selectedVariation.id)
+      );
+    } catch (error) {
+      console.error(error);
+      error("Erro ao deletar variação");
+    } finally {
+      stopDeleteVariationLoading();
     }
   }
 
@@ -384,7 +434,7 @@ export function InitialStep({
           )}
         </div>
 
-        {product.type === ProductTypeEnum.COMPLEX && (
+        {product?.type === ProductTypeEnum.COMPLEX && (
           <div className="mt-4">
             {!product?.variations?.length ? (
               <div>
@@ -396,7 +446,7 @@ export function InitialStep({
               <div>
                 <span className="text-gray-100">Variações adicionadas</span>
                 <div>
-                  {product.variations.map((variation, index) => (
+                  {variations.map((variation, index) => (
                     <div
                       key={index}
                       className="mt-1 flex items-center justify-between"
@@ -405,14 +455,24 @@ export function InitialStep({
                         {variation.name}
                       </span>
 
-                      <button
-                        onClick={() =>
-                          selectVariationProduct &&
-                          selectVariationProduct(variation)
-                        }
-                      >
-                        <PencilSimple size={16} />
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleSelectedVariant(variation)}
+                        >
+                          <Trash size={16} />
+                        </button>
+
+                        <button
+                          onClick={() =>
+                            selectVariationProduct &&
+                            selectVariationProduct(variation)
+                          }
+                          type="button"
+                        >
+                          <PencilSimple size={16} />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -456,6 +516,36 @@ export function InitialStep({
           setOpen={() => setToast({ open: false, message: "" })}
         />
       </form>
+
+      <Dialog
+        open={openDialogDeleteVariation}
+        onOpenChange={onCloseDialogDeleteVariation}
+      >
+        <Dialog.Content
+          title={`Deletar a variação ${selectedVariation?.name}`}
+          position="center"
+        >
+          <div>
+            <p>
+              Tem certeza que deseja deletar a variação{" "}
+              {selectedVariation?.name}?
+            </p>
+            <div className="flex justify-end gap-2 mt-4">
+              <Button variant="secondary" disabled={isLoadingDeleteVariation}>
+                Cancelar
+              </Button>
+              <Button
+                variant="error"
+                onClick={handleDeleteVariation}
+                disabled={isLoadingDeleteVariation}
+                isLoading={isLoadingDeleteVariation}
+              >
+                Deletar
+              </Button>
+            </div>
+          </div>
+        </Dialog.Content>
+      </Dialog>
     </div>
   );
 }

@@ -1,125 +1,29 @@
 import React, { useEffect } from "react";
-
 import Dialog from "@/modules/app/components/dialog/dialog";
 import Filed from "@/modules/app/components/filed";
 import TextArea from "@/modules/app/components/text-area";
 import TextFiled from "@/modules/app/components/text-filed";
 import {
-  ProductModel,
   ProductVariant,
   ProductVariationOption,
 } from "../../models/product-model";
 import { Trash } from "@phosphor-icons/react/dist/ssr";
 import Button from "@/modules/app/components/button/button";
 import { Plus } from "@phosphor-icons/react";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "@/modules/app/components/check-box";
-import { useLoading, useModal, useToast } from "@/modules/app/hooks";
+import { useLoading, useToast } from "@/modules/app/hooks";
 import { variantService } from "../../services/variant.service";
 import { useStore } from "@/modules/app/store/stores";
 import Toast from "@/modules/app/components/toast";
 import { currency } from "@/formatting";
-
-interface CreateVariationProductModalProps {
-  open: boolean;
-  variant: ProductVariant;
-  productId: string;
-  onClose: () => void;
-  updateProducts: (product: ProductModel) => void;
-}
-
-const emptyOption = {
-  id: `toCreate${Math.random()}`,
-  name: "",
-  price: 0,
-  description: "",
-};
-
-const variantSchema = z
-  .object({
-    name: z
-      .string()
-      .min(3, {
-        message: "O nome da variação deve ter no mínimo 3 caracteres",
-      })
-      .max(255),
-    isRequired: z.boolean(),
-    min: z
-      .string()
-      .min(1, {
-        message: "A quantidade mínima deve ser maior que 0",
-      })
-      .transform((value) => Number(value)),
-    max: z
-      .string()
-      .min(1, {
-        message: "A quantidade máxima deve ser maior que 0",
-      })
-      .transform((value) => Number(value)),
-    description: z.string().min(3, {
-      message: "A descrição deve ter no mínimo 3 caracteres",
-    }),
-    options: z.array(
-      z.object({
-        id: z.string().optional(),
-        name: z.string().min(3, {
-          message: "O nome da opção deve ter no mínimo 3 caracteres",
-        }),
-        price: z.string().transform((value) => {
-          const number = value.replace(/[^\d.,]/g, "").replace(",", ".");
-
-          return Number(number);
-        }),
-        description: z.string(),
-      })
-    ),
-  })
-  .refine(
-    (data) => {
-      const min = data.min;
-      const max = data.max;
-
-      if (min > max) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "A quantidade mínima não pode ser maior que a quantidade máxima",
-    }
-  )
-  .refine(
-    (data) => {
-      const options = data.options;
-
-      if (options.length < 1) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "Deve haver pelo menos uma opção",
-      path: ["options"],
-    }
-  )
-  .refine(
-    (data) => {
-      const options = data.options;
-
-      const hasEmptyOption = options.some((option) => !option.name);
-
-      return !hasEmptyOption;
-    },
-    {
-      message: "Nome Obrigatório",
-    }
-  );
-
-type VariationProductModalForm = z.infer<typeof variantSchema>;
+import {
+  CreateVariationProductModalProps,
+  emptyOption,
+  VariationProductModalForm,
+  variantSchema,
+} from "./variation-product-modal";
 
 export function VariationProductModal({
   open,
@@ -142,19 +46,8 @@ export function VariationProductModal({
   const [isRequired, setIsRequired] = React.useState<boolean>(
     variant?.isRequired
   );
-  const [optionUpdatedIds, setOptionUpdatedIds] = React.useState<string[]>([]);
-  const [selectedOption, setSelectedOption] =
-    React.useState<ProductVariationOption>();
-
   const [isLoading, startLoader, stopLoader] = useLoading();
-  const [isLoadingOptions, startLoaderOptions, stopLoaderOptions] =
-    useLoading();
   const { toast, error: errorToast, setToast, success } = useToast();
-  const {
-    open: openDeleteModal,
-    openModal: onOpenDeleteOptionModal,
-    closeModal: onCloseDeleteOptionModal,
-  } = useModal();
   const {
     register,
     setValue,
@@ -171,17 +64,17 @@ export function VariationProductModal({
       setValue("min", `${variant?.min}` as any);
       setValue("max", `${variant?.max}` as any);
       setValue("description", variant?.description);
-      const newOptions = initialProductOptions.map((option) => {
-        return {
-          id: option.id,
-          name: option.name,
-          price: currency(option.price) as any,
-          description: option.description,
-        };
-      });
-
-      setValue("options", newOptions);
-      setOptions(newOptions as any);
+      setValue(
+        "options",
+        initialProductOptions.map((option) => {
+          return {
+            name: option.name,
+            price: currency(option.price) as any,
+            description: option.description,
+          };
+        })
+      );
+      setOptions(initialProductOptions);
     }
   }, [variant]);
 
@@ -190,9 +83,7 @@ export function VariationProductModal({
   }
 
   function handleDeleteOption(index: number) {
-    const option = options[index];
-    setSelectedOption(option);
-    onOpenDeleteOptionModal();
+    setOptions((prev) => prev.filter((_, i) => i !== index));
   }
 
   function onChangesOptions(
@@ -203,17 +94,14 @@ export function VariationProductModal({
     const value = event.target.value;
     const newOptions = options.map((option, i) => {
       if (i === index) {
+        if (filed !== "price") {
+          return { ...option, price: currency(option.price), [filed]: value };
+        }
         return { ...option, [filed]: value };
       }
-      return option;
+      return { ...option, price: currency(option.price) };
     }) as any;
 
-    setOptionUpdatedIds((prev) => {
-      if (!prev.includes(options[index].id)) {
-        return [...prev, options[index].id];
-      }
-      return prev;
-    });
     setOptions(newOptions);
     setValue("options", newOptions);
   }
@@ -226,21 +114,11 @@ export function VariationProductModal({
   }
 
   async function createOption(data: VariationProductModalForm) {
-    const newData = {
-      ...data,
-      options: data.options.map((option) => ({
-        name: option.name,
-        price: option.price,
-        description: option.description,
-      })),
-    };
-
     const { data: newProduct } = await variantService.createVariant(
-      newData as Omit<ProductVariant, "id">,
+      data as Omit<ProductVariant, "id">,
       store.id,
       productId
     );
-
     updateProducts(newProduct);
     success("Variação criada com sucesso");
     onClose();
@@ -253,49 +131,7 @@ export function VariationProductModal({
       store.id,
       productId
     );
-
-    let optionsToUpdate = data.options.filter((option) =>
-      optionUpdatedIds.includes(option.id)
-    );
-
-    const optionToCreate = optionsToUpdate.filter((option) =>
-      option.id.includes("toCreate")
-    );
-
-    optionsToUpdate = optionsToUpdate.filter(
-      (option) => !option.id.includes("toCreate")
-    );
-
-    if (optionToCreate.length) {
-      const optionsToCreatePromises = optionToCreate.map((option) =>
-        variantService.updateVariantOptions(
-          variant.id,
-          store.id,
-          productId,
-          option as any
-        )
-      );
-
-      const optionsToCreateReturns = await Promise.all(optionsToCreatePromises);
-      updateProducts(optionsToCreateReturns[0].data);
-    }
-
-    const optionsToUpdatePromises = optionsToUpdate.map((option) =>
-      variantService.updateVariantOptions(
-        variant.id,
-        store.id,
-        productId,
-        option as any
-      )
-    );
-
-    const optionsReturns = await Promise.all(optionsToUpdatePromises);
-    if (optionsReturns.length) {
-      updateProducts(optionsReturns[0].data);
-    } else {
-      updateProducts(newProduct);
-    }
-
+    updateProducts(newProduct);
     success("Variação atualizada com sucesso");
     onClose();
     cleanValues(data);
@@ -304,39 +140,16 @@ export function VariationProductModal({
   async function onSubmit(data: VariationProductModalForm) {
     startLoader();
     try {
-      if (!variant || !variant.id) {
+      if (!productId) {
         return await createOption(data);
       }
+
+      await updateOption(data);
     } catch (error) {
       console.error(error);
       errorToast("Erro ao criar variação");
     } finally {
       stopLoader();
-    }
-  }
-
-  async function onDeleteOption() {
-    startLoaderOptions();
-    try {
-      await variantService.deleteVariantOption(
-        variant.id,
-        store.id,
-        productId,
-        selectedOption.id
-      );
-
-      onCloseDeleteOptionModal();
-      setOptions((prev) =>
-        prev.filter((option, i) => option.id !== selectedOption.id)
-      );
-      setSelectedOption(undefined);
-
-      success("Opção deletada com sucesso");
-    } catch (error) {
-      console.error(error);
-      errorToast("Erro ao deletar variação");
-    } finally {
-      stopLoaderOptions();
     }
   }
 
@@ -407,11 +220,8 @@ export function VariationProductModal({
               </span>
 
               <div className="space-y-4">
-                {options.map((option, index, originalOptions) => (
-                  <div
-                    key={option.id + index}
-                    className="flex items-end gap-4 w-full"
-                  >
+                {options.map((_option, index, originalOptions) => (
+                  <div key={index} className="flex items-end gap-4 w-full">
                     <div className="flex-1 space-y-3">
                       <div className="flex-1 flex items-start gap-4 w-full">
                         <TextFiled
@@ -422,8 +232,7 @@ export function VariationProductModal({
                         >
                           <TextFiled.Input
                             placeholder="Nome da opção"
-                            defaultValue={option.name ?? option.name}
-                            id={"name" + index}
+                            {...register(`options.${index}.name`)}
                             onChange={(event) =>
                               onChangesOptions(event, index, "name")
                             }
@@ -437,8 +246,7 @@ export function VariationProductModal({
                         >
                           <TextFiled.Input
                             placeholder="Preço"
-                            id={"price" + index}
-                            defaultValue={option.price ?? option.price}
+                            {...register(`options.${index}.price`)}
                             currency
                             onChange={(event) =>
                               onChangesOptions(event, index, "price")
@@ -453,17 +261,14 @@ export function VariationProductModal({
                       >
                         <TextArea
                           placeholder="Descrição"
-                          defaultValue={
-                            option.description ?? option.description
-                          }
-                          id={"description" + index}
+                          {...register(`options.${index}.description`)}
                           onChange={(event) =>
                             onChangesOptions(event, index, "description")
                           }
                         />
                       </Filed>
                     </div>
-                    {(originalOptions.length > 1 || variant?.id) && (
+                    {originalOptions.length > 1 && (
                       <button
                         onClick={() => handleDeleteOption(index)}
                         className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded text-red-default"
@@ -505,47 +310,14 @@ export function VariationProductModal({
               </div>
             </div>
           </form>
-
-          <Toast
-            open={toast.open}
-            message={toast.message}
-            type={toast.type}
-            setOpen={() => setToast({ open: false, message: "" })}
-          />
         </Dialog.Content>
       </Dialog>
-
-      <Dialog open={openDeleteModal} onOpenChange={onCloseDeleteOptionModal}>
-        <Dialog.Content
-          title={`Deletar a opção "${selectedOption?.name}"`}
-          position="center"
-        >
-          <div>
-            <p>Tem certeza que deseja deletar a opção?</p>
-            <div className="flex items-center justify-between gap-4 mt-6">
-              <Button
-                variant="secondary"
-                onClick={() => onCloseDeleteOptionModal()}
-                disabled={isLoadingOptions}
-                className="flex-1"
-                type="button"
-              >
-                Cancelar
-              </Button>
-              <Button
-                onClick={() => onDeleteOption()}
-                disabled={isLoadingOptions}
-                className="flex-1"
-                type="button"
-                variant="error"
-                isLoading={isLoadingOptions}
-              >
-                Deletar
-              </Button>
-            </div>
-          </div>
-        </Dialog.Content>
-      </Dialog>
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        type={toast.type}
+        setOpen={() => setToast({ open: false, message: "" })}
+      />
     </>
   );
 }

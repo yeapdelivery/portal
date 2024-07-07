@@ -3,9 +3,14 @@ import { ProductModal } from "../product-modal";
 import { ProductModel, ProductVariant } from "../../models/product-model";
 import { currency } from "@/formatting";
 import { ImageSquare } from "@phosphor-icons/react/dist/ssr";
-import { CreateVariationProductModal } from "../variation-product";
-import { useModal } from "@/modules/app/hooks";
+import { VariationProductModal } from "../variation-product";
+import { useLoading, useModal } from "@/modules/app/hooks";
 import React from "react";
+import { Trash } from "@phosphor-icons/react";
+import Dialog from "@/modules/app/components/dialog";
+import Button from "@/modules/app/components/button/button";
+import { productsService } from "../../services/list-product-service";
+import { useStore } from "@/modules/app/store/stores";
 
 interface CardCatalogProps {
   product: ProductModel;
@@ -26,9 +31,39 @@ export function CardCatalog({
     openModal: onOpenCreateVariationProduct,
     closeModal: onCloseCreateVariationProduct,
   } = useModal();
+  const {
+    open: openDeleteProduct,
+    openModal: onOpenDeleteProduct,
+    closeModal: onCloseDeleteProduct,
+  } = useModal();
+  const [
+    loadingDeleteProduct,
+    startLoaderDeleteProduct,
+    stopLoaderDeleteProduct,
+  ] = useLoading();
+  const store = useStore((state) => state.store);
 
   function updateProduct(product: ProductModel) {
     setProductData(product);
+  }
+
+  function handleSelectedVariant(variant: ProductVariant) {
+    setSelectedVariant(variant);
+    onOpenCreateVariationProduct();
+  }
+
+  async function handleDeleteProduct() {
+    startLoaderDeleteProduct();
+    try {
+      await productsService.deleteProduct(store.id, product.id);
+
+      onCloseDeleteProduct();
+      onUpdateProducts();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      stopLoaderDeleteProduct();
+    }
   }
 
   return (
@@ -57,13 +92,21 @@ export function CardCatalog({
                 {productData?.name}
               </span>
 
-              <ProductModal
-                product={productData}
-                category={category}
-                onUpdateProducts={onUpdateProducts}
-                openVariationProduct={onOpenCreateVariationProduct}
-                selectVariationProduct={setSelectedVariant}
-              />
+              <div className="flex gap-4">
+                <button
+                  onClick={onOpenDeleteProduct}
+                  className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded"
+                >
+                  <Trash weight="bold" size={16} className="text-red-default" />
+                </button>
+                <ProductModal
+                  product={productData}
+                  category={category}
+                  onUpdateProducts={onUpdateProducts}
+                  openVariationProduct={onOpenCreateVariationProduct}
+                  selectVariationProduct={handleSelectedVariant}
+                />
+              </div>
             </div>
 
             <div className="max-w-[80%] mt-1 font-outfit text-gray-100 text-[10px]">
@@ -77,13 +120,37 @@ export function CardCatalog({
         </div>
       </div>
 
-      <CreateVariationProductModal
+      <VariationProductModal
         open={openCreateVariationProduct}
         variant={selectedVariant}
         productId={productData?.id}
         onClose={() => onCloseCreateVariationProduct()}
         updateProducts={updateProduct}
       />
+
+      <Dialog open={openDeleteProduct} onOpenChange={onCloseDeleteProduct}>
+        <Dialog.Content
+          title={`Deletar a variação ${product?.name}`}
+          position="center"
+        >
+          <div>
+            <p>Tem certeza que deseja deletar a variação {product?.name}?</p>
+            <div className="flex justify-end gap-2 mt-4">
+              <Button variant="secondary" disabled={loadingDeleteProduct}>
+                Cancelar
+              </Button>
+              <Button
+                variant="error"
+                onClick={handleDeleteProduct}
+                isLoading={loadingDeleteProduct}
+                disabled={loadingDeleteProduct}
+              >
+                Deletar
+              </Button>
+            </div>
+          </div>
+        </Dialog.Content>
+      </Dialog>
     </div>
   );
 }

@@ -12,6 +12,7 @@ export interface CategoryModel {
   id: string;
   name: string;
   status: CategoryStatusModel;
+  order: number;
 }
 
 export interface CategoryWithProducts {
@@ -30,6 +31,7 @@ export interface ProductVariant {
   id: string;
   name: string;
   isRequired: boolean;
+  description: string;
   min: number;
   max: number;
   options: ProductVariationOption[];

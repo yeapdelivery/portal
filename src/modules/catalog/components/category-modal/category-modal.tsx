@@ -12,6 +12,7 @@ import { z } from "zod";
 import { categoryService } from "../../services/category.service";
 import Toast from "@/modules/app/components/toast";
 import { useState } from "react";
+import { CategoryOrder } from "./category-order";
 
 const categorySchema = z.object({
   name: z.string().min(0, "Nome da categoria é obrigatório"),
@@ -58,7 +59,7 @@ export function CategoryModal({ updateProducts }: CategoryModalProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <Dialog.Button asChild>
           <Button className="w-34 lg:w-80" startIcon={Plus}>
-            Adicionar categoria
+            Categorias
           </Button>
         </Dialog.Button>
 
@@ -88,6 +89,10 @@ export function CategoryModal({ updateProducts }: CategoryModalProps) {
               Adicionar
             </Button>
           </form>
+
+          <div className="mt-4">
+            <CategoryOrder updateProducts={updateProducts} />
+          </div>
         </Dialog.Content>
       </Dialog>
       <Toast
