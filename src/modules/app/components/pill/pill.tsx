@@ -45,7 +45,6 @@ function getELementName(
 
 export function Pill({
   label,
-  description,
   hasAction,
   closable,
   className,
