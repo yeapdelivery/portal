@@ -71,6 +71,8 @@ export function CardCatalog({
   }
 
   function handleSelectedVariant(variant: ProductVariant) {
+    console.log("open variant", variant);
+
     setSelectedVariant(variant);
     onOpenCreateVariationProduct();
   }
@@ -88,6 +90,14 @@ export function CardCatalog({
       stopLoaderDeleteProduct();
     }
   }
+
+  function onCloseVariant() {
+    console.log("close variant");
+    setSelectedVariant(null);
+    onCloseCreateVariationProduct();
+  }
+
+  console.log(selectedVariant, "index");
 
   return (
     <div className="p-3 bg-white rounded-xl flex gap-4">
@@ -159,7 +169,7 @@ export function CardCatalog({
         open={openCreateVariationProduct}
         variant={selectedVariant}
         productId={productData?.id}
-        onClose={() => onCloseCreateVariationProduct()}
+        onClose={() => onCloseVariant()}
         updateProducts={updateProduct}
       />
 

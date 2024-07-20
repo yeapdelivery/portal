@@ -128,6 +128,8 @@ export function VariationProductModal({
   onClose,
   updateProducts,
 }: CreateVariationProductModalProps) {
+  console.log(variant, "VariationProductModal");
+
   const hasVariantOption = !!variant && !!variant.options.length;
 
   const initialProductOptions = !hasVariantOption
@@ -220,9 +222,12 @@ export function VariationProductModal({
 
   function cleanValues(data: VariationProductModalForm) {
     setOptions([emptyOption]);
-    Object.keys(data).forEach((key) => {
-      setValue(key as any, null);
-    });
+    setValue("name", "");
+    setValue("isRequired", false);
+    setValue("min", null);
+    setValue("max", null);
+    setValue("description", "");
+    setValue("options", [emptyOption]);
   }
 
   async function createOption(data: VariationProductModalForm) {
@@ -243,60 +248,6 @@ export function VariationProductModal({
 
     updateProducts(newProduct);
     success("Variação criada com sucesso");
-    onClose();
-    cleanValues(data);
-  }
-
-  async function updateOption(data: VariationProductModalForm) {
-    const { data: newProduct } = await variantService.updateVariant(
-      { ...data, id: variant.id } as ProductVariant,
-      store.id,
-      productId
-    );
-
-    let optionsToUpdate = data.options.filter((option) =>
-      optionUpdatedIds.includes(option.id)
-    );
-
-    const optionToCreate = optionsToUpdate.filter((option) =>
-      option.id.includes("toCreate")
-    );
-
-    optionsToUpdate = optionsToUpdate.filter(
-      (option) => !option.id.includes("toCreate")
-    );
-
-    if (optionToCreate.length) {
-      const optionsToCreatePromises = optionToCreate.map((option) =>
-        variantService.updateVariantOptions(
-          variant.id,
-          store.id,
-          productId,
-          option as any
-        )
-      );
-
-      const optionsToCreateReturns = await Promise.all(optionsToCreatePromises);
-      updateProducts(optionsToCreateReturns[0].data);
-    }
-
-    const optionsToUpdatePromises = optionsToUpdate.map((option) =>
-      variantService.updateVariantOptions(
-        variant.id,
-        store.id,
-        productId,
-        option as any
-      )
-    );
-
-    const optionsReturns = await Promise.all(optionsToUpdatePromises);
-    if (optionsReturns.length) {
-      updateProducts(optionsReturns[0].data);
-    } else {
-      updateProducts(newProduct);
-    }
-
-    success("Variação atualizada com sucesso");
     onClose();
     cleanValues(data);
   }
@@ -340,9 +291,16 @@ export function VariationProductModal({
     }
   }
 
+  function onCloseVariantModal() {
+    console.log("entrou");
+
+    onClose();
+    cleanValues({} as any);
+  }
+
   return (
     <>
-      <Dialog open={open} onOpenChange={onClose}>
+      <Dialog open={open} onOpenChange={onCloseVariantModal}>
         <Dialog.Content className="h-full overflow-y-auto">
           <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
             <TextFiled
@@ -487,7 +445,7 @@ export function VariationProductModal({
               <div className="flex items-center justify-between mt-10 gap-4 mb-20">
                 <Button
                   variant="secondary"
-                  onClick={() => onClose()}
+                  onClick={() => onCloseVariantModal()}
                   disabled={isLoading}
                   className="flex-1"
                   type="button"
