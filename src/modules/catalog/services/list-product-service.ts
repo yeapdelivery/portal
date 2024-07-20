@@ -1,6 +1,7 @@
 import api from "@/api";
 import { CategoryWithProducts, ProductModel } from "../models/product-model";
 import { AxiosResponse } from "axios";
+import { ProductStatusEnum } from "../enums/product-status-model";
 
 interface Product {
   items: CategoryWithProducts[];
@@ -36,6 +37,17 @@ export class ProductsService {
     return await api.patch(
       `/admin/stores/${storeId}/products/${productId}`,
       product
+    );
+  }
+
+  async updateStatusProduct(
+    storeId: string,
+    productId: string,
+    status: ProductStatusEnum
+  ) {
+    return await api.patch(
+      `/admin/stores/${storeId}/products/${productId}/status`,
+      { status }
     );
   }
 

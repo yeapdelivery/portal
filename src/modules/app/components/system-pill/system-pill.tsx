@@ -28,7 +28,9 @@ const systemPillStyle = tv({
   },
 });
 
-interface SystemPillProps extends VariantProps<typeof systemPillStyle> {
+interface SystemPillProps
+  extends VariantProps<typeof systemPillStyle>,
+    React.HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   startIcon?: Icon;
   endIcon?: Icon;
@@ -39,14 +41,15 @@ export function SystemPill({
   endIcon: EndIcon,
   children,
   variant,
+  ...rest
 }: SystemPillProps) {
   const { container } = systemPillStyle({ variant });
 
   return (
-    <div className={container()}>
+    <button className={container()} {...rest}>
       {StartIcon && <StartIcon size={14} />}
       {children}
       {EndIcon && <EndIcon size={14} />}
-    </div>
+    </button>
   );
 }

@@ -1,12 +1,8 @@
-import { useState } from "react";
 import { CategoryWithProducts, ProductModel } from "../../models/product-model";
 import { AddProductButton } from "../add-product-button";
 import { CardCatalog } from "../card-catalog";
 import { CreateProductModal } from "../create-product-modal";
-import { Check, Trash } from "@phosphor-icons/react/dist/ssr";
-import { SystemPill } from "@/modules/app/components/system-pill";
-import { CategoryStatusModelMap } from "../../enums/category-status-model";
-import { CategoryPill } from "./category-pill";
+import { Trash } from "@phosphor-icons/react/dist/ssr";
 
 interface ProductsListProps {
   products: CategoryWithProducts[];
@@ -35,8 +31,6 @@ export function ProductsList({
                 <div className="flex items-center justify-center w-5 h-5 rounded-full text-white font-semibold bg-red-default text-[10px]">
                   {categoryWithProducts?.products?.length}
                 </div>
-
-                <CategoryPill categoryWithProducts={categoryWithProducts} />
               </div>
               <button
                 onClick={() =>

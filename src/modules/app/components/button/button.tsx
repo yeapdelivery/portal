@@ -53,6 +53,7 @@ const button = tv({
         container: [
           "bg-gray-1000 hover:bg-gray-1000 text-gray-500",
           "cursor-not-allowed select-none active:animate-none",
+          "border-none",
         ],
       },
     },

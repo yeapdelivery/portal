@@ -7,10 +7,16 @@ import { VariationProductModal } from "../variation-product";
 import { useLoading, useModal } from "@/modules/app/hooks";
 import React from "react";
 import { Trash } from "@phosphor-icons/react";
-import Dialog from "@/modules/app/components/dialog";
-import Button from "@/modules/app/components/button/button";
 import { productsService } from "../../services/list-product-service";
 import { useStore } from "@/modules/app/store/stores";
+import { ProductTypeEnum } from "../../enums/product-type.enum";
+import { SystemPill } from "@/modules/app/components/system-pill";
+import {
+  ProductStatusEnum,
+  ProductStatusEnumMap,
+} from "../../enums/product-status-model";
+import { DeleteVariationModal } from "../variation-product/delete-variation-modal";
+import { ChangeProductStatusModal } from "./change-product-status-modal";
 
 interface CardCatalogProps {
   product: ProductModel;
@@ -26,6 +32,8 @@ export function CardCatalog({
   const [selectedVariant, setSelectedVariant] =
     React.useState<ProductVariant | null>();
   const [productData, setProductData] = React.useState<ProductModel>(product);
+  const [productSelectedToChangeStatus, setProductSelectedToChangeStatus] =
+    React.useState<ProductModel | null>();
   const {
     open: openCreateVariationProduct,
     openModal: onOpenCreateVariationProduct,
@@ -36,12 +44,27 @@ export function CardCatalog({
     openModal: onOpenDeleteProduct,
     closeModal: onCloseDeleteProduct,
   } = useModal();
+  const {
+    open: openChangeProductStatus,
+    openModal: onOpenChangeProductStatus,
+    closeModal: onCloseChangeProductStatus,
+  } = useModal();
   const [
     loadingDeleteProduct,
     startLoaderDeleteProduct,
     stopLoaderDeleteProduct,
   ] = useLoading();
   const store = useStore((state) => state.store);
+
+  const priceLabel =
+    product.type === ProductTypeEnum.COMPLEX ? "a partir de" : "por";
+
+  const pillVariant =
+    productData?.status === ProductStatusEnum.ACTIVE
+      ? "success"
+      : productData?.status === ProductStatusEnum.INACTIVE
+      ? "error"
+      : "blue";
 
   function updateProduct(product: ProductModel) {
     setProductData(product);
@@ -72,7 +95,7 @@ export function CardCatalog({
         <div>
           <Image
             src={productData.image}
-            alt="hamburguer"
+            alt="image"
             width={117}
             height={117}
             className="w-[100px] h-[83px] text-gray-500 bg-gray-400 object-cover rounded-xl"
@@ -114,9 +137,21 @@ export function CardCatalog({
             </div>
           </div>
 
-          <span className="text-[10px] text-gray-100 font-bold">
-            {currency(productData?.price?.original)}
-          </span>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-gray-100 font-bold">
+              {priceLabel} {currency(productData?.price?.original)}
+            </span>
+
+            <SystemPill
+              variant={pillVariant}
+              onClick={() => {
+                setProductSelectedToChangeStatus(productData);
+                onOpenChangeProductStatus();
+              }}
+            >
+              {ProductStatusEnumMap[productData?.status]}
+            </SystemPill>
+          </div>
         </div>
       </div>
 
@@ -128,29 +163,20 @@ export function CardCatalog({
         updateProducts={updateProduct}
       />
 
-      <Dialog open={openDeleteProduct} onOpenChange={onCloseDeleteProduct}>
-        <Dialog.Content
-          title={`Deletar a variação ${product?.name}`}
-          position="center"
-        >
-          <div>
-            <p>Tem certeza que deseja deletar a variação {product?.name}?</p>
-            <div className="flex justify-end gap-2 mt-4">
-              <Button variant="secondary" disabled={loadingDeleteProduct}>
-                Cancelar
-              </Button>
-              <Button
-                variant="error"
-                onClick={handleDeleteProduct}
-                isLoading={loadingDeleteProduct}
-                disabled={loadingDeleteProduct}
-              >
-                Deletar
-              </Button>
-            </div>
-          </div>
-        </Dialog.Content>
-      </Dialog>
+      <DeleteVariationModal
+        openDeleteProduct={openDeleteProduct}
+        product={productData}
+        loadingDeleteProduct={loadingDeleteProduct}
+        onCloseDeleteProduct={onCloseDeleteProduct}
+        handleDeleteProduct={handleDeleteProduct}
+      />
+
+      <ChangeProductStatusModal
+        open={openChangeProductStatus}
+        product={productSelectedToChangeStatus}
+        onClose={onCloseChangeProductStatus}
+        updateProduct={onUpdateProducts}
+      />
     </div>
   );
 }
