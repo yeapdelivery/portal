@@ -18,7 +18,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br" className="bg-background overflow-x-hidden">
+    <html lang="pt-br" className="bg-background overflow-x-hidden ">
       <body className={`${outfit.className} ${rubik.className}`}>
         <NextAuthSessionProvider>
           <main>{children}</main>
