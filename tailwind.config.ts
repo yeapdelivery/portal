@@ -36,6 +36,14 @@ const config: Config = {
           "0%": { opacity: "1" },
           "100%": { opacity: "0" },
         },
+        "fade-in-right": {
+          "0%": { transform: "translateX(-100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        "fade-out-right": {
+          "0%": { transform: "translateX(0)", opacity: "1" },
+          "100%": { transform: "translateX(-100%)", opacity: "0" },
+        },
         "fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -89,6 +97,8 @@ const config: Config = {
         "fade-out-left": "fade-out-left 0.1s linear",
         "fade-in-center-modal": "fade-in-center-modal 0.1s linear",
         "fade-out-center-modal": "fade-out-center-modal 0.1s linear",
+        "fade-in-right": "fade-in-right 0.1s linear",
+        "fade-out-right": "fade-out-right 0.1s linear",
       },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],

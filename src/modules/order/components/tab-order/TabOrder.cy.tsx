@@ -8,7 +8,7 @@ describe("<TabOrder />", () => {
     cy.mount(
       <TabOrder
         onChange={() => {}}
-        orderStatus={OrderStatus.CONFIRMED}
+        orderStatus={OrderStatus.IN_PROGRESS}
         confirmedLength={1}
         deliveredLength={1}
         deliveringLength={1}
@@ -22,7 +22,7 @@ describe("<TabOrder />", () => {
     cy.mount(
       <TabOrder
         onChange={() => {}}
-        orderStatus={OrderStatus.CONFIRMED}
+        orderStatus={OrderStatus.IN_PROGRESS}
         confirmedLength={1}
         deliveredLength={1}
         deliveringLength={1}
@@ -37,7 +37,7 @@ describe("<TabOrder />", () => {
     cy.mount(
       <TabOrder
         onChange={() => {}}
-        orderStatus={OrderStatus.CONFIRMED}
+        orderStatus={OrderStatus.IN_PROGRESS}
         confirmedLength={1}
         deliveredLength={1}
         deliveringLength={1}

@@ -8,27 +8,34 @@ const dialog = tv({
   slots: {
     overlay: [
       "data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out",
-      "bg-black/50 fixed inset-0",
+      "bg-black/50 fixed inset-0 z-50",
     ],
     content: ["bg-white fixed w-96"],
   },
 
   variants: {
     position: {
-      left: {
+      right: {
         content: [
           "left-0 top-0 right-0 bottom-0 md:left-auto ",
           "data-[state=open]:animate-animation-modal-fade-in",
-          "data-[state=closed]:animate-animation-modal-fade-out",
+          "data-[state=closed]:animate-animation-modal-fade-out z-[100]",
         ],
       },
       center: {
         content: [
           "rounded-xl",
           "transform translate-x-[-50%] translate-y-[-50%]",
-          "top-[50%] bottom-auto left-[50%] max-h-[85vh]",
+          "top-[50%] bottom-auto left-[50%] max-h-[85vh] overflow-scroll",
           "data-[state=open]:animate-fade-in-center-modal",
-          "data-[state=closed]:animate-fade-out-center-modal",
+          "data-[state=closed]:animate-fade-out-center-modal z-[100]",
+        ],
+      },
+      left: {
+        content: [
+          "right-0 top-0 left-0 bottom-0 md:right-auto",
+          "data-[state=open]:animate-fade-in-right",
+          "data-[state=closed]:animate-fade-out-right z-[100]",
         ],
       },
     },
@@ -40,7 +47,7 @@ interface DialogContentProps {
   titleSlot?: React.ReactNode;
   title?: string;
   className?: string;
-  position?: "left" | "center";
+  position?: "left" | "center" | "right";
 }
 
 export function DialogContent({
@@ -48,7 +55,7 @@ export function DialogContent({
   title,
   children,
   className,
-  position = "left",
+  position = "right",
 }: DialogContentProps) {
   const { content, overlay } = dialog({ position });
 

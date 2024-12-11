@@ -11,9 +11,14 @@ export function useModal() {
     setOpen(false);
   }
 
+  function onOpenChange(open: boolean) {
+    setOpen(open);
+  }
+
   return {
     open,
     openModal,
     closeModal,
+    onOpenChange,
   };
 }

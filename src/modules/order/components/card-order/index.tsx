@@ -5,9 +5,10 @@ import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { OrderStatus } from "../../enums";
 import { Order } from "../../models";
 import { format, set } from "date-fns";
-import { currency, formatAddress } from "@/formatting";
+import { currency, formatAddress, formatOrderNumber } from "@/formatting";
 import { CardLoading } from "./card-loading";
 import { tv } from "tailwind-variants";
+import { updateOrderStatus } from "../../services";
 
 interface CardOrderProps {
   order: Order;
@@ -18,6 +19,7 @@ interface CardOrderProps {
     to: OrderStatus
   ) => void;
   handleRemoveNewValue: (orderId: string) => void;
+  openOrderDetail: (order: Order) => void;
 }
 
 const cardStyle = tv({
@@ -37,19 +39,18 @@ export function CardOrder({
   isNew = false,
   handleChangeStatus,
   handleRemoveNewValue,
+  openOrderDetail,
 }: CardOrderProps) {
   const { card } = cardStyle();
 
   const ref = useRef<HTMLDivElement>(null);
   const [timer, setTimer] = useState<number>(INITIAL_TIMER);
 
-  const verifyConfirmedState = order.status === OrderStatus.CONFIRMED;
+  const verifyConfirmedState = order.status === OrderStatus.IN_PROGRESS;
 
-  const verifyProducingState = order.status === OrderStatus.CONFIRMED;
+  const verifyProducingState = order.status === OrderStatus.IN_PROGRESS;
   const verifyDeliveringState =
     !isNew && order.status === OrderStatus.DELIVERING;
-
-  const verifyDeliveredState = order.status === OrderStatus.DELIVERED;
 
   useEffect(() => {
     if (!isNew || order.status !== OrderStatus.DELIVERING) return;
@@ -61,6 +62,8 @@ export function CardOrder({
         clearInterval(interval);
         handleRemoveNewValue(order.id);
         setTimer(0);
+
+        updateOrderStatus(order.id, OrderStatus.DELIVERING);
         return;
       }
 
@@ -88,7 +91,10 @@ export function CardOrder({
     <div ref={ref} data-enter={isNew} className={card()}>
       <div className="flex items-center justify-between">
         <span className="font-bold text-sm text-gray-100">
-          {order.customer.name}
+          {order.userName}{" "}
+          <span className="text-red-default font-medium">
+            {formatOrderNumber(order.orderNumber)}
+          </span>
         </span>
 
         <div className="p-1 bg-gray-1000 rounded text-red-primary-dark">
@@ -96,21 +102,20 @@ export function CardOrder({
         </div>
       </div>
 
-      <hr className="mt-2 border border-gray-700" />
+      <hr className="`mt`-2 border border-gray-700" />
 
       <div className="mt-2 text-gray-100">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
             <span className="text-xs font-semibold">VALOR TOTAL</span>
-            <span className="text-xs font-medium">{currency(order.price)}</span>
+            <span className="text-xs font-medium">
+              {currency(order.totalPrice)}
+            </span>
           </div>
 
           <div className="flex flex-col gap-1 text-xs text-right">
-            <span className="text-red-default font-medium">
-              PEDIDO #{`${order.order_id}`}
-            </span>
             <span className="font-medium">
-              {format(new Date(order.created_at), "dd/MM/yyyy (h:mm)")}
+              {format(new Date(order.createdAt), "dd/MM/yyyy (h:mm)")}
             </span>
           </div>
         </div>
@@ -122,7 +127,7 @@ export function CardOrder({
             <MapPinLine size={16} weight="bold" className="text-gray-700" />
 
             <span className="text-xs font-semibold font-inter text-gray-100">
-              {formatAddress(order.address)}
+              {formatAddress(order.userAddress)}
             </span>
           </div>
         </div>
@@ -131,7 +136,7 @@ export function CardOrder({
           {verifyConfirmedState && (
             <button
               onClick={() =>
-                changeStatus(OrderStatus.CONFIRMED, OrderStatus.DELIVERING)
+                changeStatus(OrderStatus.IN_PROGRESS, OrderStatus.DELIVERING)
               }
               className="border animate-card-order-animation border-red-default text-red-default font-rubik font-semibold rounded text-[10px] w-full h-8"
             >
@@ -151,22 +156,18 @@ export function CardOrder({
           {verifyProducingState && (
             <button
               onClick={() =>
-                changeStatus(OrderStatus.CONFIRMED, OrderStatus.DELIVERED)
+                changeStatus(OrderStatus.IN_PROGRESS, OrderStatus.DELIVERED)
               }
               className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-[10px] w-full h-8"
             >
               Finalizar
             </button>
           )}
-          {verifyDeliveredState && (
-            <button className="text-gray-500 animate-card-order-animation font-rubik font-bold rounded text-[10px] w-full h-8">
-              VER DETALHES
-            </button>
-          )}
+
           {isNew && timer > 0 && order.status === OrderStatus.DELIVERING && (
             <button
               onClick={() =>
-                changeStatus(OrderStatus.DELIVERING, OrderStatus.CONFIRMED)
+                changeStatus(OrderStatus.DELIVERING, OrderStatus.IN_PROGRESS)
               }
               className="border border-red-default animate-card-order-animation text-red-default font-rubik font-semibold rounded text-xs w-full h-8"
             >
@@ -174,6 +175,13 @@ export function CardOrder({
             </button>
           )}
         </div>
+
+        <button
+          onClick={() => openOrderDetail(order)}
+          className="mt-2 text-red-400 animate-card-order-animation font-rubik font-bold rounded text-[10px] w-full h-8"
+        >
+          VER DETALHES
+        </button>
       </div>
     </div>
   );

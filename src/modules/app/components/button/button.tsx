@@ -46,6 +46,12 @@ const button = tv({
           "active:animate-pulse-click",
         ],
       },
+      text: {
+        container: [
+          "bg-transparent text-red-default hover:bg-red-100",
+          "active:animate-pulse-click",
+        ],
+      },
     },
 
     disabled: {

@@ -128,8 +128,6 @@ export function VariationProductModal({
   onClose,
   updateProducts,
 }: CreateVariationProductModalProps) {
-  console.log(variant, "VariationProductModal");
-
   const hasVariantOption = !!variant && !!variant.options.length;
 
   const initialProductOptions = !hasVariantOption
@@ -292,8 +290,6 @@ export function VariationProductModal({
   }
 
   function onCloseVariantModal() {
-    console.log("entrou");
-
     onClose();
     cleanValues({} as any);
   }

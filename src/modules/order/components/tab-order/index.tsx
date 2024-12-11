@@ -39,8 +39,8 @@ export function TabOrder({
     <div data-cy="tab-order" className={container()}>
       <button
         data-cy="tab-order-confirmed"
-        className={tab({ isSelected: orderStatus === OrderStatus.CONFIRMED })}
-        onClick={() => onChange(OrderStatus.CONFIRMED)}
+        className={tab({ isSelected: orderStatus === OrderStatus.IN_PROGRESS })}
+        onClick={() => onChange(OrderStatus.IN_PROGRESS)}
       >
         <div className="flex  items-center gap-1">
           <h2 className="font-bold text-xs xs:text-base text-gray-100">

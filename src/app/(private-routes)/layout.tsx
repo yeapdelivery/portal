@@ -1,7 +1,9 @@
 import { getServerSession } from "next-auth";
 import { ReactNode } from "react";
-import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { OrderModal } from "@/modules/app/components/order-modal";
+
+import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import SideBar from "@/modules/app/components/side-bar";
 import { PrivateRouterProvider } from "@/modules/app/provider/private-router-provider";
 import configureAxiosInterceptors from "@/api/interceptor";
@@ -27,6 +29,7 @@ export default async function PrivateLayout({ children }: PrivateLayoutProps) {
         accessToken={session.store.accessToken}
         userFromLayout={session.user}
       />
+      <OrderModal />
     </>
   );
 }
