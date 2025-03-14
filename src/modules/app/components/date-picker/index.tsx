@@ -59,15 +59,15 @@ export default function DatePicker({
     <ReactDatePicker
       data-cy="date-picker"
       selected={startDate}
-      onChange={handleOnchange}
       open={isFocus}
+      maxDate={maxDate}
+      minDate={minDate}
+      dateFormat="dd/MM/yyyy"
+      onChange={handleOnchange}
       onFocus={handleOnFocus}
       onBlur={handleOnBlur}
       onClickOutside={handleOnClickOutside}
       onInputClick={onClickInput}
-      maxDate={maxDate}
-      minDate={minDate}
-      dateFormat="dd/MM/yyyy"
       customInput={
         <Input
           className="h-7 md:h-10"

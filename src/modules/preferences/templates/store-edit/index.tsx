@@ -61,7 +61,7 @@ const editStoreSchema = z
         .transform((value) => Number(value.replace(/\D/g, ""))),
       minOrder: z
         .string()
-        .min(1, "Pedido mínimo obrigatório")
+        .optional()
         .transform((value) => Number(value.replace(/\D/g, ""))),
       estimatedMinTime: z
         .string()
@@ -208,6 +208,8 @@ export function ScreenStore() {
       stopLoading();
     }
   }
+
+  console.log(errors);
 
   if (!store.id) return <h1>Carregando</h1>;
 

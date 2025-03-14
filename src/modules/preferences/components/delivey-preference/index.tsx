@@ -42,18 +42,14 @@ export function Delivery({
 
     if (priceValue || priceValue === 0) {
       setPrice(currency(priceValue));
-      setValue("delivery.price", formatNumber(priceValue.toString()));
+      setValue("delivery.price", currency(priceValue) as any);
     }
 
     if (minOrderValue || minOrderValue === 0) {
       setMinOrder(currency(minOrderValue));
-      setValue("delivery.minOrder", formatNumber(minOrderValue.toString()));
+      setValue("delivery.minOrder", currency(minOrderValue) as any);
     }
   }, [getValues, setValue]);
-
-  function formatNumber(value: string): number {
-    return Number(value.replace(/[^\d.,]/g, "").replace(",", "."));
-  }
 
   return (
     <div className="flex flex-col">

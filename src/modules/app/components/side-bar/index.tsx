@@ -6,6 +6,7 @@ import {
   BookOpenText,
   ChatDots,
   FadersHorizontal,
+  Wallet,
 } from "@phosphor-icons/react";
 import SideBarDesktopLayout from "./side-bar-desktop-layout";
 import BottomBar from "./bottom-bar";
@@ -16,6 +17,7 @@ import { tv } from "tailwind-variants";
 import { useStore } from "../../store/stores";
 
 export enum Menu {
+  DASHBOARD = "dashboard",
   ORDER = "order",
   CATALOG = "catalog",
   CHAT = "chat",
@@ -54,6 +56,13 @@ const sidebar = tv({
 });
 
 export const menus: MenuProps[] = [
+  {
+    id: 0,
+    label: "Dashboard",
+    name: Menu.DASHBOARD,
+    icon: <Wallet weight="bold" size={22} />,
+    href: "/dashboard",
+  },
   {
     id: 1,
     label: "Pedidos",

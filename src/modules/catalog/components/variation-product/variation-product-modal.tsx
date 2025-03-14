@@ -146,6 +146,8 @@ export function VariationProductModal({
   const [selectedOption, setSelectedOption] =
     React.useState<ProductVariationOption>();
 
+  const isEditing = !!variant && !!variant.id;
+
   const [isLoading, startLoader, stopLoader] = useLoading();
   const [isLoadingOptions, startLoaderOptions, stopLoaderOptions] =
     useLoading();
@@ -238,24 +240,33 @@ export function VariationProductModal({
       })),
     };
 
-    const { data: newProduct } = await variantService.createVariant(
-      newData as Omit<ProductVariant, "id">,
-      store.id,
-      productId
-    );
+    if (!isEditing) {
+      const { data: newProduct } = await variantService.createVariant(
+        newData as Omit<ProductVariant, "id">,
+        store.id,
+        productId
+      );
 
-    updateProducts(newProduct);
-    success("Variação criada com sucesso");
+      updateProducts(newProduct);
+      success("Variação criada com sucesso");
+    } else {
+      const { data: newProduct } = await variantService.updateVariant(
+        { ...newData, id: variant.id } as ProductVariant,
+        store.id,
+        productId
+      );
+
+      updateProducts(newProduct);
+    }
+
     onClose();
     cleanValues(data);
   }
-
   async function onSubmit(data: VariationProductModalForm) {
     startLoader();
+
     try {
-      if (!variant || !variant.id) {
-        return await createOption(data);
-      }
+      await createOption(data);
     } catch (error) {
       console.error(error);
       errorToast("Erro ao criar variação");
@@ -267,6 +278,14 @@ export function VariationProductModal({
   async function onDeleteOption() {
     startLoaderOptions();
     try {
+      if (!selectedOption.id) {
+        setOptions((prev) =>
+          prev.filter((option, i) => option.id !== selectedOption.id)
+        );
+
+        return;
+      }
+
       await variantService.deleteVariantOption(
         variant.id,
         store.id,
