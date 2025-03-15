@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "auth",
-        "catalog"
+        "catalog",
+        "order"
     ]
 }
