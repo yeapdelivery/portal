@@ -1,11 +1,10 @@
 import Dialog from "@/modules/app/components/dialog";
 import { Order } from "../../models";
-import { currency, formatAddress, formatOrderNumber } from "@/formatting";
-import { format } from "date-fns";
-import { formatPhone } from "@/formatting/phone";
-import { DELIVERY_TYPE_LABELS } from "../../enums";
+import { formatOrderNumber } from "@/formatting";
+
 import { orderStatusMap } from "../../enums/order-status";
 import { ModalOrderContent } from "./modal-order-content";
+import { formatDateWithHour } from "@/utils/format-date.util";
 
 interface ModalOrderProps {
   order: Order;
@@ -22,7 +21,7 @@ export function ModalOrder({ open, order, onOpenChange }: ModalOrderProps) {
         title={
           formatOrderNumber(order.orderNumber) +
           " - " +
-          format(new Date(order.createdAt), "dd/MM/yyyy (h:mm)") +
+          formatDateWithHour(order.createdAt) +
           " - " +
           orderStatusMap[order.status]
         }

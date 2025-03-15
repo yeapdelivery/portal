@@ -1,7 +1,7 @@
 import { currency, formatAddress } from "@/formatting";
 import { Order } from "../../models";
 import { formatPhone } from "@/formatting/phone";
-import { DELIVERY_TYPE_LABELS } from "../../enums";
+import { deliveryTypeMap, paymentMethodsMap } from "../../enums";
 
 interface ModalOrderContentProps {
   order: Order;
@@ -34,7 +34,7 @@ export function ModalOrderContent({ order }: ModalOrderContentProps) {
           </div>
           <div>
             <strong className="text-sm">Tipo de entrega:</strong>{" "}
-            {DELIVERY_TYPE_LABELS[order.deliveryType]}
+            {deliveryTypeMap[order.deliveryType]}
           </div>
         </div>
       </div>
@@ -113,7 +113,7 @@ export function ModalOrderContent({ order }: ModalOrderContentProps) {
           </div>
           <div>
             <strong className="text-sm">Tipo de pagamento:</strong>{" "}
-            {order.paymentType}
+            {paymentMethodsMap[order.paymentType]}
           </div>
 
           <div>

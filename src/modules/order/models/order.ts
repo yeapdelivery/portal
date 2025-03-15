@@ -1,5 +1,6 @@
 import { Address } from "@/modules/app/models";
 import { DeliveryType } from "../enums";
+import { PaymentType } from "../enums/payment-methods.enum";
 
 export interface Order {
   orderNumber: number;
@@ -14,7 +15,7 @@ export interface Order {
   deliveryPrice: string;
   deliveryTime: number;
   deliveryType: DeliveryType;
-  paymentType: string;
+  paymentType: PaymentType;
   createdAt: string;
   updatedAt: string;
   id: string;

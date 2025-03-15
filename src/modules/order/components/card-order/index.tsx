@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { OrderStatus } from "../../enums";
 import { Order } from "../../models";
-import { format, set } from "date-fns";
 import { currency, formatAddress, formatOrderNumber } from "@/formatting";
 import { CardLoading } from "./card-loading";
 import { tv } from "tailwind-variants";
 import { updateOrderStatus } from "../../services";
+import { formatDateWithHour } from "@/utils/format-date.util";
 
 interface CardOrderProps {
   order: Order;
@@ -115,7 +115,7 @@ export function CardOrder({
 
           <div className="flex flex-col gap-1 text-xs text-right">
             <span className="font-medium">
-              {format(new Date(order.createdAt), "dd/MM/yyyy (h:mm)")}
+              {formatDateWithHour(order.createdAt)}
             </span>
           </div>
         </div>

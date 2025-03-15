@@ -1,9 +1,9 @@
 export enum DeliveryType {
-  DELIVERY = "delivery",
-  PICKUP = "pickup",
+  DELIVERY = "DELIVERY",
+  PICKUP = "PICKUP",
 }
 
-export const DELIVERY_TYPE_LABELS = {
+export const deliveryTypeMap: Record<DeliveryType, string> = {
   [DeliveryType.DELIVERY]: "Entrega",
   [DeliveryType.PICKUP]: "Retirar na loja",
 };
