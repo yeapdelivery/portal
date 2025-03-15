@@ -8,7 +8,7 @@ import { z } from "zod";
 const addressSchema = z.object({
   zip: z
     .string()
-    .min(9, { message: "CEP é obrigatório" })
+    .min(8, { message: "CEP é obrigatório" })
     .transform((v) => v.replace(/\D/g, "")),
   state: z.string().min(1, { message: "Estado é obrigatório" }),
   city: z.string().min(1, { message: "Cidade é obrigatório" }),
@@ -31,23 +31,29 @@ export function RegisterAddress({
   const {
     formState: { errors },
     register,
-    setValue,
     handleSubmit,
   } = useForm<AddressSchema>({
     resolver: zodResolver(addressSchema),
+    defaultValues: {
+      zip: "46200000",
+      state: "BA",
+      city: "Condeúba",
+    },
   });
 
-  async function getByCep(cep: string) {
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-      const data = await response.json();
+  console.log(errors);
 
-      setValue("city", data.localidade);
-      setValue("state", data.uf);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async function getByCep(cep: string) {
+  //   try {
+  //     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+  //     const data = await response.json();
+
+  //     setValue("city", data.localidade);
+  //     setValue("state", data.uf);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   function submit(data: AddressSchema) {
     onUpdateAddress(data);
@@ -63,7 +69,7 @@ export function RegisterAddress({
 
       <form onSubmit={handleSubmit(submit)}>
         <div className="mt-4 flex items-center justify-between gap-9">
-          <TextFiled
+          {/* <TextFiled
             className="flex-1"
             error={errors.zip?.message}
             label="CEP"
@@ -81,9 +87,9 @@ export function RegisterAddress({
               //     }
               //   }}
             />
-          </TextFiled>
+          </TextFiled> */}
 
-          <TextFiled
+          {/* <TextFiled
             className="flex-1"
             error={errors?.state?.message}
             label="Estado"
@@ -95,9 +101,9 @@ export function RegisterAddress({
               placeholder="Digite seu estado"
               {...register("state")}
             />
-          </TextFiled>
+          </TextFiled> */}
         </div>
-
+        {/* 
         <TextFiled
           className="mt-6"
           error={errors?.city?.message}
@@ -110,7 +116,7 @@ export function RegisterAddress({
             placeholder="Digite sua cidade"
             {...register("city")}
           />
-        </TextFiled>
+        </TextFiled> */}
 
         <TextFiled
           className="mt-6"
