@@ -121,7 +121,6 @@ export function ListOrders() {
     newOrders: OrderResponse,
     shouldNewOrderFist: boolean = false
   ) {
-    console.log(newOrders);
     if (shouldNewOrderFist) {
       setOrders((oldValue) => ({
         ...oldValue,
@@ -153,7 +152,6 @@ export function ListOrders() {
     startLoadMoreOrder[status]();
     try {
       const newOrders = await getAllOrderByStatus(status, page);
-      console.log(newOrders);
 
       handleSetOrders(status, newOrders, shouldNewOrderFist);
     } catch (error) {
@@ -190,11 +188,11 @@ export function ListOrders() {
     setOrderStatusTab(orderStatus);
   }
 
-  function handleChangeStatus(
+  async function handleChangeStatus(
     order: Order,
     from: OrderStatus,
     to: OrderStatus
-  ): void {
+  ): Promise<void> {
     const ordersFrom = orders[from].orders;
 
     const newOrdersFrom = ordersFrom.filter(
@@ -218,16 +216,20 @@ export function ListOrders() {
     newOrderChangeStatusId((oldValue) => [...oldValue, order.id]);
     setOrders(newOrders);
 
-    updateOrderStatus(order.id, to);
+    console.log(to, OrderStatus.DELIVERING);
+
+    if (to !== OrderStatus.DELIVERING) {
+      await updateOrderStatus(order.id, to);
+    }
   }
 
-  function handleRemoveNewValue(orderId: string) {
+  function handleRemoveNewValue(orderId: string): void {
     newOrderChangeStatusId((oldValue) =>
       oldValue.filter((id) => id !== orderId)
     );
   }
 
-  function onOpenOrderDetail(order: Order) {
+  function onOpenOrderDetail(order: Order): void {
     setSelectedOrder(order);
     onOpenChange(true);
   }

@@ -5,3 +5,5 @@ export {
   availableHasOpeningHour,
   availableOpeningHour,
 } from "./get-opening-hours";
+export * from "./http-errors-messages.util";
+export * from "./check-open-store.util";

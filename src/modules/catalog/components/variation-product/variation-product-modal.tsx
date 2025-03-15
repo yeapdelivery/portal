@@ -21,6 +21,8 @@ import { variantService } from "../../services/variant.service";
 import { useStore } from "@/modules/app/store/stores";
 import Toast from "@/modules/app/components/toast";
 import { currency } from "@/formatting";
+import { AxiosError } from "axios";
+import { httpErrorsMessages } from "@/utils";
 
 interface CreateVariationProductModalProps {
   open: boolean;
@@ -268,7 +270,14 @@ export function VariationProductModal({
     try {
       await createOption(data);
     } catch (error) {
-      console.error(error);
+      if (error instanceof AxiosError) {
+        const messageError = httpErrorsMessages[error.response.data.message];
+
+        if (messageError) {
+          errorToast(messageError);
+          return;
+        }
+      }
       errorToast("Erro ao criar variação");
     } finally {
       stopLoader();

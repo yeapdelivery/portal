@@ -10,9 +10,11 @@ import {
 } from "react-hook-form";
 import { EditStore } from "../../templates";
 import { currency } from "@/formatting";
+import StoreModel from "@/modules/app/models/store";
 
 interface DeliveryContentProps {
   errors: FieldErrors<EditStore>;
+  store: StoreModel;
   getValues: UseFormGetValues<EditStore>;
   register: UseFormRegister<EditStore>;
   setValue: UseFormSetValue<EditStore>;
@@ -20,6 +22,7 @@ interface DeliveryContentProps {
 
 export function Delivery({
   errors,
+  store,
   register,
   setValue,
   getValues,
@@ -31,25 +34,9 @@ export function Delivery({
 
   useEffect(() => {
     if (freeTaxChecked) {
-      setPrice("R$ 0.00");
-      setValue("delivery.price", 0);
+      setValue("delivery.price", "0" as any);
     }
   }, [freeTaxChecked]);
-
-  useEffect(() => {
-    const priceValue = getValues("delivery.price");
-    const minOrderValue = getValues("delivery.minOrder");
-
-    if (priceValue || priceValue === 0) {
-      setPrice(currency(priceValue));
-      setValue("delivery.price", currency(priceValue) as any);
-    }
-
-    if (minOrderValue || minOrderValue === 0) {
-      setMinOrder(currency(minOrderValue));
-      setValue("delivery.minOrder", currency(minOrderValue) as any);
-    }
-  }, [getValues, setValue]);
 
   return (
     <div className="flex flex-col">
@@ -63,14 +50,12 @@ export function Delivery({
                   <TextFiled.Input
                     prefix="R$"
                     disabled={freeTaxChecked}
-                    value={price}
                     currency
+                    {...register("delivery.price")}
                     onInputChange={(value) => {
                       const number = value
                         .replace(/[^\d.,]/g, "")
                         .replace(",", ".");
-
-                      setPrice(`R$ ${number}`);
 
                       setValue("delivery.price", Number(number));
                     }}
@@ -87,18 +72,15 @@ export function Delivery({
                   required
                 >
                   <TextFiled.Input
-                    disabled={minTaxChecked}
                     currency
                     prefix="R$"
-                    value={minOrder}
+                    {...register("delivery.minOrder")}
                     onInputChange={(value) => {
                       const number = value
                         .replace(/[^\d.,]/g, "")
                         .replace(",", ".");
 
-                      setMinOrder(`R$ ${number}`);
-
-                      setValue("delivery.minOrder", `${number}` as any);
+                      setValue("delivery.minOrder", Number(number));
                     }}
                   />
                 </TextFiled>
@@ -128,12 +110,11 @@ export function Delivery({
           <TextFiled
             error={null}
             htmlFor="search"
-            label="Tempo mínimo de entrega"
+            label="Tempo mínimo de entrega (min)"
             required
           >
             <TextFiled.Input
               placeholder="Exemplo: 10min"
-              suffix=" min"
               maxLength={7}
               {...register("delivery.estimatedMinTime")}
             />
@@ -141,12 +122,11 @@ export function Delivery({
           <TextFiled
             error={null}
             htmlFor="search"
-            label="Tempo máximo de entrega"
+            label="Tempo máximo de entrega (min)"
             required
           >
             <TextFiled.Input
               placeholder="Exemplo: 60 min"
-              suffix=" min"
               maxLength={7}
               {...register("delivery.estimatedMaxTime")}
             />

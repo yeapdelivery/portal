@@ -1,9 +1,11 @@
 "use client";
 
+import { checkOpenStore } from "@/utils";
 import { CaretDown } from "@phosphor-icons/react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { tv } from "tailwind-variants";
+import { useStore } from "../../store/stores";
 
 enum Status {
   OPEN = "open",
@@ -66,97 +68,27 @@ const INITIAL_TIMER = 30;
 let timer: NodeJS.Timeout;
 
 export default function StatusOpen() {
+  const store = useStore((state) => state.store);
+
   const [statusOpen, setStatusOpen] = useState<Status>(Status.CLOSE);
-  const [openDropDown, setOpenDropDown] = useState(false);
-  const [count, setCount] = useState(INITIAL_TIMER);
-  const { currentStatus, ballOpen, container } = statusOpenStyle();
+  const { currentStatus, ballOpen } = statusOpenStyle();
 
-  const inverseStatus = statusOpen === Status.OPEN ? Status.CLOSE : Status.OPEN;
-  const stateMenu = openDropDown ? "open" : "closed";
+  const labelOpen = "Loja aberta";
 
-  const isCounting = count > 0 && count !== INITIAL_TIMER;
+  const labelClosed = "Loja fechada";
 
-  const labelOpen = isCounting ? `Abrindo loja em (${count})` : "Loja aberta";
-
-  const labelClosed = isCounting
-    ? `Fechando loja em (${count})`
-    : "Loja fechada";
-
-  function startTimer() {
-    setCount(29);
-    timer = setInterval(() => {
-      if (count <= 0) {
-        clearInterval(timer);
-        setCount(INITIAL_TIMER);
-        return;
-      }
-
-      setCount((oldValue) => oldValue - 1);
-    }, 1000);
-  }
-
-  function handleChangeStatus() {
-    startTimer();
-    setStatusOpen(inverseStatus);
-    setOpenDropDown(false);
-  }
-
-  function handleBackStatus() {
-    setStatusOpen(inverseStatus);
-    setCount(INITIAL_TIMER);
-    clearInterval(timer);
-  }
+  useEffect(() => {
+    if (store) {
+      setStatusOpen(checkOpenStore(store) ? Status.OPEN : Status.CLOSE);
+    }
+  }, [store]);
 
   return (
-    <DropdownMenu.Root
-      data-cy="status-open"
-      open={openDropDown}
-      onOpenChange={setOpenDropDown}
-    >
-      {!isCounting ? (
-        <DropdownMenu.Trigger asChild>
-          <button
-            className={currentStatus({ statusOpen })}
-            data-cy="current-status"
-          >
-            <div className={ballOpen({ statusOpen })}></div>
-            <div className="w-[5rem]">
-              {statusOpen === Status.OPEN ? labelOpen : labelClosed}
-            </div>
-            <CaretDown
-              size={16}
-              data-cy="arrow"
-              className="ml-3 data-[state=open]:rotate-180 transition-all duration-100 w-fit"
-              data-state={stateMenu}
-            />
-          </button>
-        </DropdownMenu.Trigger>
-      ) : (
-        <button
-          className={currentStatus({
-            statusOpen: statusOpen,
-            isUndoingStatus: true,
-          })}
-          onClick={handleBackStatus}
-        >
-          <div className="">
-            {statusOpen === Status.OPEN ? labelOpen : labelClosed}
-          </div>
-        </button>
-      )}
-
-      <DropdownMenu.Content className={container()}>
-        <button
-          data-cy="choice-status"
-          className={currentStatus({
-            statusOpen: inverseStatus,
-          })}
-          onClick={handleChangeStatus}
-        >
-          <div className={ballOpen({ statusOpen: inverseStatus })}></div>
-          {inverseStatus === Status.OPEN ? "Loja aberta" : "Loja fechada"}
-        </button>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+    <div className={currentStatus({ statusOpen })} data-cy="current-status">
+      <div className={ballOpen({ statusOpen })}></div>
+      <div className="w-[5rem] text-center">
+        {statusOpen === Status.OPEN ? labelOpen : labelClosed}
+      </div>
+    </div>
   );
 }

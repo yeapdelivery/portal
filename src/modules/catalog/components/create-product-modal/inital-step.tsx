@@ -27,6 +27,8 @@ import { currency } from "@/formatting";
 import { Trash } from "@phosphor-icons/react/dist/ssr";
 import Dialog from "@/modules/app/components/dialog/dialog";
 import { variantService } from "../../services/variant.service";
+import { AxiosError } from "axios";
+import { httpErrorsMessages } from "@/utils";
 
 const initialStep = tv({
   slots: {
@@ -228,7 +230,16 @@ export function InitialStep({
       onUpdateProducts();
       onClose();
     } catch (catchError) {
-      console.error(catchError);
+      if (catchError instanceof AxiosError) {
+        const messageError =
+          httpErrorsMessages[catchError.response.data.message];
+
+        if (messageError) {
+          error(messageError);
+          return;
+        }
+      }
+
       error("Erro ao criar produto");
     } finally {
       stopProductLoading();

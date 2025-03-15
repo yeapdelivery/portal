@@ -51,22 +51,10 @@ const editStoreSchema = z
         .transform((value) => value.replace(/\D/g, "")),
     }),
     delivery: z.object({
-      price: z
-        .number()
-        .or(z.string())
-        .transform((value) => Number(value)),
-      estimatedMaxTime: z
-        .string()
-        .min(1, "Tempo máximo obrigatório")
-        .transform((value) => Number(value.replace(/\D/g, ""))),
-      minOrder: z
-        .string()
-        .optional()
-        .transform((value) => Number(value.replace(/\D/g, ""))),
-      estimatedMinTime: z
-        .string()
-        .min(1, "Tempo máximo obrigatório")
-        .transform((value) => Number(value.replace(/\D/g, ""))),
+      price: z.number(),
+      estimatedMaxTime: z.number(),
+      minOrder: z.number(),
+      estimatedMinTime: z.number(),
     }),
     openingHours: z.object({
       sunday: z
@@ -74,43 +62,43 @@ const editStoreSchema = z
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .nullable(),
+        .optional(),
       monday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .nullable(),
+        .optional(),
       tuesday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .nullable(),
+        .optional(),
       wednesday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .nullable(),
+        .optional(),
       thursday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .nullable(),
+        .optional(),
       friday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .nullable(),
+        .optional(),
       saturday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .nullable(),
+        .optional(),
     }),
   })
   .refine(
@@ -171,9 +159,11 @@ export function ScreenStore() {
 
   useEffect(() => {
     if (errors?.openingHours) {
-      errorToast(errors.openingHours.root.message);
+      errorToast(errors?.openingHours?.root?.message);
     }
   }, [errors]);
+
+  console.log(store);
 
   useEffect(() => {
     if (store) {
@@ -260,6 +250,7 @@ export function ScreenStore() {
             >
               <Delivery
                 errors={errors}
+                store={store}
                 getValues={getValues}
                 register={register}
                 setValue={setValue}
