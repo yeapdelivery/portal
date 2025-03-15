@@ -49,5 +49,7 @@ export interface ProductModel {
   description: string;
   image: string;
   cooled: boolean;
+  isPizza: boolean;
+  totalFlavors: number;
   variations: ProductVariant[];
 }

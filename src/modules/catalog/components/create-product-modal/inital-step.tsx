@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
-import { Coffee, PencilSimple, X } from "@phosphor-icons/react";
+import { Coffee, PencilSimple, Pizza, X } from "@phosphor-icons/react";
 import { tv } from "tailwind-variants";
 import { useForm } from "react-hook-form";
 
@@ -52,6 +52,8 @@ const initialStepSchema = z
     type: z.string().min(1, {
       message: "Tipo de produto obrigatório",
     }),
+    isPizza: z.boolean().default(false),
+    totalFlavors: z.number().optional(),
     price: z.object({
       original: z
         .string()
@@ -113,6 +115,7 @@ export function InitialStep({
   selectVariationProduct,
 }: InitialStepProps) {
   const { cardType } = initialStep();
+
   const [type, setType] = useState<ProductTypeEnum>();
   const [promotional, setPromotional] = useState<boolean>(false);
   const [cooled, setCooled] = useState<boolean>(false);
@@ -127,6 +130,8 @@ export function InitialStep({
     !product?.image
   );
   const [selectedVariation, setSelectedVariation] = useState<ProductVariant>();
+  const [isPizza, setIsPizza] = useState(false);
+
   const {
     open: openDialogDeleteVariation,
     openModal: onOpenDialogDeleteVariation,
@@ -160,6 +165,8 @@ export function InitialStep({
       cooled: product?.cooled || false,
       type: product?.type || "",
       serves: product?.serves || 0,
+      isPizza: product?.isPizza,
+      totalFlavors: product?.totalFlavors || 0,
     },
   });
 
@@ -174,6 +181,7 @@ export function InitialStep({
       setType(product.type);
       setPromotional(!!product.price.promotional);
       setCooled(product.cooled);
+      setIsPizza(product.isPizza);
     }
   }, [product]);
 
@@ -318,9 +326,11 @@ export function InitialStep({
           <div className="flex items-center gap-2">
             <button
               className={cardType({
-                selected: ProductTypeEnum.SIMPLE === type,
+                selected: ProductTypeEnum.SIMPLE === type && !isPizza,
               })}
               onClick={() => {
+                if (isPizza) setIsPizza(false);
+
                 setType(ProductTypeEnum.SIMPLE);
                 setValue("type", ProductTypeEnum.SIMPLE);
               }}
@@ -329,11 +339,14 @@ export function InitialStep({
               <Coffee weight="bold" />
               <span>Simples</span>
             </button>
+
             <button
               className={cardType({
-                selected: ProductTypeEnum.COMPLEX === type,
+                selected: ProductTypeEnum.COMPLEX === type && !isPizza,
               })}
               onClick={() => {
+                if (isPizza) setIsPizza(false);
+
                 setType(ProductTypeEnum.COMPLEX);
                 setValue("type", ProductTypeEnum.COMPLEX);
               }}
@@ -345,7 +358,26 @@ export function InitialStep({
                 <Coffee weight="bold" size={14} />
               </div>
 
-              <span>Com variações</span>
+              <span>Variações</span>
+            </button>
+
+            <button
+              className={cardType({
+                selected: isPizza,
+              })}
+              onClick={() => {
+                setIsPizza(true);
+                setType(ProductTypeEnum.COMPLEX);
+                setValue("type", ProductTypeEnum.COMPLEX);
+                setValue("isPizza", true);
+              }}
+              type="button"
+            >
+              <div className="flex items-end gap-1">
+                <Pizza weight="bold" size={14} />
+              </div>
+
+              <span>Pizza</span>
             </button>
           </div>
           {errors?.type?.message && (
@@ -415,6 +447,25 @@ export function InitialStep({
                   }}
                 />
               </Filed>
+
+              {product?.isPizza && isPizza && (
+                <Filed
+                  label="Quantidade de sabores"
+                  error={errors?.serves?.message}
+                  htmlFor="totalFlavors"
+                >
+                  <TextFiled.Input
+                    id="totalFlavors"
+                    placeholder="Digite a quantidade de sabores da pizza"
+                    autoComplete="off"
+                    {...register("totalFlavors")}
+                    onChange={(e) => {
+                      if (e.target.value === "") return;
+                      setValue("totalFlavors", parseInt(e.target.value));
+                    }}
+                  />
+                </Filed>
+              )}
 
               <Checkbox
                 value="cooled"
