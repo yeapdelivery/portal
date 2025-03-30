@@ -163,8 +163,6 @@ export function ScreenStore() {
     }
   }, [errors]);
 
-  console.log(store);
-
   useEffect(() => {
     if (store) {
       Object.keys(store).forEach((key) => {
