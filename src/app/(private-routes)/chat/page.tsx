@@ -1,7 +1,5 @@
+import { ChatTemplate } from "@/modules/chat/templates";
+
 export default function Chat() {
-  return (
-    <div>
-      <h1>Chat</h1>
-    </div>
-  );
+  return <ChatTemplate />;
 }

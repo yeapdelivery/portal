@@ -7,6 +7,7 @@ import { MenuItem } from "./menu-item";
 import { Menu, MenuProps } from "..";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface SideBarDesktopLayout {
   menus: MenuProps[];
@@ -64,13 +65,15 @@ export default function SideBarDesktopLayout({
       >
         <div>
           <div className="flex justify-center">
-            <Image
-              src="/logo.png"
-              alt="Logo"
-              width={103}
-              height={51}
-              className="ml-2"
-            />
+            <Link href="/pedidos">
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={103}
+                height={51}
+                className="ml-2"
+              />
+            </Link>
           </div>
           <nav>
             <ul className={itemContainer()}>

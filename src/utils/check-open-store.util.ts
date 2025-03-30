@@ -21,7 +21,7 @@ export function checkOpenStore(store: StoreModel) {
 
   const day = days[today];
 
-  if (!day) return false;
+  if (!day || !openingHours[day]) return false;
 
   const { openHour, closeHour } = openingHours[day];
 

@@ -23,6 +23,7 @@ import Button from "@/modules/app/components/button";
 import { Plus } from "@phosphor-icons/react";
 import { ModalOrder } from "../components/modal-order";
 import { removeNewOrderEvent, useNewOrderEvent } from "@/events";
+import { SendMessageModal } from "@/modules/app/components/send-message-modal";
 
 interface OrderBoard {
   [OrderStatus.IN_PROGRESS]: OrderResponse;
@@ -47,6 +48,13 @@ export function ListOrders() {
     },
   } as OrderBoard);
   const [orderChangeStatusId, newOrderChangeStatusId] = useState<string[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const screenSize = useScreenSize();
+  const store = useStore((state) => state.store);
+  const [pageInProgress, setPageInProgress] = useState(1);
+  const [pageDelivering, setPageDelivering] = useState(1);
+  const [pageDelivered, setPageDelivered] = useState(1);
+
   const [isListOrderLoading, startListOrderLoader, stopListOrderLoader] =
     useLoading(true);
   const [
@@ -64,14 +72,11 @@ export function ListOrders() {
     startLoadMoreOrderDelivered,
     stopLoadMoreOrderDelivered,
   ] = useLoading();
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const screenSize = useScreenSize();
-  const store = useStore((state) => state.store);
-  const [pageInProgress, setPageInProgress] = useState(1);
-  const [pageDelivering, setPageDelivering] = useState(1);
-  const [pageDelivered, setPageDelivered] = useState(1);
+
   const { open, onOpenChange } = useModal();
-  const { error: errorToast, toast, setToast } = useToast();
+  const { open: openSendMessageModal, onOpenChange: onOpenSendMessageModal } =
+    useModal();
+  const { error: errorToast, success, toast, setToast } = useToast();
 
   const ordersOccurrences =
     orders[OrderStatus.IN_PROGRESS].count +
@@ -216,8 +221,6 @@ export function ListOrders() {
     newOrderChangeStatusId((oldValue) => [...oldValue, order.id]);
     setOrders(newOrders);
 
-    console.log(to, OrderStatus.DELIVERING);
-
     if (to !== OrderStatus.DELIVERING) {
       await updateOrderStatus(order.id, to);
     }
@@ -232,6 +235,11 @@ export function ListOrders() {
   function onOpenOrderDetail(order: Order): void {
     setSelectedOrder(order);
     onOpenChange(true);
+  }
+
+  function handleOpenSendMessageModal(order: Order) {
+    setSelectedOrder(order);
+    onOpenSendMessageModal(true);
   }
 
   return (
@@ -307,6 +315,7 @@ export function ListOrders() {
                     key={order.id}
                     order={order}
                     isNew={orderChangeStatusId.includes(order.id)}
+                    handleSendMessageClick={handleOpenSendMessageModal}
                     handleChangeStatus={handleChangeStatus}
                     handleRemoveNewValue={handleRemoveNewValue}
                     openOrderDetail={onOpenOrderDetail}
@@ -354,6 +363,7 @@ export function ListOrders() {
                   <CardOrder
                     key={order.id}
                     order={order}
+                    handleSendMessageClick={handleOpenSendMessageModal}
                     isNew={orderChangeStatusId.includes(order.id)}
                     handleChangeStatus={handleChangeStatus}
                     handleRemoveNewValue={handleRemoveNewValue}
@@ -404,6 +414,7 @@ export function ListOrders() {
                     key={order.id}
                     order={order}
                     isNew={orderChangeStatusId.includes(order.id)}
+                    handleSendMessageClick={handleOpenSendMessageModal}
                     handleChangeStatus={handleChangeStatus}
                     handleRemoveNewValue={handleRemoveNewValue}
                     openOrderDetail={onOpenOrderDetail}
@@ -436,13 +447,20 @@ export function ListOrders() {
         setOpen={(open) => {
           setToast({ message: "", open });
         }}
-        type={ToastType.ERROR}
+        type={toast.type}
       />
 
       <ModalOrder
         order={selectedOrder}
         open={open}
         onOpenChange={onOpenChange}
+      />
+
+      <SendMessageModal
+        open={openSendMessageModal}
+        userId={selectedOrder?.userId}
+        userName={selectedOrder?.userName}
+        setOpen={onOpenSendMessageModal}
       />
     </div>
   );

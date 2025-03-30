@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 4000",
+    "start": "next start -p 3000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -42,6 +42,7 @@
     "tailwind-variants": "^0.1.18",
     "tailwindcss-animate": "^1.0.7",
     "utf-8-validate": "^6.0.5",
+    "uuid": "^11.1.0",
     "ws": "^8.18.0",
     "zod": "^3.22.4",
     "zustand": "^4.5.2"

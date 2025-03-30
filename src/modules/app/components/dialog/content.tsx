@@ -17,7 +17,7 @@ const dialog = tv({
     position: {
       right: {
         content: [
-          "left-0 top-0 right-0 bottom-0 md:left-auto ",
+          " top-0 right-0 bottom-0 left-auto",
           "data-[state=open]:animate-animation-modal-fade-in",
           "data-[state=closed]:animate-animation-modal-fade-out z-[100]",
         ],

@@ -1,13 +1,4 @@
-import "./style.css";
-
-import {
-  ForwardedRef,
-  RefObject,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { RefObject, forwardRef, useEffect, useRef, useState } from "react";
 import { Combobox, ComboboxList, ComboboxProvider } from "@ariakit/react";
 import * as RadixPopover from "@radix-ui/react-popover";
 import { tv } from "tailwind-variants";

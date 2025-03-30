@@ -3,6 +3,18 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
+}
+
+::-webkit-scrollbar {
+  @apply w-1;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background rounded mt-1 mb-1;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-red-default rounded mt-1 mb-1;
 }

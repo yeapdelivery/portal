@@ -1,15 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useStore } from "../../store/stores";
 import Dialog from "../dialog";
 
-import socket from "@/providers/socketIo.provider";
 import { Order } from "@/modules/order/models";
-import {
-  getAllOrderByStatus,
-  updateOrderStatus,
-} from "@/modules/order/services";
+import { updateOrderStatus } from "@/modules/order/services";
 import { OrderStatus } from "@/modules/order/enums";
 import { ModalOrderContent } from "@/modules/order/components/modal-order/modal-order-content";
 import Button from "../button";
@@ -21,9 +17,13 @@ import Toast from "../toast";
 import ptBr from "date-fns/locale/pt-BR";
 import { postNewOrderEvent } from "@/events";
 
-export function OrderModal() {
+interface OrderModalProps {
+  orders: Order[];
+  setOrders: Dispatch<SetStateAction<Order[]>>;
+}
+
+export function OrderModal({ orders, setOrders }: OrderModalProps) {
   const store = useStore((state) => state.store);
-  const [orders, setOrders] = useState<Order[]>([]);
 
   const { toast, setToast, error: toastError } = useToast();
   const [
@@ -33,21 +33,6 @@ export function OrderModal() {
   ] = useLoading();
 
   const order = orders[orders.length - 1];
-
-  useEffect(() => {
-    if (!store.id) return;
-    fetchOrders();
-
-    socket.emit("joinStore", store.id);
-
-    socket.on("orderReceived", (newOrder) => {
-      setOrders((prev) => [...prev, newOrder]);
-    });
-
-    return () => {
-      socket.off("orderReceived");
-    };
-  }, [store]);
 
   useEffect(() => {
     if (orders.length === 0) return;
@@ -60,21 +45,6 @@ export function OrderModal() {
     audio.play().catch((error) => {
       console.error("Error playing audio: ", error);
     });
-  }
-
-  async function fetchOrders() {
-    try {
-      const { orders } = await getAllOrderByStatus(OrderStatus.PENDING, 1, 100);
-
-      setOrders(orders);
-
-      if (orders.length > 0) {
-        await playAudio();
-      }
-    } catch (error) {
-      console.error(error);
-      toastError("Erro ao buscar pedidos");
-    }
   }
 
   async function handleUpdateOrderStatus(status: OrderStatus) {

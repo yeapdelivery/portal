@@ -1,18 +1,21 @@
 "use client";
+import Link from "next/link";
+import { tv } from "tailwind-variants";
+import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
+import { v4 as uuidv4 } from "uuid";
 
 import { useEffect, useRef, useState } from "react";
-import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { OrderStatus } from "../../enums";
 import { Order } from "../../models";
-import { currency, formatAddress, formatOrderNumber } from "@/formatting";
 import { CardLoading } from "./card-loading";
-import { tv } from "tailwind-variants";
+import { currency, formatAddress, formatOrderNumber } from "@/formatting";
 import { updateOrderStatus } from "../../services";
 import { formatDateWithHour } from "@/utils/format-date.util";
 
 interface CardOrderProps {
   order: Order;
   isNew?: boolean;
+  handleSendMessageClick: (order: Order) => void;
   handleChangeStatus?: (
     order: Order,
     from: OrderStatus,
@@ -37,6 +40,7 @@ const INITIAL_TIMER = 30;
 export function CardOrder({
   order,
   isNew = false,
+  handleSendMessageClick,
   handleChangeStatus,
   handleRemoveNewValue,
   openOrderDetail,
@@ -98,7 +102,9 @@ export function CardOrder({
         </span>
 
         <div className="p-1 bg-gray-1000 rounded text-red-primary-dark">
-          <ChatDots size={20} weight="bold" />
+          <button onClick={() => handleSendMessageClick(order)}>
+            <ChatDots size={20} weight="bold" />
+          </button>
         </div>
       </div>
 

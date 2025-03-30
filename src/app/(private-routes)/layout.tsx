@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
-import { OrderModal } from "@/modules/app/components/order-modal";
+import { SocketWrapper } from "@/modules/app/components/socket-wrapper";
 
 import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import SideBar from "@/modules/app/components/side-bar";
@@ -29,7 +29,7 @@ export default async function PrivateLayout({ children }: PrivateLayoutProps) {
         accessToken={session.store.accessToken}
         userFromLayout={session.user}
       />
-      <OrderModal />
+      <SocketWrapper />
     </>
   );
 }

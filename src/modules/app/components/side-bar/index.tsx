@@ -143,11 +143,11 @@ export default function SideBar({ children }: SideBarProps) {
       return menu.href === pathName;
     });
 
-    if (menu.href && pathName.includes(menu.href)) {
+    if (menu?.href && pathName.includes(menu.href)) {
       setActiveMenu(menu.name);
       return;
     }
-    const subMenu = menu.subMenu.find((subMenu) => {
+    const subMenu = menu?.subMenu.find((subMenu) => {
       return subMenu.href === pathName;
     });
 

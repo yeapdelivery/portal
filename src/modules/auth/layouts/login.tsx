@@ -13,6 +13,7 @@ import Button from "@/modules/app/components/button/button";
 import Toast from "@/modules/app/components/toast";
 import { ToastType } from "@/modules/app/components/toast/types";
 import { FormEvent } from "react";
+import Link from "next/link";
 
 const authenticationFormSchema = z.object({
   email: z.string().email({ message: "Adicione um email válido" }).min(1),
@@ -74,12 +75,14 @@ export default function Login() {
     <div className="h-screen">
       <div className="flex justify-center items-center h-full">
         <div className="flex flex-col items-center gap-10">
-          <Image
-            src="/logo.png"
-            alt="Picture of the author"
-            width={160}
-            height={76}
-          />
+          <Link href="/">
+            <Image
+              src="/pedidos"
+              alt="Picture of the author"
+              width={160}
+              height={76}
+            />
+          </Link>
 
           <div>
             <div>
