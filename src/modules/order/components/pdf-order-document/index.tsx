@@ -17,6 +17,12 @@ const styles = StyleSheet.create({
   section: { marginBottom: 10 },
   title: { fontSize: 16, fontWeight: "bold", marginBottom: 5 },
   text: { fontSize: 12, marginBottom: 3 },
+  textObservation: {
+    fontSize: 12,
+    marginBottom: 3,
+    fontStyle: "italic",
+    color: "green",
+  },
   divider: {
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
@@ -83,6 +89,9 @@ export function OrderPDF({ order }: OrderPDFProps) {
           </Text>
           <Text style={styles.text}>
             Pagamento: {paymentMethodsMap[order.paymentType]}
+          </Text>
+          <Text style={styles.textObservation}>
+            Observação: {order.observation}
           </Text>
           <Text style={styles.text}>
             Frete: {currency(Number(order.deliveryPrice))}

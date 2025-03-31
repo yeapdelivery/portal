@@ -10,6 +10,7 @@ export interface Order {
   userId: string;
   userName: string;
   phone: string;
+  observation: string;
   userAddress: Address;
   products: Product[];
   deliveryPrice: string;

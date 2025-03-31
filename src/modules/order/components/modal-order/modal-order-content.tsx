@@ -116,6 +116,11 @@ export function ModalOrderContent({ order }: ModalOrderContentProps) {
             {paymentMethodsMap[order.paymentType]}
           </div>
 
+          <div className="text-green-default">
+            <strong className="text-sm ">Observação:</strong>{" "}
+            {order.observation || "-"}
+          </div>
+
           <div>
             <strong className="text-sm">Preço da entrega:</strong>{" "}
             {currency(Number(order.deliveryPrice))}

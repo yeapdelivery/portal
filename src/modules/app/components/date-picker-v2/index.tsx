@@ -24,19 +24,16 @@ interface DatePickerWithRangeProps
 const from = new Date(new Date().getFullYear(), new Date().getMonth(), 20);
 const to = addDays(from, 30);
 
-const defaultValue = {
+export const defaultDateValue = {
   from,
   to,
 };
 
 export function DatePickerWithRange({
   className,
-  date: dateProp,
+  date = defaultDateValue,
+  onChange,
 }: DatePickerWithRangeProps) {
-  const [date, setDate] = React.useState<DateRange | undefined>(
-    dateProp || defaultValue
-  );
-
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
@@ -72,7 +69,9 @@ export function DatePickerWithRange({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={(selectedDate) => {
+              onChange && onChange(selectedDate);
+            }}
             numberOfMonths={2}
           />
         </PopoverContent>
