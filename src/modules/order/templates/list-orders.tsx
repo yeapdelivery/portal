@@ -304,7 +304,7 @@ export function ListOrders() {
               </div>
             </div>
 
-            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
+            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh] pr-2">
               {isListOrderLoading &&
                 Array.from({ length: 10 }).map((_, index) => (
                   <CardOrder.Loading key={index} />
@@ -353,7 +353,7 @@ export function ListOrders() {
                 {orders[OrderStatus.DELIVERING].count}
               </div>
             </div>
-            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
+            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh] pr-2">
               {isListOrderLoading &&
                 Array.from({ length: 10 }).map((_, index) => (
                   <CardOrder.Loading key={index} />
@@ -403,7 +403,7 @@ export function ListOrders() {
                 {orders[OrderStatus.DELIVERED].count}
               </div>
             </div>
-            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh]">
+            <div className="mt-2 rounded-lg space-y-2 overflow-y-scroll h-[70vh] lg:h-[85vh] pr-2">
               {isListOrderLoading &&
                 Array.from({ length: 10 }).map((_, index) => (
                   <CardOrder.Loading key={index} />

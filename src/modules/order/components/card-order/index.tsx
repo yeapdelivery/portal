@@ -11,6 +11,7 @@ import { CardLoading } from "./card-loading";
 import { currency, formatAddress, formatOrderNumber } from "@/formatting";
 import { updateOrderStatus } from "../../services";
 import { formatDateWithHour } from "@/utils/format-date.util";
+import { isPastChat } from "@/utils";
 
 interface CardOrderProps {
   order: Order;
@@ -31,6 +32,7 @@ const cardStyle = tv({
       "hover:bg-gray-1000 p-3 data-[enter=true]:animate-card-order-animation",
       "rounded-lg font-inter  duration-500 animate-card-order-animation transition-opacity",
       "hover:border-solid hover:border hover:border-blue-default bg-white",
+      "border border-gray-700",
     ],
   },
 });
@@ -55,6 +57,11 @@ export function CardOrder({
   const verifyProducingState = order.status === OrderStatus.IN_PROGRESS;
   const verifyDeliveringState =
     !isNew && order.status === OrderStatus.DELIVERING;
+
+  const isPast =
+    isPastChat(order.createdAt) &&
+    !isNew &&
+    order.status === OrderStatus.DELIVERED;
 
   useEffect(() => {
     if (!isNew || order.status !== OrderStatus.DELIVERING) return;
@@ -102,9 +109,11 @@ export function CardOrder({
         </span>
 
         <div className="p-1 bg-gray-1000 rounded text-red-primary-dark">
-          <button onClick={() => handleSendMessageClick(order)}>
-            <ChatDots size={20} weight="bold" />
-          </button>
+          {!isPast && (
+            <button onClick={() => handleSendMessageClick(order)}>
+              <ChatDots size={20} weight="bold" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -139,16 +148,6 @@ export function CardOrder({
         </div>
 
         <div className="flex items-center gap-4 mt-4">
-          {verifyConfirmedState && (
-            <button
-              onClick={() =>
-                changeStatus(OrderStatus.IN_PROGRESS, OrderStatus.DELIVERING)
-              }
-              className="border animate-card-order-animation border-red-default text-red-default font-rubik font-semibold rounded text-[10px] w-full h-8"
-            >
-              Saiu para entrega
-            </button>
-          )}
           {verifyDeliveringState && (
             <button
               onClick={() =>
@@ -164,9 +163,20 @@ export function CardOrder({
               onClick={() =>
                 changeStatus(OrderStatus.IN_PROGRESS, OrderStatus.DELIVERED)
               }
-              className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-[10px] w-full h-8"
+              className="border animate-card-order-animation border-red-default text-red-default font-rubik font-semibold rounded text-[10px] w-full h-8"
             >
               Finalizar
+            </button>
+          )}
+
+          {verifyConfirmedState && (
+            <button
+              onClick={() =>
+                changeStatus(OrderStatus.IN_PROGRESS, OrderStatus.DELIVERING)
+              }
+              className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-[10px] w-full h-8"
+            >
+              Saiu para entrega
             </button>
           )}
 

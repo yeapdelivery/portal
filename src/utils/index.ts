@@ -7,3 +7,4 @@ export {
 } from "./get-opening-hours";
 export * from "./http-errors-messages.util";
 export * from "./check-open-store.util";
+export * from "./isPastChat.util";

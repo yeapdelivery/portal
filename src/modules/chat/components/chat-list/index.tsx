@@ -3,12 +3,50 @@ import Link from "next/link";
 
 import { ChatModel } from "../../models";
 import { formatDate } from "@/formatting/date";
-import { useLoading } from "@/modules/app/hooks";
+import { useLoading, useModal } from "@/modules/app/hooks";
 import { useStore } from "@/modules/app/store/stores";
 import { getChatList } from "../../services";
 import { useChat } from "../../store";
 import { ChatLoading } from "../chat-loading";
 import Button from "@/modules/app/components/button";
+import { isPastChat } from "@/utils";
+import Dialog from "@/modules/app/components/dialog";
+
+function Wrapper({
+  children,
+  chat,
+  onOpenChange,
+  unreadMessages,
+}: {
+  children: React.ReactNode;
+  chat: ChatModel;
+  unreadMessages: string[];
+  onOpenChange: (open: boolean) => void;
+}) {
+  const isPast =
+    isPastChat(chat.lastMessageAt) && !unreadMessages.includes(chat.id);
+
+  if (isPast) {
+    return (
+      <div
+        className="flex justify-between items-center border-b border-gray-600 pb-3 pt-3 cursor-pointer"
+        onClick={() => onOpenChange(true)}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={`/chat/${chat.id}/${chat.user.id}`}
+      key={chat.id}
+      className="flex justify-between items-center border-b border-gray-600 pb-3 pt-3"
+    >
+      {children}
+    </Link>
+  );
+}
 
 export function ChatList() {
   const store = useStore((state) => state.store);
@@ -16,6 +54,8 @@ export function ChatList() {
   const { unreadMessages } = useChat((state) => state);
   const [page, setPage] = useState(1);
   const [hasNoMore, setHasNoMore] = useState(true);
+
+  const { open, onOpenChange } = useModal();
 
   const [isLoadingChatList, startLoadingChatList, stopLoadingChatList] =
     useLoading();
@@ -57,10 +97,11 @@ export function ChatList() {
       {!isLoadingChatList ? (
         <div>
           {chatList?.map((chat) => (
-            <Link
-              href={`/chat/${chat.id}/${chat.user.id}`}
+            <Wrapper
+              chat={chat}
               key={chat.id}
-              className="flex justify-between items-center border-b border-gray-600 pb-3 pt-3"
+              unreadMessages={unreadMessages}
+              onOpenChange={onOpenChange}
             >
               <div>
                 <div>
@@ -83,7 +124,7 @@ export function ChatList() {
                   {formatDate(chat.lastMessageAt)}
                 </span>
               </div>
-            </Link>
+            </Wrapper>
           ))}
 
           {!hasNoMore && (
@@ -99,6 +140,23 @@ export function ChatList() {
       ) : (
         <ChatLoading />
       )}
+
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog.Content position="center" title="Conversa inativa">
+          <div className="space-y-4">
+            <p>Essa conversa está inativa há mais de 2 horas</p>
+
+            <Button
+              variant="secondary"
+              onClick={() => {
+                onOpenChange(false);
+              }}
+            >
+              Fechar
+            </Button>
+          </div>
+        </Dialog.Content>
+      </Dialog>
     </div>
   );
 }
