@@ -1,13 +1,12 @@
 "use client";
 
-import DatePicker from "@/modules/app/components/date-picker";
 import { DatePickerWithRange } from "@/modules/app/components/date-picker-v2";
 import { List } from "@phosphor-icons/react/dist/ssr";
 
 export function DashboardTemplate() {
   return (
     <div className="px-4">
-      <div className="flex justify-between items-center">
+      <div className="flex gap-2 items-center">
         <h1 className="font-bold text-sm xs:text-xl font-rubik text-gray-100">
           Dashboard
         </h1>

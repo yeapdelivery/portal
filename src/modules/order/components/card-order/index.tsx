@@ -12,6 +12,9 @@ import { currency, formatAddress, formatOrderNumber } from "@/formatting";
 import { updateOrderStatus } from "../../services";
 import { formatDateWithHour } from "@/utils/format-date.util";
 import { isPastChat } from "@/utils";
+import { Printer } from "@phosphor-icons/react";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { OrderPDF } from "../pdf-order-document";
 
 interface CardOrderProps {
   order: Order;
@@ -100,7 +103,7 @@ export function CardOrder({
 
   return (
     <div ref={ref} data-enter={isNew} className={card()}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-1">
         <span className="font-bold text-sm text-gray-100">
           {order.userName}{" "}
           <span className="text-red-default font-medium">
@@ -108,12 +111,25 @@ export function CardOrder({
           </span>
         </span>
 
-        <div className="p-1 bg-gray-1000 rounded text-red-primary-dark">
-          {!isPast && (
-            <button onClick={() => handleSendMessageClick(order)}>
-              <ChatDots size={20} weight="bold" />
-            </button>
-          )}
+        <div className="flex items-center gap-4">
+          <div className="p-1 bg-gray-1000 rounded text-red-primary-dark w-5 h-5 flex items-center justify-center">
+            {!isPast && (
+              <button onClick={() => handleSendMessageClick(order)}>
+                <ChatDots size={16} weight="bold" />
+              </button>
+            )}
+          </div>
+
+          <div className="p-1 bg-gray-1000 rounded text-red-primary-dark w-5 h-5 flex items-center justify-center">
+            <PDFDownloadLink
+              document={<OrderPDF order={order} />}
+              fileName={`${formatOrderNumber(order.orderNumber)}.pdf`}
+            >
+              <button className="mt-1">
+                <Printer size={16} weight="bold" />
+              </button>
+            </PDFDownloadLink>
+          </div>
         </div>
       </div>
 
