@@ -15,7 +15,7 @@ const optionsStoreType = [
 ];
 
 const optionsSpecialty = [
-  { id: "1", title: "Marmita", value: "Marmita" },
+  { id: "1", title: "Restaurantes", value: "Restaurantes" },
   { id: "2", title: "Açai e Sorvete", value: "Açai e Sorvete" },
   { id: "3", title: "Doces e bolos", value: "Doces e bolos" },
   { id: "4", title: "Hamburgueria", value: "Hamburgueria" },
@@ -204,7 +204,7 @@ export function RegisterStoreInfo({
               </div>
 
               <SelectField
-                label="Categoria"
+                label="Categorias"
                 error={errors.specialties?.message}
                 htmlFor="category"
                 required={true}
