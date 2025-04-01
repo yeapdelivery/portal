@@ -254,6 +254,15 @@ export function InitialStep({
   async function handleDeleteVariation() {
     startDeleteVariationLoading();
     try {
+      const productNotSaved = !product?.id;
+
+      if (productNotSaved) {
+        setVariations((prev) =>
+          prev.filter((variation) => variation.id !== selectedVariation.id)
+        );
+        return;
+      }
+
       await variantService.deleteVariant(
         selectedVariation.id,
         store.id,

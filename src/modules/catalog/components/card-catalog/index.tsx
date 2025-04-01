@@ -95,7 +95,7 @@ export function CardCatalog({
   }
 
   return (
-    <div className="p-3 bg-white rounded-xl flex gap-4">
+    <div className="p-3 bg-white rounded-xl flex gap-4 border border-blue-100 ">
       {productData.image ? (
         <div>
           <Image

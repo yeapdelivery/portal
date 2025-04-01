@@ -305,7 +305,7 @@ export function ListOrders() {
               <TextFiled.Input
                 id="search"
                 className="flex-1"
-                placeholder="Procure por cliente, telefone ou número."
+                placeholder="Procure nome do cliente ou número do pedido."
                 {...register("search")}
                 startIcon={
                   <MagnifyingGlass size={20} className="text-gray-500" />

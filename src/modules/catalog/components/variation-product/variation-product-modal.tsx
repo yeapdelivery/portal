@@ -284,10 +284,19 @@ export function VariationProductModal({
     }
   }
 
+  async function onDeleteNewOption(optionId: string) {
+    const newOptions = options.filter((option) => {
+      return option?.id !== optionId;
+    });
+
+    setOptions(newOptions);
+    setSelectedOption(undefined);
+  }
+
   async function onDeleteOption() {
     startLoaderOptions();
     try {
-      if (!selectedOption.id) {
+      if (selectedOption?.id.includes("toCreate")) {
         setOptions((prev) =>
           prev.filter((option, i) => option.id !== selectedOption.id)
         );
@@ -447,7 +456,13 @@ export function VariationProductModal({
                     </div>
                     {(originalOptions.length > 1 || variant?.id) && (
                       <button
-                        onClick={() => handleDeleteOption(index)}
+                        onClick={() => {
+                          if (option?.id.includes("toCreate")) {
+                            onDeleteNewOption(option.id);
+                            return;
+                          }
+                          handleDeleteOption(index);
+                        }}
                         className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded text-red-default"
                         type="button"
                       >
