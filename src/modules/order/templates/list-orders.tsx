@@ -24,12 +24,21 @@ import { Plus } from "@phosphor-icons/react";
 import { ModalOrder } from "../components/modal-order";
 import { removeNewOrderEvent, useNewOrderEvent } from "@/events";
 import { SendMessageModal } from "@/modules/app/components/send-message-modal";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface OrderBoard {
   [OrderStatus.IN_PROGRESS]: OrderResponse;
   [OrderStatus.DELIVERING]: OrderResponse;
   [OrderStatus.DELIVERED]: OrderResponse;
 }
+
+const searchSchema = z.object({
+  search: z.string(),
+});
+
+type SearchFormSchema = z.infer<typeof searchSchema>;
 
 export function ListOrders() {
   const [orderStatusTab, setOrderStatusTab] = useState(OrderStatus.IN_PROGRESS);
@@ -76,7 +85,11 @@ export function ListOrders() {
   const { open, onOpenChange } = useModal();
   const { open: openSendMessageModal, onOpenChange: onOpenSendMessageModal } =
     useModal();
-  const { error: errorToast, success, toast, setToast } = useToast();
+  const { error: errorToast, toast, setToast } = useToast();
+
+  const { getValues, register, handleSubmit } = useForm<SearchFormSchema>({
+    resolver: zodResolver(searchSchema),
+  });
 
   const ordersOccurrences =
     orders[OrderStatus.IN_PROGRESS].count +
@@ -156,7 +169,12 @@ export function ListOrders() {
 
     startLoadMoreOrder[status]();
     try {
-      const newOrders = await getAllOrderByStatus(status, page);
+      const newOrders = await getAllOrderByStatus(
+        status,
+        page,
+        undefined,
+        getValues("search")
+      );
 
       handleSetOrders(status, newOrders, shouldNewOrderFist);
     } catch (error) {
@@ -172,9 +190,24 @@ export function ListOrders() {
 
     try {
       const [confirmed, delivering, delivered] = await Promise.all([
-        getAllOrderByStatus(OrderStatus.IN_PROGRESS),
-        getAllOrderByStatus(OrderStatus.DELIVERING),
-        getAllOrderByStatus(OrderStatus.DELIVERED),
+        getAllOrderByStatus(
+          OrderStatus.IN_PROGRESS,
+          undefined,
+          undefined,
+          getValues("search")
+        ),
+        getAllOrderByStatus(
+          OrderStatus.DELIVERING,
+          undefined,
+          undefined,
+          getValues("search")
+        ),
+        getAllOrderByStatus(
+          OrderStatus.DELIVERED,
+          undefined,
+          undefined,
+          getValues("search")
+        ),
       ]);
 
       setOrders({
@@ -242,9 +275,16 @@ export function ListOrders() {
     onOpenSendMessageModal(true);
   }
 
+  async function onSubmit() {
+    startListOrderLoader();
+
+    await fetchOrders();
+    stopListOrderLoader();
+  }
+
   return (
     <div className="px-4 pb-7">
-      <div className="flex flex-1 items-center justify-between gap-4 md:mt-12">
+      <div className="md:flex flex-1 items-center justify-between gap-4 md:mt-12">
         <div className="flex items-center gap-1.5">
           <h1 className="font-bold text-sm xs:text-xl font-rubik text-gray-100">
             Pedidos
@@ -256,31 +296,30 @@ export function ListOrders() {
           </div>
         </div>
 
-        <div className="flex-1 hidden md:block">
-          <TextFiled error={null} htmlFor="search" label="">
-            <TextFiled.Input
-              id="search"
-              placeholder="Procure por cliente, telefone ou número."
-              startIcon={
-                <MagnifyingGlass size={20} className="text-gray-500" />
-              }
-            />
-          </TextFiled>
-        </div>
+        <form
+          className="flex-1 flex items-start gap-4 w-full mt-2 md:mt-0"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="flex-1">
+            <TextFiled error={null} htmlFor="search" label="">
+              <TextFiled.Input
+                id="search"
+                className="flex-1"
+                placeholder="Procure por cliente, telefone ou número."
+                {...register("search")}
+                startIcon={
+                  <MagnifyingGlass size={20} className="text-gray-500" />
+                }
+              />
+            </TextFiled>
+          </div>
+
+          <Button className="w-fit">Pesquisar</Button>
+        </form>
 
         {/* <div className="w-[150px]">
           <DatePicker maxDate={new Date()} />
         </div> */}
-      </div>
-
-      <div className="flex-1 md:hidden mt-10">
-        <TextFiled error={null} htmlFor="search" label="">
-          <TextFiled.Input
-            id="search"
-            placeholder="Procure por cliente, telefone ou número."
-            startIcon={<MagnifyingGlass size={20} className="text-gray-500" />}
-          />
-        </TextFiled>
       </div>
 
       <div className="mt-6 grid lg:grid-cols-kanban gap-[10px]">

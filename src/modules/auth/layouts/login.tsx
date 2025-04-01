@@ -76,12 +76,7 @@ export default function Login() {
       <div className="flex justify-center items-center h-full">
         <div className="flex flex-col items-center gap-10">
           <Link href="/">
-            <Image
-              src="/pedidos"
-              alt="Picture of the author"
-              width={160}
-              height={76}
-            />
+            <Image src="/logo.png" alt="Logo do yeap" width={160} height={76} />
           </Link>
 
           <div>

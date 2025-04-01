@@ -10,10 +10,11 @@ export interface OrderResponse {
 export async function getAllOrderByStatus(
   status: OrderStatus,
   page: number = 1,
-  limit: number = 10
+  limit: number = 10,
+  search?: string
 ): Promise<OrderResponse> {
   const { data } = await api.get<OrderResponse>(`/stores/orders/${status}`, {
-    params: { page, limit: limit },
+    params: { page, limit: limit, search },
   });
 
   return data;
