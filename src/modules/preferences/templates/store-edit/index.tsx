@@ -68,37 +68,47 @@ const editStoreSchema = z
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .optional(),
+        .optional()
+        .nullable(),
       tuesday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .optional(),
+        .optional()
+        .nullable(),
+
       wednesday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .optional(),
+        .optional()
+        .nullable(),
+
       thursday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .optional(),
+        .optional()
+        .nullable(),
+
       friday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .optional(),
+        .optional()
+        .nullable(),
+
       saturday: z
         .object({
           openHour: z.string().optional(),
           closeHour: z.string().optional(),
         })
-        .optional(),
+        .optional()
+        .nullable(),
     }),
   })
   .refine(

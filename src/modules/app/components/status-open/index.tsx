@@ -1,8 +1,6 @@
 "use client";
 
 import { checkOpenStore } from "@/utils";
-import { CaretDown } from "@phosphor-icons/react";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useEffect, useState } from "react";
 import { tv } from "tailwind-variants";
 import { useStore } from "../../store/stores";
@@ -63,10 +61,6 @@ const statusOpenStyle = tv({
   ],
 });
 
-const INITIAL_TIMER = 30;
-
-let timer: NodeJS.Timeout;
-
 export default function StatusOpen() {
   const store = useStore((state) => state.store);
 
@@ -79,7 +73,9 @@ export default function StatusOpen() {
 
   useEffect(() => {
     if (store) {
-      setStatusOpen(checkOpenStore(store) ? Status.OPEN : Status.CLOSE);
+      setTimeout(() => {
+        setStatusOpen(checkOpenStore(store) ? Status.OPEN : Status.CLOSE);
+      }, 1000 * 30); // 30 seconds
     }
   }, [store]);
 
