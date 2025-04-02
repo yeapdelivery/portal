@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { tv } from "tailwind-variants";
 import socket from "@/providers/socketIo.provider";
 import { PaperPlaneTilt } from "@phosphor-icons/react";
@@ -20,6 +20,7 @@ import { formatDateWithHour } from "@/utils/format-date.util";
 import TextArea from "@/modules/app/components/text-area";
 import { useChat } from "../../store";
 import { ConversationLoading } from "../conversation-loading";
+import { authService } from "@/modules/auth/services";
 
 interface ConversationListProps {
   chatId: string;
@@ -57,12 +58,17 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
   const user = useUser((state) => state.user);
   const store = useStore((state) => state.store);
   const { unreadMessages, setUnreadMessages } = useChat((state) => state);
+  const [userChat, setUserChat] = useState<{ id: string; name: string }>(
+    {} as { id: string; name: string }
+  );
 
   const [isLoadingChatList, startLoadingChatList, stopLoadingChatList] =
     useLoading();
 
   const [isLoadMoreLoading, startLoadMoreLoading, stopLoadMoreLoading] =
     useLoading();
+
+  const [isUserLoading, startUserLoading, stopUserLoading] = useLoading();
 
   const [
     isLoadingSendMessage,
@@ -108,6 +114,11 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
     };
   }, [store]);
 
+  useEffect(() => {
+    if (!user.id) return;
+    getUser();
+  }, [userId, user]);
+
   async function handleGetChatItemsList(): Promise<void> {
     startLoadingChatList();
     try {
@@ -128,6 +139,21 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
       stopLoadingChatList();
     }
   }
+
+  const getUser = useCallback(async () => {
+    startUserLoading();
+    try {
+      const response = await authService.getUserById(userId);
+      setUserChat({
+        id: response.id,
+        name: response.name,
+      });
+    } catch (error) {
+      console.error("Error fetching user data", error);
+    } finally {
+      stopUserLoading();
+    }
+  }, [userId]);
 
   async function handleUpdateUnreadMessages(): Promise<void> {
     try {
@@ -194,9 +220,12 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
 
   return (
     <div>
+      <div className="pb-2 border-b border-gray-700 text-lg font-semibold">
+        {userChat.name}
+      </div>
       <div ref={containerRef}>
         {!isLoadingChatList ? (
-          <div className="overflow-y-scroll h-[calc(100vh-300px)] md:h-[calc(100vh-200px)] w-full flex flex-col-reverse gap-4 items-end p-5">
+          <div className="overflow-y-scroll h-[calc(100vh-350px)] md:h-[calc(100vh-250px)] w-full flex flex-col-reverse gap-4 items-end p-5">
             {chatItemsList.map((conversation) => (
               <div
                 key={conversation.id || uuidv4()}

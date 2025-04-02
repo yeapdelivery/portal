@@ -36,6 +36,12 @@ class AuthService {
     return data;
   }
 
+  async getUserById(id: string) {
+    const { data } = await api.get(`/user/${id}`);
+
+    return data;
+  }
+
   async changePassword(data: { currentPassword: string; newPassword: string }) {
     return await api.put("/user/change-password", data);
   }

@@ -23,8 +23,8 @@ function Wrapper({
   unreadMessages: string[];
   onOpenChange: (open: boolean) => void;
 }) {
-  const isPast =
-    isPastChat(chat.lastMessageAt) && !unreadMessages.includes(chat.id);
+  const isPast = false;
+  // isPastChat(chat.lastMessageAt) && !unreadMessages.includes(chat.id);
 
   if (isPast) {
     return (

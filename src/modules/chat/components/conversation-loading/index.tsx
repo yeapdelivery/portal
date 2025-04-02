@@ -1,4 +1,4 @@
-import { Skelton } from "@/modules/app/components/skeleton-loading";
+import { Skeleton } from "@/modules/app/components/skeleton-loading";
 
 export function ConversationLoading() {
   return (
