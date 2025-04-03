@@ -48,12 +48,10 @@ export function Delivery({
               <div className="w-full">
                 <TextFiled error={null} htmlFor="search" label="Valor" required>
                   <TextFiled.Input
-                    prefix="R$"
                     disabled={freeTaxChecked}
-                    currency
                     {...register("delivery.price")}
-                    onInputChange={(value) => {
-                      const number = value
+                    onChange={(value) => {
+                      const number = value.currentTarget.value
                         .replace(/[^\d.,]/g, "")
                         .replace(",", ".");
 
@@ -73,10 +71,9 @@ export function Delivery({
                 >
                   <TextFiled.Input
                     currency
-                    prefix="R$"
                     {...register("delivery.minOrder")}
-                    onInputChange={(value) => {
-                      const number = value
+                    onChange={(value) => {
+                      const number = value.currentTarget.value
                         .replace(/[^\d.,]/g, "")
                         .replace(",", ".");
 
