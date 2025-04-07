@@ -36,6 +36,8 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
 
   const order = orders[orders.length - 1];
 
+  console.log(orders);
+
   useEffect(() => {
     if (orders.length === 0) return;
 
@@ -75,7 +77,7 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
 
   return (
     <>
-      <Dialog open={!!orders.length}>
+      <Dialog open={orders.length > 0}>
         <Dialog.Content
           title={
             formatOrderNumber(order.orderNumber) +

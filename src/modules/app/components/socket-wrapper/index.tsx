@@ -34,6 +34,19 @@ export function SocketWrapper() {
   const logger = useLogger();
 
   useEffect(() => {
+    const handleUserInteraction = () => {
+      const audio = new Audio("/bell.mp3");
+      audio.play().catch(() => {});
+      window.removeEventListener("click", handleUserInteraction);
+    };
+
+    window.addEventListener("click", handleUserInteraction);
+    return () => {
+      window.removeEventListener("click", handleUserInteraction);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!store.id) return;
 
     fetchOrders();
