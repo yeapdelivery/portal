@@ -10,6 +10,7 @@ import { RegisterAddress } from "../components/register-address";
 import { useLoading } from "@/modules/app/hooks";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 const steps: Step[] = [
   {
@@ -37,6 +38,8 @@ export function RegisterLayout() {
   const [activeSteps, setActiveSteps] = useState([1]);
   const [loading, startLoader, stopLoader] = useLoading();
   const router = useRouter();
+
+  const logger = useLogger();
 
   useEffect(() => {
     window.onbeforeunload = function () {
@@ -94,7 +97,7 @@ export function RegisterLayout() {
 
       router.push("/pedidos");
     } catch (error) {
-      console.error(error);
+      logger.error("Erro ao criar conta", { error });
     } finally {
       stopLoader();
     }

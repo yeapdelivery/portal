@@ -11,6 +11,7 @@ import { ChatLoading } from "../chat-loading";
 import Button from "@/modules/app/components/button";
 import { isPastChat } from "@/utils";
 import Dialog from "@/modules/app/components/dialog";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 function Wrapper({
   children,
@@ -60,6 +61,8 @@ export function ChatList() {
   const [isLoadingChatList, startLoadingChatList, stopLoadingChatList] =
     useLoading();
 
+  const logger = useLogger();
+
   useEffect(() => {
     if (store?.id) {
       handleGetChatList(page);
@@ -80,7 +83,7 @@ export function ChatList() {
         setHasNoMore(false);
       }
     } catch (error) {
-      console.log(error);
+      logger.error("Erro ao buscar lista de chats", error);
     } finally {
       stopLoadingChatList();
     }

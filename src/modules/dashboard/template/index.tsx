@@ -14,6 +14,7 @@ import { currency } from "@/formatting";
 import { formatDate } from "@/formatting/date";
 import { useUser } from "@/modules/app/store/user";
 import { Skeleton } from "@/modules/app/components/skeleton-loading";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 export function DashboardTemplate() {
   const { user } = useUser();
@@ -26,6 +27,8 @@ export function DashboardTemplate() {
   );
 
   const [loading, startLoading, stopLoading] = useLoading();
+
+  const logger = useLogger();
 
   useEffect(() => {
     if (!user.id) return;
@@ -45,7 +48,7 @@ export function DashboardTemplate() {
 
       setFinancial(financialData);
     } catch (err) {
-      console.error(err);
+      logger.error("Erro ao carregar dados financeiros", { err });
     } finally {
       stopLoading();
     }

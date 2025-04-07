@@ -14,6 +14,7 @@ import { OrderModal } from "../order-modal";
 import { HaveNewMessageModal } from "../have-new-message-modal";
 import { checkUnreadMessages } from "@/modules/chat/services";
 import { usePathname } from "next/navigation";
+import { useLogger } from "../../hooks/use-logger.hook";
 
 export function SocketWrapper() {
   const store = useStore((state) => state.store);
@@ -30,6 +31,7 @@ export function SocketWrapper() {
   const pathname = usePathname();
 
   const { error: toastError } = useToast();
+  const logger = useLogger();
 
   useEffect(() => {
     if (!store.id) return;
@@ -95,8 +97,8 @@ export function SocketWrapper() {
         await playAudio();
       }
     } catch (error) {
-      console.error(error);
       toastError("Erro ao buscar pedidos");
+      logger.error("Erro ao buscar pedidos", { error });
     }
   }
 
@@ -111,7 +113,7 @@ export function SocketWrapper() {
         setOpenHaveNewMessageModal(true);
       }
     } catch (error) {
-      console.error(error);
+      logger.error("Erro ao buscar mensagens não lidas", { error });
     }
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -6,6 +7,9 @@ import configureAxiosInterceptors from "@/api/interceptor";
 import { authService } from "@/modules/auth/services";
 import { cookies } from "next/headers";
 import { meService } from "@/modules/app/services/me-service";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
+
+const logger = useLogger();
 
 const nextAuthOptions: NextAuthOptions = {
   providers: [
@@ -30,7 +34,7 @@ const nextAuthOptions: NextAuthOptions = {
             return user;
           }
         } catch (error) {
-          console.log(error);
+          logger.error("Erro ao fazer login", error);
           throw new Error("Usuário ou senha inválidos");
         }
       },
@@ -64,7 +68,7 @@ const nextAuthOptions: NextAuthOptions = {
 
         return session;
       } catch (error) {
-        console.log(error);
+        logger.error("Erro ao buscar usuário logado", error);
       }
     },
   },

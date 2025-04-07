@@ -7,6 +7,7 @@ import { tv } from "tailwind-variants";
 import { preferencesService } from "../../services";
 import Spinner from "@/modules/app/components/spinner/spinner";
 import { EmptyImage } from "@/modules/app/components/empty-image";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 const coverFile = tv({
   slots: {
@@ -30,6 +31,8 @@ export function CoverFile() {
   const { toast, error, success, setToast } = useToast();
   const [isLoading, startLoader, stopLoader] = useLoading();
 
+  const logger = useLogger();
+
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
@@ -52,6 +55,7 @@ export function CoverFile() {
 
       success("Imagem de fundo atualizada com sucesso!");
     } catch {
+      logger.error("Erro ao atualizar imagem de fundo");
       error("Erro ao atualizar imagem de fundo");
     } finally {
       stopLoader();

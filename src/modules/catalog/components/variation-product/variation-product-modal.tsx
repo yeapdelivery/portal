@@ -23,6 +23,7 @@ import Toast from "@/modules/app/components/toast";
 import { currency } from "@/formatting";
 import { AxiosError } from "axios";
 import { httpErrorsMessages } from "@/utils";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 interface CreateVariationProductModalProps {
   open: boolean;
@@ -168,6 +169,8 @@ export function VariationProductModal({
     resolver: zodResolver(variantSchema),
   });
 
+  const logger = useLogger();
+
   useEffect(() => {
     if (variant && variant.id) {
       setValue("name", variant?.name);
@@ -270,6 +273,8 @@ export function VariationProductModal({
     try {
       await createOption(data);
     } catch (error) {
+      logger.error("Erro ao criar variação", { error });
+
       if (error instanceof AxiosError) {
         const messageError = httpErrorsMessages[error.response.data.message];
 
@@ -319,7 +324,7 @@ export function VariationProductModal({
 
       success("Opção deletada com sucesso");
     } catch (error) {
-      console.error(error);
+      logger.error("Erro ao deletar variação", { error });
       errorToast("Erro ao deletar variação");
     } finally {
       stopLoaderOptions();

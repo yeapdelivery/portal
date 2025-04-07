@@ -21,6 +21,7 @@ import TextArea from "@/modules/app/components/text-area";
 import { useChat } from "../../store";
 import { ConversationLoading } from "../conversation-loading";
 import { authService } from "@/modules/auth/services";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 interface ConversationListProps {
   chatId: string;
@@ -69,6 +70,8 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
     useLoading();
 
   const [isUserLoading, startUserLoading, stopUserLoading] = useLoading();
+
+  const logger = useLogger();
 
   const [
     isLoadingSendMessage,
@@ -134,7 +137,7 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
         setHasNoMoreChatItems(false);
       }
     } catch (error) {
-      console.log(error);
+      logger.error("Error fetching chat items list", error);
     } finally {
       stopLoadingChatList();
     }
@@ -149,7 +152,7 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
         name: response.name,
       });
     } catch (error) {
-      console.error("Error fetching user data", error);
+      logger.error("Error fetching user data", error);
     } finally {
       stopUserLoading();
     }
@@ -162,7 +165,7 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
       await updateUnreadMessages(message.chatId as string);
       setUnreadMessages(unreadMessages.filter((id) => id !== message.chatId));
     } catch (error) {
-      console.log("Error updating unread messages", error);
+      logger.error("Error updating unread messages", error);
     }
   }
 
@@ -182,7 +185,7 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
         setHasNoMoreChatItems(false);
       }
     } catch (error) {
-      console.error(error);
+      logger.error("Error fetching chat items list", error);
     } finally {
       stopLoadMoreLoading();
     }
@@ -212,7 +215,7 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
       setChatItemsList([newChatItem, ...chatItemsList]);
       setMessage("");
     } catch (error) {
-      console.error(error);
+      logger.error("Error sending message", error);
     } finally {
       stopLoadingSendMessage();
     }

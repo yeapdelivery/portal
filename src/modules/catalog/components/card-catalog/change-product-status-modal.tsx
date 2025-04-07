@@ -5,6 +5,7 @@ import { ProductStatusEnum } from "../../enums/product-status-model";
 import { useLoading } from "@/modules/app/hooks";
 import { productsService } from "../../services/list-product-service";
 import { useStore } from "@/modules/app/store/stores";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 interface ChangeProductStatusModalProps {
   product: ProductModel;
@@ -22,6 +23,8 @@ export function ChangeProductStatusModal({
   const [loading, startLoader, stopLoader] = useLoading();
   const store = useStore((state) => state.store);
 
+  const logger = useLogger();
+
   async function updateStatusProduct() {
     startLoader();
     try {
@@ -33,7 +36,7 @@ export function ChangeProductStatusModal({
       await productsService.updateStatusProduct(store.id, product.id, status);
       updateProduct();
     } catch (error) {
-      console.error(error);
+      logger.error("Erro ao atualizar status do produto", { error });
     } finally {
       onClose(false);
       stopLoader();

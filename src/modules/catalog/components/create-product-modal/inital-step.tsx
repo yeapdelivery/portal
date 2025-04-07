@@ -29,6 +29,7 @@ import Dialog from "@/modules/app/components/dialog/dialog";
 import { variantService } from "../../services/variant.service";
 import { AxiosError } from "axios";
 import { httpErrorsMessages } from "@/utils";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 const initialStep = tv({
   slots: {
@@ -147,6 +148,8 @@ export function InitialStep({
     stopDeleteVariationLoading,
   ] = useLoading();
 
+  const logger = useLogger();
+
   const isEdit = !!product;
 
   const {
@@ -230,6 +233,8 @@ export function InitialStep({
       onUpdateProducts();
       onClose();
     } catch (catchError) {
+      logger.error("Erro ao criar produto", { error: catchError });
+
       if (catchError instanceof AxiosError) {
         const messageError =
           httpErrorsMessages[catchError.response.data.message];
@@ -275,7 +280,7 @@ export function InitialStep({
         prev.filter((variation) => variation.id !== selectedVariation.id)
       );
     } catch (error) {
-      console.error(error);
+      logger.error("Erro ao deletar variação", { error });
       error("Erro ao deletar variação");
     } finally {
       stopDeleteVariationLoading();

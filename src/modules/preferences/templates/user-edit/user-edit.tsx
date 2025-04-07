@@ -14,6 +14,7 @@ import { z } from "zod";
 import { preferencesService } from "../../services";
 import { User } from "@/modules/app/models/user";
 import { authService } from "@/modules/auth/services";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 const userSchema = z.object({
   name: z.string(),
@@ -65,6 +66,8 @@ export function UserEditTemplate() {
     resolver: zodResolver(updatePasswordSchema),
   });
 
+  const logger = useLogger();
+
   useEffect(() => {
     Object.keys(user).forEach((key) => {
       let value = user[key as keyof UserSchema];
@@ -86,6 +89,7 @@ export function UserEditTemplate() {
       setUser(userResponse);
       success("Usuário editado com sucesso");
     } catch {
+      logger.error("Erro ao editar usuário");
       error("Erro ao editar usuário");
     } finally {
       stopLoading();
@@ -104,6 +108,7 @@ export function UserEditTemplate() {
 
       success("Senha alterada com sucesso");
     } catch {
+      logger.error("Erro ao alterar senha");
       error("Erro ao alterar senha");
     } finally {
       stopLoadingPassword();

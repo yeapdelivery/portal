@@ -13,6 +13,7 @@ import { categoryService } from "../../services/category.service";
 import Toast from "@/modules/app/components/toast";
 import { useState } from "react";
 import { CategoryOrder } from "./category-order";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 const categorySchema = z.object({
   name: z.string().min(0, "Nome da categoria é obrigatório"),
@@ -38,6 +39,8 @@ export function CategoryModal({ updateProducts }: CategoryModalProps) {
 
   const store = useStore((state) => state.store);
 
+  const logger = useLogger();
+
   async function onSubmit(data: CategorySchema) {
     startLoading();
     try {
@@ -47,7 +50,7 @@ export function CategoryModal({ updateProducts }: CategoryModalProps) {
       setOpen(false);
       updateProducts();
     } catch (error) {
-      console.error(error);
+      logger.error("Erro ao adicionar categoria", { error });
       errorToast("Erro ao adicionar categoria");
     } finally {
       stopLoading();

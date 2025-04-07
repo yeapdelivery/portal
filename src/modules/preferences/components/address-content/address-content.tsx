@@ -16,6 +16,7 @@ import { useStore } from "@/modules/app/store/stores";
 import Toast from "@/modules/app/components/toast";
 import { useToast } from "@/modules/app/hooks";
 import { StoreTypeEnumMap } from "@/modules/app/enums/store-type";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 interface AddressContentProps {
   errors: FieldErrors<EditStore>;
@@ -53,6 +54,8 @@ export default function AddressContent({
 
   const { toast, error, warning, setToast } = useToast();
 
+  const logger = useLogger();
+
   useEffect(() => {
     if (store) {
       setSpecialties(store.specialties);
@@ -68,7 +71,7 @@ export default function AddressContent({
       setValue("address.city", data.localidade);
       setValue("address.state", data.uf);
     } catch (error) {
-      console.log(error);
+      logger.error("Erro ao buscar CEP", { error });
     }
   }
 

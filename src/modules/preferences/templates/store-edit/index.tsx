@@ -19,6 +19,7 @@ import Toast from "@/modules/app/components/toast";
 import { preferencesService } from "../../services";
 import StoreModel, { OpeningHours } from "@/modules/app/models/store";
 import { availableHasOpeningHour, availableOpeningHour } from "@/utils";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 const editStoreSchema = z
   .object({
@@ -167,6 +168,8 @@ export function ScreenStore() {
     resolver: zodResolver(editStoreSchema),
   });
 
+  const logger = useLogger();
+
   useEffect(() => {
     if (errors?.openingHours) {
       errorToast(errors?.openingHours?.root?.message);
@@ -200,7 +203,7 @@ export function ScreenStore() {
       success("Loja atualizada com sucesso!");
       setStore(data as unknown as StoreModel);
     } catch (error) {
-      console.log(error);
+      logger.error("Erro ao atualizar loja", { error });
       errorToast("Erro ao salvar, tente novamente.");
     } finally {
       stopLoading();

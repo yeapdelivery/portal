@@ -14,6 +14,7 @@ import Toast from "@/modules/app/components/toast";
 import { ToastType } from "@/modules/app/components/toast/types";
 import { FormEvent } from "react";
 import Link from "next/link";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 const authenticationFormSchema = z.object({
   email: z.string().email({ message: "Adicione um email válido" }).min(1),
@@ -35,6 +36,7 @@ export default function Login() {
     resolver: zodResolver(authenticationFormSchema),
   });
   const { error: toastError, toast, setToast } = useToast();
+  const logger = useLogger();
 
   async function onSubmit(
     { email, password }: AuthenticationFormSchema,
@@ -57,6 +59,7 @@ export default function Login() {
       router.push("/pedidos");
     } catch (error) {
       toastError("Usuário ou senha inválidos");
+      logger.fatal("Erro ao fazer login", { error });
     } finally {
       stopLoadingAuth();
     }

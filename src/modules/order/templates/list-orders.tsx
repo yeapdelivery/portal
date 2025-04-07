@@ -27,6 +27,7 @@ import { SendMessageModal } from "@/modules/app/components/send-message-modal";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { logger } from "@sentry/nextjs";
 
 interface OrderBoard {
   [OrderStatus.IN_PROGRESS]: OrderResponse;
@@ -178,7 +179,7 @@ export function ListOrders() {
 
       handleSetOrders(status, newOrders, shouldNewOrderFist);
     } catch (error) {
-      console.log(error);
+      logger.error("Erro ao buscar pedidos", { error });
       errorToast("Erro ao buscar pedidos");
     } finally {
       stopLoadMoreOrder[status]();
@@ -216,7 +217,7 @@ export function ListOrders() {
         [OrderStatus.DELIVERED]: delivered || { orders: [], count: 0 },
       });
     } catch (error) {
-      console.log(error);
+      logger.error("Erro ao buscar pedidos", { error });
     } finally {
       stopListOrderLoader();
     }

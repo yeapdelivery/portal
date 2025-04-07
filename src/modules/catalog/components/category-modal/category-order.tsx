@@ -6,6 +6,7 @@ import { useLoading } from "@/modules/app/hooks";
 import Button from "@/modules/app/components/button/button";
 import Dialog from "@/modules/app/components/dialog/dialog";
 import { CaretDown, CaretUp, ListDashes } from "@phosphor-icons/react/dist/ssr";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 interface CategoryOrderProps {
   updateProducts: () => void;
@@ -17,6 +18,8 @@ export function CategoryOrder({ updateProducts }: CategoryOrderProps) {
   const [isLoading, startLoading, stopLoading] = useLoading();
   const [isLoadingSave, startLoadingSave, stopLoadingSave] = useLoading();
   const store = useStore((state) => state.store);
+
+  const logger = useLogger();
 
   React.useEffect(() => {
     getCategories();
@@ -31,7 +34,7 @@ export function CategoryOrder({ updateProducts }: CategoryOrderProps) {
 
       setCategories(categoryResponse);
     } catch (error) {
-      console.error(error);
+      logger.error("Erro ao carregar categorias", { error });
     } finally {
       stopLoading();
     }

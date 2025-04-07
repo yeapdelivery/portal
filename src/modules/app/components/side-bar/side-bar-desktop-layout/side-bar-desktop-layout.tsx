@@ -8,6 +8,7 @@ import { Menu, MenuProps } from "..";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 interface SideBarDesktopLayout {
   menus: MenuProps[];
@@ -42,16 +43,19 @@ export default function SideBarDesktopLayout({
 }: SideBarDesktopLayout) {
   const { container, itemContainer, menuOpen } = sideBar();
   const route = useRouter();
+  const logger = useLogger();
 
   async function handleSighOut() {
     try {
-      await signOut({
-        redirect: false,
-      });
+      throw new Error("Erro ao fazer logout");
+      // await signOut({
+      //   redirect: false,
+      // });
 
-      route.push("/");
+      // route.push("/");
     } catch (error) {
-      console.log("Error ao loging out", error);
+      logger.error("Erro ao fazer logout", error);
+      // console.log("Error ao loging out", error);
     }
   }
 

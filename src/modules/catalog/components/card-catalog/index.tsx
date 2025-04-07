@@ -17,6 +17,7 @@ import {
 } from "../../enums/product-status-model";
 import { DeleteVariationModal } from "../variation-product/delete-variation-modal";
 import { ChangeProductStatusModal } from "./change-product-status-modal";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 interface CardCatalogProps {
   product: ProductModel;
@@ -56,6 +57,8 @@ export function CardCatalog({
   ] = useLoading();
   const store = useStore((state) => state.store);
 
+  const logger = useLogger();
+
   const priceLabel =
     product.type === ProductTypeEnum.COMPLEX ? "a partir de" : "por";
 
@@ -83,7 +86,7 @@ export function CardCatalog({
       onCloseDeleteProduct();
       onUpdateProducts();
     } catch (error) {
-      console.error(error);
+      logger.error("Erro ao deletar produto", { error });
     } finally {
       stopLoaderDeleteProduct();
     }

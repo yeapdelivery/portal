@@ -10,6 +10,7 @@ import { preferencesService } from "../../services";
 import Toast from "@/modules/app/components/toast";
 import { useLoading, useToast } from "@/modules/app/hooks";
 import { EmptyImage } from "@/modules/app/components/empty-image";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 interface StoreDataProps {
   errors: FieldErrors<EditStore>;
@@ -23,6 +24,8 @@ export function StoreData({ errors, register, setValue }: StoreDataProps) {
   const [documentNumber, setDocumentNumber] = useState<string>("");
   const { toast, error, success, setToast } = useToast();
   const [isLogoUpdating, startLoaderLogo, stopLoaderLogo] = useLoading();
+
+  const logger = useLogger();
 
   async function onDrop(_: DropFiles[], files: File[]) {
     startLoaderLogo();
@@ -42,6 +45,7 @@ export function StoreData({ errors, register, setValue }: StoreDataProps) {
 
       success("Logo atualizado com sucesso!");
     } catch {
+      logger.error("Erro ao atualizar logo");
       error("Erro ao atualizar logo");
     } finally {
       stopLoaderLogo();

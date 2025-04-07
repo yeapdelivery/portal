@@ -7,6 +7,7 @@ import Button from "../button";
 import Dialog from "../dialog";
 import TextArea from "../text-area";
 import { useRouter } from "next/navigation";
+import { useLogger } from "../../hooks/use-logger.hook";
 
 export interface SendMessageModal {
   userId: string;
@@ -30,6 +31,7 @@ export function SendMessageModal({
 
   const store = useStore((state) => state.store);
   const [isLoading, startLoading, stopLoading] = useLoading();
+  const logger = useLogger();
 
   async function sendMessage(event: FormEvent<HTMLFormElement>) {
     startLoading();
@@ -45,7 +47,7 @@ export function SendMessageModal({
       route.push(`/chat/${messageCreated.chatId}/${userId}`);
     } catch (error) {
       setHasError(true);
-      console.error(error);
+      logger.error("Erro ao enviar mensagem", error);
     } finally {
       stopLoading();
     }

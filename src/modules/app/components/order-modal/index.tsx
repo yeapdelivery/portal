@@ -16,6 +16,7 @@ import { useLoading, useToast } from "../../hooks";
 import Toast from "../toast";
 import ptBr from "date-fns/locale/pt-BR";
 import { postNewOrderEvent } from "@/events";
+import { useLogger } from "../../hooks/use-logger.hook";
 
 interface OrderModalProps {
   orders: Order[];
@@ -31,6 +32,7 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
     startUpdateOrderStatus,
     finishUpdateOrderStatus,
   ] = useLoading();
+  const logger = useLogger();
 
   const order = orders[orders.length - 1];
 
@@ -60,6 +62,7 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
         postNewOrderEvent();
       }
     } catch (error) {
+      logger.error("Erro ao atualizar pedido", { error });
       toastError("Erro ao atualizar pedido");
     } finally {
       finishUpdateOrderStatus();

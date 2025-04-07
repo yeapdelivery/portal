@@ -16,6 +16,7 @@ import Button from "@/modules/app/components/button/button";
 import { categoryService } from "../services/category.service";
 import { AxiosError } from "axios";
 import { X } from "@phosphor-icons/react/dist/ssr";
+import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 export default function ListProduct() {
   const [products, setProducts] = useState<CategoryWithProducts[]>([]);
@@ -33,6 +34,8 @@ export default function ListProduct() {
     openModal: openConfirmationDeleteCategory,
   } = useModal();
 
+  const logger = useLogger();
+
   useEffect(() => {
     loadProducts();
   }, [store]);
@@ -47,7 +50,7 @@ export default function ListProduct() {
       setProducts(data.items);
     } catch (error) {
       errorToast("Erro ao carregar produtos");
-      console.error(error);
+      logger.error("Erro ao carregar produtos", { error });
     } finally {
       stopLoader();
     }
