@@ -52,7 +52,8 @@ const ACCEPTED_FORMATS = [
   "image/jpeg",
   "image/jpg",
   "image/png",
-  "application/pdf",
+  "image/webp",
+  // "application/pdf",
 ];
 
 export default function Dropzone({
