@@ -236,6 +236,11 @@ export function InitialStep({
       logger.error("Erro ao criar produto", { error: catchError });
 
       if (catchError instanceof AxiosError) {
+        if (catchError.code === "ERR_NETWORK") {
+          error("Imagem muito grande");
+          return;
+        }
+
         const messageError =
           httpErrorsMessages[catchError.response.data.message];
 

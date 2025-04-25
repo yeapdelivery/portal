@@ -15,12 +15,14 @@ import { useWindowSize } from "../../hooks";
 import { getScreenSize } from "@/utils";
 import { tv } from "tailwind-variants";
 import { useStore } from "../../store/stores";
+import { Package, ShoppingCart } from "@phosphor-icons/react/dist/ssr";
 
 export enum Menu {
   DASHBOARD = "dashboard",
   ORDER = "order",
   CATALOG = "catalog",
   CHAT = "chat",
+  COUPONS = "coupons",
   PREFERENCES_USER = "preferences-user",
   PREFERENCES_COMPANY = "preferences-company",
   PREFERENCES = "preferences",
@@ -67,7 +69,7 @@ export const menus: MenuProps[] = [
     id: 1,
     label: "Pedidos",
     name: Menu.ORDER,
-    icon: <Ticket weight="bold" size={22} />,
+    icon: <Package weight="bold" size={22} />,
     href: "/pedidos",
   },
   {
@@ -86,6 +88,13 @@ export const menus: MenuProps[] = [
   },
   {
     id: 4,
+    label: "Cupons",
+    name: Menu.COUPONS,
+    icon: <Ticket weight="bold" size={22} />,
+    href: "/cupons",
+  },
+  {
+    id: 5,
     label: "Preferencias",
     name: Menu.PREFERENCES,
     icon: <FadersHorizontal weight="bold" size={22} />,
