@@ -9,6 +9,19 @@ export class CategoryService {
     });
   }
 
+  async updateCategory(
+    storeId: string,
+    categoryId: string,
+    category: string
+  ): Promise<AxiosResponse> {
+    return await api.put(
+      `/admin/stores/${storeId}/products/categories/${categoryId}`,
+      {
+        name: category,
+      }
+    );
+  }
+
   async loadCategories(
     storeId: string
   ): Promise<AxiosResponse<CategoryModel[]>> {

@@ -9,8 +9,6 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import { EditStore } from "../../templates";
-import { currency } from "@/formatting";
-import StoreModel from "@/modules/app/models/store";
 
 interface DeliveryContentProps {
   errors: FieldErrors<EditStore>;

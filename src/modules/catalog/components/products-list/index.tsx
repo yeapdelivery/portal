@@ -1,8 +1,10 @@
+import { Pencil } from "@phosphor-icons/react";
 import { CategoryWithProducts, ProductModel } from "../../models/product-model";
 import { AddProductButton } from "../add-product-button";
 import { CardCatalog } from "../card-catalog";
 import { CreateProductModal } from "../create-product-modal";
 import { Trash } from "@phosphor-icons/react/dist/ssr";
+import { CategoryModal } from "../category-modal";
 
 interface ProductsListProps {
   products: CategoryWithProducts[];
@@ -32,14 +34,23 @@ export function ProductsList({
                   {categoryWithProducts?.products?.length}
                 </div>
               </div>
-              <button
-                onClick={() =>
-                  onOpenConfirmationDeleteCategory(categoryWithProducts)
-                }
-                className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded"
-              >
-                <Trash weight="bold" size={16} className="text-red-default" />
-              </button>
+
+              <div className="flex items-center gap-2">
+                <CategoryModal
+                  category={categoryWithProducts.category.name}
+                  categoryId={categoryWithProducts.category.id}
+                  updateProducts={onUpdateProducts}
+                />
+
+                <button
+                  onClick={() =>
+                    onOpenConfirmationDeleteCategory(categoryWithProducts)
+                  }
+                  className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded"
+                >
+                  <Trash weight="bold" size={16} className="text-red-default" />
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
               {categoryWithProducts.products.map((productItem, index) => (
