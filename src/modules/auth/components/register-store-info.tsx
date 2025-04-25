@@ -95,7 +95,7 @@ export function RegisterStoreInfo({
     <div>
       <div className="mt-10">
         <h1 className="font-bold text-3xl text-center font-rubik">
-          Endereço da loja
+          Informações da loja
         </h1>
       </div>
 
