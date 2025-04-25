@@ -14,7 +14,6 @@ import StoreModel from "@/modules/app/models/store";
 
 interface DeliveryContentProps {
   errors: FieldErrors<EditStore>;
-  store: StoreModel;
   getValues: UseFormGetValues<EditStore>;
   register: UseFormRegister<EditStore>;
   setValue: UseFormSetValue<EditStore>;
@@ -22,7 +21,6 @@ interface DeliveryContentProps {
 
 export function Delivery({
   errors,
-  store,
   register,
   setValue,
   getValues,
@@ -32,9 +30,11 @@ export function Delivery({
 
   useEffect(() => {
     if (freeTaxChecked) {
-      setValue("delivery.price", "0" as any);
+      setValue("delivery.price", 0);
     }
   }, [freeTaxChecked]);
+
+  console.log(errors);
 
   return (
     <div className="flex flex-col">

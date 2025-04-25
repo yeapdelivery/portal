@@ -53,9 +53,9 @@ export default function SideBarDesktopLayout({
         redirect: false,
       });
 
-      setUser(null);
-      setStore(null);
       route.push("/");
+      // setUser(null);
+      // setStore(null);
     } catch (error) {
       console.log("Error ao loging out", error);
     }
