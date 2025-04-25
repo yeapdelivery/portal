@@ -8,6 +8,8 @@ import { Menu, MenuProps } from "..";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useUser } from "@/modules/app/store/user";
+import { useStore } from "@/modules/app/store/stores";
 
 interface SideBarDesktopLayout {
   menus: MenuProps[];
@@ -42,6 +44,8 @@ export default function SideBarDesktopLayout({
 }: SideBarDesktopLayout) {
   const { container, itemContainer, menuOpen } = sideBar();
   const route = useRouter();
+  const setUser = useUser((state) => state.setUser);
+  const setStore = useStore((state) => state.setStore);
 
   async function handleSighOut() {
     try {
@@ -49,6 +53,8 @@ export default function SideBarDesktopLayout({
         redirect: false,
       });
 
+      setUser(null);
+      setStore(null);
       route.push("/");
     } catch (error) {
       console.log("Error ao loging out", error);
