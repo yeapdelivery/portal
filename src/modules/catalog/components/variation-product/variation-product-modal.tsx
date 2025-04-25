@@ -48,7 +48,7 @@ const variantSchema = z
         message: "O nome da variação deve ter no mínimo 3 caracteres",
       })
       .max(255),
-    isRequired: z.boolean(),
+    isRequired: z.boolean().optional(),
     min: z
       .string()
       .min(1, {
