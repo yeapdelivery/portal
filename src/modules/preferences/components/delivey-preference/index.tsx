@@ -29,8 +29,6 @@ export function Delivery({
 }: DeliveryContentProps) {
   const [freeTaxChecked, setFreeTaxChecked] = useState(false);
   const [minTaxChecked, setMinTaxChecked] = useState(false);
-  const [price, setPrice] = useState("");
-  const [minOrder, setMinOrder] = useState("");
 
   useEffect(() => {
     if (freeTaxChecked) {
@@ -114,6 +112,14 @@ export function Delivery({
               placeholder="Exemplo: 10min"
               maxLength={7}
               {...register("delivery.estimatedMinTime")}
+              type="number"
+              onChange={(value) => {
+                const number = value.currentTarget.value
+                  .replace(/[^\d.,]/g, "")
+                  .replace(",", ".");
+
+                setValue("delivery.estimatedMinTime", Number(number));
+              }}
             />
           </TextFiled>
           <TextFiled
@@ -126,6 +132,14 @@ export function Delivery({
               placeholder="Exemplo: 60 min"
               maxLength={7}
               {...register("delivery.estimatedMaxTime")}
+              type="number"
+              onChange={(value) => {
+                const number = value.currentTarget.value
+                  .replace(/[^\d.,]/g, "")
+                  .replace(",", ".");
+
+                setValue("delivery.estimatedMaxTime", Number(number));
+              }}
             />
           </TextFiled>
         </div>
