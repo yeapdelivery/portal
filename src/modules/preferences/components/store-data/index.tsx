@@ -152,6 +152,17 @@ export function StoreData({ errors, register, setValue }: StoreDataProps) {
               placeholder="Digite seu email"
             />
           </TextFiled>
+
+          <TextFiled
+            error={errors?.pixKey?.message}
+            htmlFor="pixKey"
+            label="Chave pix"
+          >
+            <TextFiled.Input
+              {...register("pixKey")}
+              placeholder="Digite sua chave pix"
+            />
+          </TextFiled>
         </div>
       </div>
 

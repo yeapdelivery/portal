@@ -30,6 +30,7 @@ export default interface StoreModel {
   address: Address;
   ownerInfo: OwnerModal;
   type: StoreTypeEnum;
+  pixKey: string;
   specialties: string[];
   documentNumber: string;
   documentType: string;

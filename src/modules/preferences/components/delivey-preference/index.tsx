@@ -32,8 +32,6 @@ export function Delivery({
     }
   }, [freeTaxChecked]);
 
-  console.log(errors);
-
   return (
     <div className="flex flex-col">
       <span className="mb-3 text-gray-100 font-bold font-outfit">Entrega</span>

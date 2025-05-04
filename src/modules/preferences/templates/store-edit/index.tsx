@@ -33,6 +33,7 @@ const editStoreSchema = z
       .min(0, "Telefone inválido")
       .transform((value) => value.replace(/\D/g, "")),
     email: z.string().email("Email inválido"),
+    pixKey: z.string().optional(),
     documentNumber: z
       .string()
       .min(1, { message: "Cpf ou Cnpj é obrigatório" })
@@ -259,7 +260,6 @@ export function ScreenStore() {
             >
               <Delivery
                 errors={errors}
-                store={store}
                 getValues={getValues}
                 register={register}
                 setValue={setValue}

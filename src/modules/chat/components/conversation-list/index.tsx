@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { tv } from "tailwind-variants";
 import socket from "@/providers/socketIo.provider";
-import { PaperPlaneTilt } from "@phosphor-icons/react";
+import { CaretLeft, PaperPlaneTilt } from "@phosphor-icons/react";
 import { v4 as uuidv4 } from "uuid";
 
 import { ChatItemModel } from "../../models";
@@ -22,6 +22,8 @@ import { useChat } from "../../store";
 import { ConversationLoading } from "../conversation-loading";
 import { authService } from "@/modules/auth/services";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ConversationListProps {
   chatId: string;
@@ -53,7 +55,9 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
   const { messageContainer, message: messageStyle } = chatStyles();
 
   const [pageChatItemsList, setPageChatItemsList] = useState(1);
-  const [chatItemsList, setChatItemsList] = useState<ChatItemModel[]>([]);
+  const [chatItemsList, setChatItemsList] = useState<Partial<ChatItemModel>[]>(
+    []
+  );
   const [hasNoMoreChatItems, setHasNoMoreChatItems] = useState(true);
   const [message, setMessage] = useState("");
   const user = useUser((state) => state.user);
@@ -70,6 +74,7 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
     useLoading();
 
   const [isUserLoading, startUserLoading, stopUserLoading] = useLoading();
+  const route = useRouter();
 
   const logger = useLogger();
 
@@ -200,7 +205,7 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
         content: message,
       });
 
-      const newChatItem: ChatItemModel = {
+      const newChatItem: Partial<ChatItemModel> = {
         id: uuidv4(),
         content: message,
         createdAt: new Date().toISOString(),
@@ -221,32 +226,64 @@ export function ConversationList({ chatId, userId }: ConversationListProps) {
     }
   }
 
+  function openImage(image: string): void {
+    window.open(image, "_blank");
+  }
+
+  function goToBack(): void {
+    route.push("/chat");
+  }
+
   return (
     <div>
-      <div className="pb-2 border-b border-gray-700 text-lg font-semibold">
-        {userChat.name}
-      </div>
+      {!isUserLoading && (
+        <button
+          className="pb-2 border-b border-gray-700 text-lg font-semibold flex items-center gap-2"
+          onClick={goToBack}
+        >
+          <CaretLeft size={20} />
+
+          {userChat.name}
+        </button>
+      )}
       <div ref={containerRef}>
         {!isLoadingChatList ? (
           <div className="overflow-y-scroll h-[calc(100vh-350px)] md:h-[calc(100vh-250px)] w-full flex flex-col-reverse gap-4 items-end p-5">
             {chatItemsList.map((conversation) => (
-              <div
-                key={conversation.id || uuidv4()}
-                className={messageContainer({
-                  senderType: conversation.senderType,
-                })}
-              >
+              <>
+                {conversation?.image && (
+                  <div
+                    className="self-start cursor-pointer"
+                    onClick={() => openImage(conversation.image)}
+                  >
+                    <Image
+                      src={conversation?.image}
+                      width={100}
+                      height={100}
+                      alt="user image"
+                      className="w-[200px] object-cover"
+                    />
+                  </div>
+                )}
+
                 <div
-                  className={messageStyle({
+                  key={conversation.id || uuidv4()}
+                  className={messageContainer({
                     senderType: conversation.senderType,
                   })}
                 >
-                  <div>{conversation.content}</div>
-                  <div className="text-[10px] text-right">
-                    {formatDateWithHour(conversation.createdAt)}
+                  <div
+                    className={messageStyle({
+                      senderType: conversation.senderType,
+                    })}
+                  >
+                    <div>{conversation.content}</div>
+                    <div className="text-[10px] text-right">
+                      {formatDateWithHour(conversation.createdAt)}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </>
             ))}
 
             {!hasNoMoreChatItems && (

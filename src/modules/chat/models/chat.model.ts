@@ -20,6 +20,7 @@ export interface ChatItemModel {
   updatedBy: string;
   createdAt: string;
   updatedAt: string;
+  image: string | null;
   id: string;
   user: User;
   store: StoreModel | null;
