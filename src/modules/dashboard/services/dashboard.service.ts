@@ -1,5 +1,5 @@
 import api from "@/api";
-import { FinancialData } from "../types";
+import { Dashboard, FinancialData, TopSellingProducts } from "../types";
 
 interface FinancialQuery {
   startDate: string;
@@ -12,6 +12,18 @@ export async function getFinancialData(
   const { data } = await api.get("/stores/orders/financial/overview", {
     params: query,
   });
+
+  return data;
+}
+
+export async function getDashboardData(): Promise<Dashboard> {
+  const { data } = await api.get(`/dashboard/`);
+
+  return data;
+}
+
+export async function getTopSellingProducts(): Promise<TopSellingProducts[]> {
+  const { data } = await api.get(`/dashboard/top-products`);
 
   return data;
 }

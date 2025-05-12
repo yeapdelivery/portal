@@ -1,67 +1,79 @@
 "use client";
 
 import * as React from "react";
-import { addDays, format } from "date-fns";
+import { endOfMonth, format, startOfMonth } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
+import { ptBR } from "date-fns/locale";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import Button from "../button";
 
 interface DatePickerWithRangeProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   className?: string;
-  date?: DateRange | undefined;
+  defaultDateValue?: DateRange | undefined;
   onChange?: (date: DateRange | undefined) => void;
+  onSelectDate?: (date: DateRange | undefined) => void;
 }
 
-const from = new Date(new Date().getFullYear(), new Date().getMonth(), 20);
-const to = addDays(from, 30);
+const now = new Date();
+
+const startDate = startOfMonth(now);
+const endDate = endOfMonth(now);
 
 export const defaultDateValue = {
-  from,
-  to,
+  from: startDate,
+  to: endDate,
 };
 
 export function DatePickerWithRange({
   className,
-  date = defaultDateValue,
-  onChange,
+  defaultDateValue,
+  onSelectDate,
 }: DatePickerWithRangeProps) {
+  const [open, setOpen] = React.useState(false);
+  const [date, setDate] = React.useState<DateRange | undefined>(
+    defaultDateValue
+  );
+
   return (
     <div className={cn("grid gap-2", className)}>
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
+          <button
             id="date"
-            variant={"outline"}
             className={cn(
-              "flex-1 flex justify-start text-left font-normal",
+              "flex justify-end items-center gap-2 text-left font-normal mr-12 md:mr-0",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon />
+            <CalendarIcon className="h-4 w-4 text-gray-400" />
             <div>
-              {date?.from ? (
-                date.to ? (
-                  <>
-                    {format(date.from, "LLL dd, y")} -{" "}
-                    {format(date.to, "LLL dd, y")}
-                  </>
+              <span className="text-sm font-medium text-gray-400">
+                {date?.from ? (
+                  date.to ? (
+                    <>
+                      {format(date.from, "LLL dd, y", {
+                        locale: ptBR,
+                      })}{" "}
+                      até {format(date.to, "LLL dd, y", { locale: ptBR })}
+                    </>
+                  ) : (
+                    format(date.from, "LLL dd, y", { locale: ptBR })
+                  )
                 ) : (
-                  format(date.from, "LLL dd, y")
-                )
-              ) : (
-                <span>Pick a date</span>
-              )}
+                  <span>Escolha uma data</span>
+                )}
+              </span>
             </div>
-          </Button>
+          </button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
@@ -70,10 +82,22 @@ export function DatePickerWithRange({
             defaultMonth={date?.from}
             selected={date}
             onSelect={(selectedDate) => {
-              onChange && onChange(selectedDate);
+              setDate && setDate(selectedDate);
             }}
             numberOfMonths={2}
+            locale={ptBR}
           />
+          <div className="flex justify-end mb-4 mt-4">
+            <Button
+              className="w-40"
+              onClick={() => {
+                onSelectDate(date);
+                setOpen(false);
+              }}
+            >
+              Selecionar
+            </Button>
+          </div>
         </PopoverContent>
       </Popover>
     </div>
