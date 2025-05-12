@@ -90,6 +90,12 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
     }, [defaultValue]);
 
     useEffect(() => {
+      if (optionsProps) {
+        setOptions(optionsProps);
+      }
+    }, [optionsProps]);
+
+    useEffect(() => {
       if (disabled) {
         setValue("");
       } else {

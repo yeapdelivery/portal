@@ -12,11 +12,16 @@ import TextFiled from "@/modules/app/components/text-filed";
 import Button from "@/modules/app/components/button/button";
 import Toast from "@/modules/app/components/toast";
 import { ToastType } from "@/modules/app/components/toast/types";
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
+import { authService } from "../services";
+import { Select } from "@/modules/app/components/select";
+import SelectField from "@/modules/app/components/select-filed/select-filed";
+import { toTitleCase } from "@/utils";
 
 const authenticationFormSchema = z.object({
+  storeName: z.string().optional(),
   email: z.string().email({ message: "Adicione um email válido" }).min(1),
   password: z
     .string()
@@ -25,13 +30,20 @@ const authenticationFormSchema = z.object({
 
 type AuthenticationFormSchema = z.infer<typeof authenticationFormSchema>;
 
-export default function Login() {
+interface LoginProps {
+  isSupport?: boolean;
+}
+
+export default function Login({ isSupport }: LoginProps) {
   const [isLoadingAuth, startLoadingAuth, stopLoadingAuth] = useLoading();
+  const [isLoadingStores, startLoadingStores, stopLoadingStores] = useLoading();
+  const [stores, setStores] = useState<{ id: string; name: string }[]>([]);
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<AuthenticationFormSchema>({
     resolver: zodResolver(authenticationFormSchema),
   });
@@ -39,13 +51,28 @@ export default function Login() {
   const logger = useLogger();
 
   async function onSubmit(
-    { email, password }: AuthenticationFormSchema,
+    { email, password, storeName }: AuthenticationFormSchema,
     event: any
   ) {
     event.preventDefault();
 
     startLoadingAuth();
     try {
+      if (isSupport) {
+        const response = await signIn("credentials", {
+          email,
+          password,
+          storeName,
+          redirect: false,
+        });
+
+        if (response?.error) {
+          throw new Error(response.error);
+        }
+        router.push("/pedidos");
+        return;
+      }
+
       const response = await signIn("credentials", {
         email,
         password,
@@ -55,8 +82,6 @@ export default function Login() {
       if (response?.error) {
         throw new Error(response.error);
       }
-
-      router.push("/pedidos");
     } catch (error) {
       toastError("Usuário ou senha inválidos");
       logger.fatal("Erro ao fazer login", { error });
@@ -65,14 +90,37 @@ export default function Login() {
     }
   }
 
+  async function handleGetStores() {
+    startLoadingStores();
+    try {
+      const { data } = await authService.getStores();
+      setStores(data);
+    } catch (error) {
+      toastError("Erro ao buscar lojas");
+      logger.fatal("Erro ao buscar lojas", { error });
+    } finally {
+      stopLoadingStores();
+    }
+  }
+
   async function mySubmitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     handleSubmit(onSubmit)(event);
   }
 
-  function goToRegister() {
-    router.push("/register");
-  }
+  useEffect(() => {
+    handleGetStores();
+  }, []);
+
+  // function goToRegister() {
+  //   router.push("/register");
+  // }
+
+  const options = stores.map((store) => ({
+    value: store.name,
+    title: toTitleCase(store.name),
+    id: store.id,
+  }));
 
   return (
     <div className="h-screen">
@@ -94,6 +142,22 @@ export default function Login() {
 
             <form onSubmit={mySubmitHandler}>
               <div className="mt-5 flex flex-col gap-5">
+                {isSupport && (
+                  <SelectField
+                    label="Nome da loja"
+                    htmlFor="storeName"
+                    error={errors?.storeName?.message}
+                  >
+                    <SelectField.Select
+                      options={options}
+                      {...register("storeName")}
+                      onSelected={(option) => {
+                        setValue("storeName", option.value);
+                      }}
+                    />
+                  </SelectField>
+                )}
+
                 <TextFiled
                   htmlFor="email"
                   label="E-mail ou celular"
@@ -128,7 +192,7 @@ export default function Login() {
               </div>
             </form>
 
-            <div className="flex flex-col items-center justify-center">
+            {/* <div className="flex flex-col items-center justify-center">
               <button
                 type="button"
                 className="flex justify-center mt-5 items-center gap-2"
@@ -151,7 +215,7 @@ export default function Login() {
                   CADASTRE-SE
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

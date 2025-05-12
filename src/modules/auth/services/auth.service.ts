@@ -26,6 +26,10 @@ class AuthService {
     return await api.post("/session", { email, password });
   }
 
+  async signInSupport(email: string, password: string, storeName: string) {
+    return await api.post("/session/support", { email, password, storeName });
+  }
+
   async me() {
     return await api.get("/user");
   }
@@ -74,6 +78,10 @@ class AuthService {
 
   async createStore(data: CreateStoreData) {
     return await api.post("/admin/stores", data);
+  }
+
+  async getStores() {
+    return await api.get("/stores/all");
   }
 }
 

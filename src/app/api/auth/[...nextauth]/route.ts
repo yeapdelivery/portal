@@ -18,12 +18,31 @@ const nextAuthOptions: NextAuthOptions = {
       credentials: {
         email: { label: "email", type: "text" },
         password: { label: "password", type: "password" },
+        storeName: { label: "storeName", type: "text" },
       },
 
       async authorize(credentials) {
         try {
           const email = credentials?.email;
           const password = credentials?.password;
+          const storeName = credentials?.storeName;
+          console.log({ storeName });
+
+          if (storeName) {
+            const { data: user } = await authService.signInSupport(
+              email,
+              password,
+              storeName
+            );
+
+            if (user) {
+              const cookie = cookies();
+
+              cookie.set("yeap-delivery-token", user.accessToken);
+              return user;
+            }
+            return null;
+          }
 
           const { data: user } = await authService.signIn(email, password);
 
