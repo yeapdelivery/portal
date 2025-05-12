@@ -26,7 +26,6 @@ const nextAuthOptions: NextAuthOptions = {
           const email = credentials?.email;
           const password = credentials?.password;
           const storeName = credentials?.storeName;
-          console.log({ storeName });
 
           if (storeName) {
             const { data: user } = await authService.signInSupport(

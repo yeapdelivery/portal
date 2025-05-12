@@ -82,6 +82,8 @@ export default function Login({ isSupport }: LoginProps) {
       if (response?.error) {
         throw new Error(response.error);
       }
+
+      router.push("/pedidos");
     } catch (error) {
       toastError("Usuário ou senha inválidos");
       logger.fatal("Erro ao fazer login", { error });
