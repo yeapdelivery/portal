@@ -43,19 +43,13 @@ export default function SideBarDesktopLayout({
   handleMenuClick,
 }: SideBarDesktopLayout) {
   const { container, itemContainer, menuOpen } = sideBar();
-  const route = useRouter();
-  const setUser = useUser((state) => state.setUser);
-  const setStore = useStore((state) => state.setStore);
-
   async function handleSighOut() {
     try {
       await signOut({
         redirect: false,
       });
 
-      route.push("/");
-      // setUser(null);
-      // setStore(null);
+      window.location.reload();
     } catch (error) {
       console.log("Error ao loging out", error);
     }

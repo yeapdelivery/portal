@@ -7,6 +7,7 @@ import {
   ChatDots,
   FadersHorizontal,
   Wallet,
+  ChartLine,
 } from "@phosphor-icons/react";
 import SideBarDesktopLayout from "./side-bar-desktop-layout";
 import BottomBar from "./bottom-bar";
@@ -60,9 +61,9 @@ const sidebar = tv({
 export const menus: MenuProps[] = [
   {
     id: 0,
-    label: "Dashboard",
+    label: "Visão geral",
     name: Menu.DASHBOARD,
-    icon: <Wallet weight="bold" size={22} />,
+    icon: <ChartLine weight="bold" size={22} />,
     href: "/dashboard",
   },
   {
