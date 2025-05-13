@@ -9,6 +9,8 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import React from "react";
 import { productsService } from "../../services/list-product-service";
 import { useStore } from "@/modules/app/store/stores";
+import { useToast } from "@/modules/app/hooks";
+import Toast from "@/modules/app/components/toast";
 
 interface ProductsCardProps {
   categoryWithProducts: CategoryWithProducts;
@@ -29,31 +31,36 @@ export function ProductsCard({
   const [products, setProducts] = React.useState<ProductModel[]>(
     categoryWithProducts.products
   );
+  const toast = useToast();
 
   async function handleDropEnd(event: DragEndEvent) {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const activeIndex = products.findIndex((item) => item.id === active.id);
+      try {
+        const activeIndex = products.findIndex((item) => item.id === active.id);
 
-      const overIndex = products.findIndex((item) => item.id === over?.id);
-      const newProducts = arrayMove(products, activeIndex, overIndex);
+        const overIndex = products.findIndex((item) => item.id === over?.id);
+        const newProducts = arrayMove(products, activeIndex, overIndex);
 
-      setProducts(newProducts);
+        setProducts(newProducts);
 
-      const productOrder = newProducts.map((product, index) => ({
-        id: product.id,
-        order: index + 1,
-      }));
-      await productsService.updateProductOrder(
-        store.id,
-        categoryWithProducts.category.id,
-        productOrder
-      );
+        const productOrder = newProducts.map((product, index) => ({
+          id: product.id,
+          order: index + 1,
+        }));
+        await productsService.updateProductOrder(
+          store.id,
+          categoryWithProducts.category.id,
+          productOrder
+        );
+
+        toast.success("Ordem dos produtos atualizada com sucesso");
+      } catch (error) {
+        toast.error("Erro ao atualizar a ordem dos produtos");
+      }
     }
   }
-
-  console.log("products", products);
 
   return (
     <div id={categoryWithProducts.category.id}>
@@ -114,6 +121,17 @@ export function ProductsCard({
       </div>
 
       {!isLastItem && <hr className="mt-6 border border-gray-700 " />}
+
+      <Toast
+        open={toast.toast.open}
+        type={toast.toast.type}
+        message={toast.toast.message}
+        setOpen={(open) => {
+          if (!open) {
+            toast.setToast({ message: "", open });
+          }
+        }}
+      />
     </div>
   );
 }
