@@ -15,9 +15,9 @@ export function AddProductButton() {
   const { container } = addProductButton();
 
   return (
-    <button className={container()}>
+    <div className={container()}>
       <Plus size={16} weight="bold" />
       <span>Adicionar produto</span>
-    </button>
+    </div>
   );
 }

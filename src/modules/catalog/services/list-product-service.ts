@@ -61,6 +61,17 @@ export class ProductsService {
   async deleteProduct(storeId: string, productId: string) {
     return await api.delete(`/admin/stores/${storeId}/products/${productId}`);
   }
+
+  async updateProductOrder(
+    storeId: string,
+    categoryId: string,
+    productUpdate: { id: string; order: number }[]
+  ) {
+    return await api.patch(
+      `/admin/stores/${storeId}/category/${categoryId}/update-order/`,
+      productUpdate
+    );
+  }
 }
 
 export const productsService = new ProductsService();
