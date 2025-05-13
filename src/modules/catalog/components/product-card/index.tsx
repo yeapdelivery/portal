@@ -109,6 +109,7 @@ export function ProductsCard({
 
           <CreateProductModal
             title="Criar produto"
+            productOder={products.length + 1}
             buttonTrigger={
               <button className="w-full">
                 <AddProductButton />

@@ -26,7 +26,7 @@ const dialog = tv({
         content: [
           "rounded-xl",
           "transform translate-x-[-50%] translate-y-[-50%]",
-          "top-[50%] bottom-auto left-[50%] max-h-[85vh] overflow-scroll",
+          "top-[50%] bottom-auto left-[50%] max-h-[85vh]",
           "data-[state=open]:animate-fade-in-center-modal",
           "data-[state=closed]:animate-fade-out-center-modal z-[100]",
         ],

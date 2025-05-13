@@ -11,6 +11,7 @@ export interface CreateProduct {
   name: string;
   server: number;
   category: string;
+  order: number;
   price: {
     original: number;
     promotional: number;

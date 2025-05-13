@@ -103,6 +103,7 @@ export type InitialStepSchema = z.input<typeof initialStepSchema>;
 interface InitialStepProps {
   category: string;
   product?: ProductModel;
+  productOder?: number;
   onClose: () => void;
   onUpdateProducts: () => void;
   openVariationProduct?: () => void;
@@ -112,6 +113,7 @@ interface InitialStepProps {
 export function InitialStep({
   category,
   product,
+  productOder,
   onClose,
   onUpdateProducts,
   openVariationProduct,
@@ -196,6 +198,7 @@ export function InitialStep({
       if (!isEdit) {
         const product = {
           ...data,
+          order: productOder,
           category,
         };
 

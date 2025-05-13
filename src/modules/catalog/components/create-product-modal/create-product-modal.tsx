@@ -9,6 +9,7 @@ interface CreateProductModalProps {
   buttonTrigger: React.ReactNode;
   title: string;
   category: string;
+  productOder: number;
   onUpdateProducts: () => void;
 }
 
@@ -16,6 +17,7 @@ export function CreateProductModal({
   buttonTrigger,
   title,
   category,
+  productOder,
   onUpdateProducts,
 }: CreateProductModalProps) {
   const [open, setOpen] = useState(false);
@@ -29,6 +31,7 @@ export function CreateProductModal({
       <Dialog.Content title={title} className="h-full overflow-scroll">
         <InitialStep
           category={category}
+          productOder={productOder}
           onClose={() => setOpen(false)}
           onUpdateProducts={onUpdateProducts}
         />

@@ -114,9 +114,9 @@ export default function Login({ isSupport }: LoginProps) {
     handleGetStores();
   }, []);
 
-  // function goToRegister() {
-  //   router.push("/register");
-  // }
+  function goToRegister() {
+    router.push("/register");
+  }
 
   const options = stores.map((store) => ({
     value: store.name,
@@ -194,7 +194,7 @@ export default function Login({ isSupport }: LoginProps) {
               </div>
             </form>
 
-            {/* <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
               <button
                 type="button"
                 className="flex justify-center mt-5 items-center gap-2"
@@ -217,7 +217,7 @@ export default function Login({ isSupport }: LoginProps) {
                   CADASTRE-SE
                 </button>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
