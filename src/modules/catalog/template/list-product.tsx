@@ -17,6 +17,7 @@ import { categoryService } from "../services/category.service";
 import { AxiosError } from "axios";
 import { X } from "@phosphor-icons/react/dist/ssr";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
+import { ScrollToggleButton } from "../components/float-button-scroll";
 
 export default function ListProduct() {
   const [products, setProducts] = useState<CategoryWithProducts[]>([]);
@@ -188,6 +189,8 @@ export default function ListProduct() {
           </div>
         </Dialog.Content>
       </Dialog>
+
+      <ScrollToggleButton />
     </div>
   );
 }
