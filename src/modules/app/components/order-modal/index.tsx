@@ -36,8 +36,6 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
 
   const order = orders[orders.length - 1];
 
-  console.log(orders);
-
   useEffect(() => {
     if (orders.length === 0) return;
 
