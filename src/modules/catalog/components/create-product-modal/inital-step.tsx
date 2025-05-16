@@ -481,10 +481,10 @@ export function InitialStep({
                 />
               </Filed>
 
-              {product?.isPizza && isPizza && (
+              {isPizza && (
                 <Filed
                   label="Quantidade de sabores"
-                  error={errors?.serves?.message}
+                  error={errors?.totalFlavors?.message}
                   htmlFor="totalFlavors"
                 >
                   <TextFiled.Input
