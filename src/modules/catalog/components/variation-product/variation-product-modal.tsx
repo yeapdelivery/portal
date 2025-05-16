@@ -33,12 +33,12 @@ interface CreateVariationProductModalProps {
   updateProducts: (product: ProductModel) => void;
 }
 
-const emptyOption = {
-  id: `toCreate${Math.random()}`,
+const emptyOption = () => ({
+  id: `toCreate-${Math.random()}`,
   name: "",
   price: 0,
   description: "",
-};
+});
 
 const variantSchema = z
   .object({
@@ -134,7 +134,7 @@ export function VariationProductModal({
   const hasVariantOption = !!variant && !!variant.options.length;
 
   const initialProductOptions = !hasVariantOption
-    ? [emptyOption]
+    ? [emptyOption()]
     : variant.options;
 
   const store = useStore((state) => state.store);
@@ -193,7 +193,7 @@ export function VariationProductModal({
   }, [variant]);
 
   function handleAddOption() {
-    setOptions((prev) => [...prev, emptyOption]);
+    setOptions((prev) => [...prev, emptyOption()]);
   }
 
   function handleDeleteOption(index: number) {
@@ -226,13 +226,13 @@ export function VariationProductModal({
   }
 
   function cleanValues(data: VariationProductModalForm) {
-    setOptions([emptyOption]);
+    setOptions([emptyOption()]);
     setValue("name", "");
     setValue("isRequired", false);
     setValue("min", null);
     setValue("max", null);
     setValue("description", "");
-    setValue("options", [emptyOption]);
+    setValue("options", [emptyOption()]);
   }
 
   async function createOption(data: VariationProductModalForm) {
@@ -430,7 +430,6 @@ export function VariationProductModal({
                             }
                           />
                         </TextFiled>
-
                         <TextFiled
                           label="Preço"
                           error={errors?.options?.[index]?.price?.message}
@@ -439,7 +438,7 @@ export function VariationProductModal({
                           <TextFiled.Input
                             placeholder="Preço"
                             id={"price" + index}
-                            defaultValue={option.price ?? option.price}
+                            defaultValue={option.price > 0 ? option.price : ""}
                             currency
                             onChange={(event) =>
                               onChangesOptions(event, index, "price")

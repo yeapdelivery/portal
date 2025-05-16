@@ -431,6 +431,7 @@ export function InitialStep({
                     id="price"
                     placeholder="Digite o preço do produto"
                     autoComplete="off"
+                    defaultValue={currency(0)}
                     currency
                     {...register("price.original")}
                   />
