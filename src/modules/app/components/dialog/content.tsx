@@ -57,6 +57,7 @@ export function DialogContent({
   children,
   className,
   position = "right",
+  onInteractOutside,
 }: DialogContentProps) {
   const { content, overlay } = dialog({ position });
 
@@ -66,9 +67,7 @@ export function DialogContent({
       <DialogRx.Content
         className={content({ className })}
         data-test="dialog-content"
-        onInteractOutside={(event) => {
-          event.preventDefault(); // Impede o fechamento ao clicar fora
-        }}
+        onInteractOutside={onInteractOutside}
       >
         <div className="flex items-center justify-between py-6 px-5 ">
           {position === "left" && <div />}
