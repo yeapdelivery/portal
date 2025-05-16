@@ -339,7 +339,12 @@ export function VariationProductModal({
   return (
     <>
       <Dialog open={open} onOpenChange={onCloseVariantModal}>
-        <Dialog.Content className="h-full overflow-y-auto">
+        <Dialog.Content
+          className="h-full overflow-y-auto"
+          onInteractOutside={(event) => {
+            event.preventDefault();
+          }}
+        >
           <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
             <TextFiled
               label="Nome da variação"

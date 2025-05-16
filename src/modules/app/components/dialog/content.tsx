@@ -48,6 +48,7 @@ interface DialogContentProps {
   title?: string;
   className?: string;
   position?: "left" | "center" | "right";
+  onInteractOutside?: (event: any) => void;
 }
 
 export function DialogContent({
@@ -65,6 +66,9 @@ export function DialogContent({
       <DialogRx.Content
         className={content({ className })}
         data-test="dialog-content"
+        onInteractOutside={(event) => {
+          event.preventDefault(); // Impede o fechamento ao clicar fora
+        }}
       >
         <div className="flex items-center justify-between py-6 px-5 ">
           {position === "left" && <div />}
