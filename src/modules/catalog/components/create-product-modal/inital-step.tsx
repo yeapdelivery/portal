@@ -473,6 +473,7 @@ export function InitialStep({
                   id="serves"
                   placeholder="Digite a quantidade de pedido máx"
                   autoComplete="off"
+                  defaultValue={""}
                   mask="99999"
                   {...register("serves")}
                   onChange={(e) => {
@@ -492,6 +493,7 @@ export function InitialStep({
                     id="totalFlavors"
                     placeholder="Digite a quantidade de sabores da pizza"
                     autoComplete="off"
+                    defaultValue={""}
                     {...register("totalFlavors")}
                     onChange={(e) => {
                       if (e.target.value === "") return;
