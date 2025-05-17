@@ -63,9 +63,7 @@ const variantSchema = z
         message: "A quantidade máxima deve ser maior que 0",
       })
       .transform((value) => Number(value)),
-    description: z.string().min(3, {
-      message: "A descrição deve ter no mínimo 3 caracteres",
-    }),
+    description: z.string().optional(),
     options: z.array(
       z.object({
         id: z.string().optional(),
@@ -461,6 +459,7 @@ export function VariationProductModal({
                             }
                           />
                         </TextFiled>
+
                         <TextFiled
                           label="Preço"
                           error={errors?.options?.[index]?.price?.message}
@@ -469,7 +468,16 @@ export function VariationProductModal({
                           <TextFiled.Input
                             placeholder="Preço"
                             id={"price" + index}
-                            defaultValue={option.price > 0 ? option.price : ""}
+                            defaultValue={
+                              Number(
+                                option.price
+                                  .toString()
+                                  .replace(/[^\d.,]/g, "")
+                                  .replace(",", ".")
+                              ) > 0
+                                ? option.price
+                                : ""
+                            }
                             currency
                             onChange={(event) =>
                               onChangesOptions(event, index, "price")
