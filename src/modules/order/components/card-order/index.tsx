@@ -1,11 +1,10 @@
 "use client";
-import Link from "next/link";
+
 import { tv } from "tailwind-variants";
 import { ChatDots, MapPinLine } from "@phosphor-icons/react/dist/ssr";
-import { v4 as uuidv4 } from "uuid";
 
 import { useEffect, useRef, useState } from "react";
-import { OrderStatus } from "../../enums";
+import { DeliveryType, deliveryTypeMap, OrderStatus } from "../../enums";
 import { Order } from "../../models";
 import { CardLoading } from "./card-loading";
 import { currency, formatAddress, formatOrderNumber } from "@/formatting";
@@ -15,6 +14,8 @@ import { isPastChat } from "@/utils";
 import { Printer } from "@phosphor-icons/react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { OrderPDF } from "../pdf-order-document";
+import { Pill } from "@/modules/app/components/pill";
+import { SystemPill } from "@/modules/app/components/system-pill";
 
 interface CardOrderProps {
   order: Order;
@@ -136,6 +137,20 @@ export function CardOrder({
       <hr className="`mt`-2 border border-gray-700" />
 
       <div className="mt-2 text-gray-100">
+        {order.status !== OrderStatus.DELIVERED && (
+          <div className="my-3">
+            <SystemPill
+              variant={
+                order.deliveryType === DeliveryType.PICKUP
+                  ? "warning"
+                  : "success"
+              }
+            >
+              {deliveryTypeMap[order.deliveryType]}
+            </SystemPill>
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
             <span className="text-xs font-semibold">VALOR TOTAL</span>
@@ -192,7 +207,9 @@ export function CardOrder({
               }
               className="border animate-card-order-animation border-green-primary-dark text-green-primary-dark font-rubik font-semibold rounded text-[10px] w-full h-8"
             >
-              Saiu para entrega
+              {order.deliveryType === DeliveryType.DELIVERY
+                ? "Saiu para entrega"
+                : "Pronto para retirada"}
             </button>
           )}
 

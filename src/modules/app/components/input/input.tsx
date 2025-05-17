@@ -176,7 +176,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {type === "password" && (
           <>
-            {inputType === "password" ? (
+            {inputType === "text" ? (
               <Eye
                 onClick={() =>
                   setInputType(inputType === "password" ? "text" : "password")
