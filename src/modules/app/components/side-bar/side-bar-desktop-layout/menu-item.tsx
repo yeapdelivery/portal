@@ -7,6 +7,12 @@ import { tv } from "tailwind-variants";
 import { CaretDown } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { MenuProps, Menu } from "..";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../../tooltip";
 
 interface MenuItemProps {
   menu: MenuProps;
@@ -105,18 +111,30 @@ export function MenuItem({
   return (
     <li data-cy={menu.name} onClick={() => handleMenuClick(menu.name)}>
       {menu.href ? (
-        <Link
-          href={menu.href}
-          className={itemMenu({
-            active: activeMenu === menu.name,
-            stateMenu,
-          })}
-        >
-          <div>{menu.icon}</div>
-          <span data-state={stateMenu} className="data-[state=closed]:hidden">
-            {menu.label}
-          </span>
-        </Link>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href={menu.href}
+                className={itemMenu({
+                  active: activeMenu === menu.name,
+                  stateMenu,
+                })}
+              >
+                <div>{menu.icon}</div>
+                <span
+                  data-state={stateMenu}
+                  className="data-[state=closed]:hidden"
+                >
+                  {menu.label}
+                </span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>{menu.label}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       ) : (
         <Collapsible.Root
           className="relative"
@@ -131,15 +149,24 @@ export function MenuItem({
               hasSubmenu: !!menu.subMenu,
             })}
           >
-            <div className="flex items-center gap-3">
-              <div>{menu.icon}</div>
-              <span
-                data-state={stateMenu}
-                className="data-[state=closed]:hidden"
-              >
-                {menu.label}
-              </span>
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center gap-3">
+                    <div>{menu.icon}</div>
+                    <span
+                      data-state={stateMenu}
+                      className="data-[state=closed]:hidden"
+                    >
+                      {menu.label}
+                    </span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>{menu.label}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
             {stateMenu === "open" && (
               <CaretDown
@@ -164,15 +191,27 @@ export function MenuItem({
                       <div className={ball({ stateMenu })}></div>
                     </div>
                   )}
-                  <Link
-                    data-cy={subMenu.name}
-                    href={subMenu.href}
-                    className={subItemMenu({
-                      activeSubMenuItem: activeMenu?.includes(subMenu.name),
-                    })}
-                  >
-                    {subMenu.label}
-                  </Link>
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          data-cy={subMenu.name}
+                          href={subMenu.href}
+                          className={subItemMenu({
+                            activeSubMenuItem: activeMenu?.includes(
+                              subMenu.name
+                            ),
+                          })}
+                        >
+                          {subMenu.label}
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>{subMenu.label}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               ))}
             </ul>
