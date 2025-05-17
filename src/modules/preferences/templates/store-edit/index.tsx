@@ -196,10 +196,11 @@ export function ScreenStore() {
   async function onSubmit(data: EditStore) {
     startLoading();
     try {
-      await preferencesService.updateStore(
-        store.id,
-        data as unknown as StoreModel
-      );
+      await preferencesService.updateStore(store.id, {
+        ...(data as unknown as StoreModel),
+        logo: store.logo,
+        cover: store.cover,
+      });
 
       success("Loja atualizada com sucesso!");
       setStore(data as unknown as StoreModel);

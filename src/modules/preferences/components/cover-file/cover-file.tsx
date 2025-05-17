@@ -8,6 +8,7 @@ import { preferencesService } from "../../services";
 import Spinner from "@/modules/app/components/spinner/spinner";
 import { EmptyImage } from "@/modules/app/components/empty-image";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
+import { X } from "lucide-react";
 
 const coverFile = tv({
   slots: {
@@ -72,14 +73,27 @@ export function CoverFile() {
       />
       <div className={overlay()}>Alterar imagem de fundo</div>
       {!isLoading && store?.cover?.length > 0 && (
-        <img
-          data-test="background-image"
-          src={store.cover}
-          alt="company background image"
-          width={1227}
-          height={186}
-          className="w-full h-[186px] object-cover"
-        />
+        <>
+          <img
+            data-test="background-image"
+            src={store.cover}
+            alt="company background image"
+            width={1227}
+            height={186}
+            className="w-full h-[186px] object-cover"
+          />
+
+          <X
+            size={20}
+            className="absolute top-2 right-2 cursor-pointer text-white bg-slate-500 rounded-full p-1 z-[100]"
+            onClick={() => {
+              setStore({
+                ...store,
+                cover: "",
+              });
+            }}
+          />
+        </>
       )}
       {isLoading && <Spinner />}
       {!store.cover && !isLoading && (

@@ -67,7 +67,7 @@ export function StoreData({ errors, register, setValue }: StoreDataProps) {
   return (
     <div className="flex w-full">
       <div className="flex flex-col-reverse md:flex-col w-full">
-        <div className="flex flex-col gap-4 md:flex-row">
+        {/* <div className="flex flex-col gap-4 md:flex-row">
           <div>
             {store.logo ? (
               <Image
@@ -92,7 +92,7 @@ export function StoreData({ errors, register, setValue }: StoreDataProps) {
               isLoading={isLogoUpdating}
             />
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-col gap-6">
           <TextFiled
             error={errors?.name?.message}

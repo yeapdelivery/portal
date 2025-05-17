@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 
 import Dialog from "@/modules/app/components/dialog";
-import { InitialStep } from "./inital-step";
-
-import Button from "@/modules/app/components/button/button";
+import { InitialStep } from "./initial-step";
 
 interface CreateProductModalProps {
   buttonTrigger: React.ReactNode;

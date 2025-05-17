@@ -306,13 +306,14 @@ export function InitialStep({
                 onDrop={(files, originalFile) => {
                   setFiles(files);
                   setOriginalFiles(originalFile);
+                  setShouldShowImage(false);
                 }}
               />
             </Filed>
           ) : (
             <div className="flex items-center justify-center w-full h-40 bg-gray-800 rounded-lg relative">
               <img
-                src={product?.image}
+                src={product?.image || files[0]?.src}
                 alt="product"
                 className="w-full h-40 object-cover rounded-lg"
               />
@@ -320,7 +321,10 @@ export function InitialStep({
               <button
                 type="button"
                 className="absolute -right-2 -top-2 w-5 h-5 bg-gray-200 rounded-full flex items-center justify-center"
-                onClick={() => setShouldShowImage(true)}
+                onClick={() => {
+                  setShouldShowImage(true);
+                  setFiles([]);
+                }}
               >
                 <X size={20} className="text-white" />
               </button>
@@ -458,7 +462,7 @@ export function InitialStep({
                 <Checkbox
                   value="promotional"
                   checked={promotional}
-                  label="Este produto está e promoção?"
+                  label="Este produto estar em promoção?"
                   onChange={() => setPromotional(!promotional)}
                   className="mt-1"
                 />

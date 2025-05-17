@@ -2,7 +2,7 @@
 
 import Dialog from "@/modules/app/components/dialog";
 import { PencilSimple } from "@phosphor-icons/react";
-import { InitialStep } from "../create-product-modal/inital-step";
+import { InitialStep } from "../create-product-modal/initial-step";
 import { useState } from "react";
 import { ProductModel, ProductVariant } from "../../models/product-model";
 

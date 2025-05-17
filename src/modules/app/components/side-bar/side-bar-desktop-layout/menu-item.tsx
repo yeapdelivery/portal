@@ -60,7 +60,7 @@ const menuItem = tv({
       closed: {
         itemMenu: "w-fit ml-1 px-0 p-2",
         subMenuContent: [
-          "absolute -right-48 md:-right-36 bg-white border border-gray-700 rounded-sm pb-3 -top-3",
+          "absolute -right-48 md:-right-36 bg-white border border-gray-700 rounded-sm pb-3 pr-3 -top-3",
         ],
         barSecondary: "left-2",
         ball: "-left-[2px]",
