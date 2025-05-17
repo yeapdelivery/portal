@@ -34,6 +34,7 @@ export interface ProductVariant {
   description: string;
   min: number;
   max: number;
+  isPizza: boolean;
   options: ProductVariationOption[];
 }
 

@@ -29,6 +29,7 @@ interface CreateVariationProductModalProps {
   open: boolean;
   variant: ProductVariant;
   productId: string;
+  product: ProductModel;
   onClose: () => void;
   updateProducts: (product: ProductModel) => void;
 }
@@ -49,6 +50,7 @@ const variantSchema = z
       })
       .max(255),
     isRequired: z.boolean().optional(),
+    isPizza: z.boolean().optional(),
     min: z
       .string()
       .min(1, {
@@ -127,6 +129,7 @@ type VariationProductModalForm = z.infer<typeof variantSchema>;
 export function VariationProductModal({
   open,
   variant,
+  product,
   productId,
   onClose,
   updateProducts,
@@ -144,6 +147,9 @@ export function VariationProductModal({
   );
   const [isRequired, setIsRequired] = React.useState<boolean>(
     variant?.isRequired
+  );
+  const [isPizza, setIsPizza] = React.useState<boolean>(
+    typeof variant?.isPizza === "boolean" ? variant.isPizza : true
   );
   const [optionUpdatedIds, setOptionUpdatedIds] = React.useState<string[]>([]);
   const [selectedOption, setSelectedOption] =
@@ -189,8 +195,21 @@ export function VariationProductModal({
 
       setValue("options", newOptions);
       setOptions(newOptions as any);
+      setIsPizza(variant?.isPizza);
+
+      if (product.isPizza) {
+        const isPizza =
+          typeof variant?.isPizza === "boolean"
+            ? variant.isPizza
+            : product.isPizza
+            ? true
+            : false;
+
+        setIsPizza(isPizza);
+        setValue("isPizza", isPizza);
+      }
     }
-  }, [variant]);
+  }, [variant, product]);
 
   function handleAddOption() {
     setOptions((prev) => [...prev, emptyOption()]);
@@ -391,6 +410,18 @@ export function VariationProductModal({
             >
               <TextArea placeholder="Descrição" {...register("description")} />
             </Filed>
+
+            {product.isPizza && (
+              <Checkbox
+                label="Esta variação é uma pizza também?"
+                checked={isPizza}
+                onChange={(checked) => {
+                  setIsPizza(checked);
+                  setValue("isPizza", checked);
+                }}
+                value="isPizza"
+              />
+            )}
 
             <Checkbox
               label="Obrigatório"

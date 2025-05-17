@@ -190,6 +190,7 @@ export function CardCatalog({
           open={openCreateVariationProduct}
           variant={selectedVariant}
           productId={productData?.id}
+          product={productData}
           onClose={() => onCloseVariant()}
           updateProducts={updateProduct}
         />

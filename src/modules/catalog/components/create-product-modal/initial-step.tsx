@@ -51,7 +51,7 @@ const initialStep = tv({
 const initialStepSchema = z
   .object({
     name: z.string().min(3, { message: "Nome obrigatório" }),
-    description: z.string().min(3, { message: "Descrição obrigatória" }),
+    description: z.string().optional(),
     type: z.string().min(1, {
       message: "Tipo de produto obrigatório",
     }),
@@ -77,7 +77,9 @@ const initialStepSchema = z
         }),
     }),
     serves: z
-      .number()
+      .number({
+        invalid_type_error: "Quantidade de pedido máx obrigatório.",
+      })
       .min(1, { message: "Quantidade de pedido máx obrigatório." }),
     cooled: z
       .boolean({
