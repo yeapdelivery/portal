@@ -59,7 +59,9 @@ const menuItem = tv({
     stateMenu: {
       closed: {
         itemMenu: "w-fit ml-1 px-0 p-2",
-        subMenuContent: ["absolute -right-48 -top-3"],
+        subMenuContent: [
+          "absolute -right-48 md:-right-36 bg-white border border-gray-700 rounded-sm mb-2 -top-3",
+        ],
         ball: "-left-[2px]",
       },
       open: {
@@ -99,8 +101,9 @@ export function MenuItem({
       (subMenu) => subMenu.name === activeMenu
     );
 
-    if (pathname !== "/preferencias") {
+    if (pathname !== "/preferencias" && stateMenu === "closed") {
       setOpen(false);
+      return;
     }
 
     if (menu.subMenu && findMenu && activeMenu.includes(findMenu.name)) {
@@ -198,6 +201,11 @@ export function MenuItem({
                         <Link
                           data-cy={subMenu.name}
                           href={subMenu.href}
+                          onClick={() => {
+                            if (stateMenu === "closed") {
+                              setOpen(false);
+                            }
+                          }}
                           className={subItemMenu({
                             activeSubMenuItem: activeMenu?.includes(
                               subMenu.name
