@@ -171,9 +171,9 @@ export function InitialStep({
       },
       cooled: product?.cooled || false,
       type: product?.type || "",
-      serves: product?.serves || 0,
+      serves: product?.serves,
       isPizza: product?.isPizza,
-      totalFlavors: product?.totalFlavors || 0,
+      totalFlavors: product?.totalFlavors,
     },
   });
 
