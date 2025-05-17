@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStore } from "../../store/stores";
 
 import socket from "@/providers/socketIo.provider";
@@ -33,10 +33,24 @@ export function SocketWrapper() {
   const { error: toastError } = useToast();
   const logger = useLogger();
 
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    audioRef.current = new Audio("/bell.mp3");
+
     const handleUserInteraction = () => {
-      const audio = new Audio("/bell.mp3");
-      audio.play().catch(() => {});
+      if (!audioRef.current) return;
+
+      audioRef.current
+        .play()
+        .then(() => {
+          audioRef.current?.pause();
+          audioRef.current.currentTime = 0;
+        })
+        .catch(() => {});
+
       window.removeEventListener("click", handleUserInteraction);
     };
 
@@ -50,7 +64,6 @@ export function SocketWrapper() {
     if (!store.id) return;
 
     fetchOrders();
-
     getCheckUnreadMessages();
   }, [store]);
 
@@ -70,13 +83,10 @@ export function SocketWrapper() {
 
       socket.on("storeHaveNewMessage", (chatId) => {
         const set = new Set(unreadMessages);
-
         set.add(chatId);
-
         setUnreadMessages(Array.from(set));
 
         if (pathname.includes("chat")) return;
-
         setOpenHaveNewMessageModal(true);
       });
     }
@@ -94,10 +104,13 @@ export function SocketWrapper() {
   }, [orders]);
 
   async function playAudio(): Promise<void> {
-    const audio = new Audio("/bell.mp3");
-    audio.play().catch((error) => {
+    try {
+      if (audioRef.current) {
+        await audioRef.current.play();
+      }
+    } catch (error) {
       console.error("Error playing audio: ", error);
-    });
+    }
   }
 
   async function fetchOrders(): Promise<void> {
