@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ProductModal } from "../product-modal";
 import { ProductModel, ProductVariant } from "../../models/product-model";
 import { currency } from "@/formatting";
-import { DotsSix, ImageSquare } from "@phosphor-icons/react/dist/ssr";
+import { Copy, DotsSix, ImageSquare } from "@phosphor-icons/react/dist/ssr";
 import { VariationProductModal } from "../variation-product";
 import { useLoading, useModal } from "@/modules/app/hooks";
 import React from "react";
@@ -20,6 +20,7 @@ import { ChangeProductStatusModal } from "./change-product-status-modal";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { DuplicateVariationModal } from "../duplicate-product-modal";
 
 interface CardCatalogProps {
   product: ProductModel;
@@ -52,11 +53,22 @@ export function CardCatalog({
     openModal: onOpenChangeProductStatus,
     closeModal: onCloseChangeProductStatus,
   } = useModal();
+  const {
+    open: openDuplicateProduct,
+    openModal: onOpenDuplicateProduct,
+    closeModal: onCloseDuplicateProduct,
+  } = useModal();
   const [
     loadingDeleteProduct,
     startLoaderDeleteProduct,
     stopLoaderDeleteProduct,
   ] = useLoading();
+  const [
+    loadingDuplicateProduct,
+    startLoaderDuplicateProduct,
+    stopLoaderDuplicateProduct,
+  ] = useLoading();
+
   const store = useStore((state) => state.store);
 
   const logger = useLogger();
@@ -99,6 +111,24 @@ export function CardCatalog({
       logger.error("Erro ao deletar produto", { error });
     } finally {
       stopLoaderDeleteProduct();
+    }
+  }
+
+  async function handleDuplicateProduct() {
+    startLoaderDuplicateProduct();
+    try {
+      const { data } = await productsService.duplicateProduct(
+        store.id,
+        product.id
+      );
+
+      setProductData(data);
+      onCloseDuplicateProduct();
+      onUpdateProducts();
+    } catch (error) {
+      logger.error("Erro ao duplicar produto", { error });
+    } finally {
+      stopLoaderDuplicateProduct();
     }
   }
 
@@ -153,6 +183,7 @@ export function CardCatalog({
                       className="text-red-default"
                     />
                   </button>
+
                   <ProductModal
                     product={productData}
                     category={category}
@@ -160,6 +191,16 @@ export function CardCatalog({
                     openVariationProduct={onOpenCreateVariationProduct}
                     selectVariationProduct={handleSelectedVariant}
                   />
+                  <button
+                    onClick={onOpenDuplicateProduct}
+                    className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded"
+                  >
+                    <Copy
+                      weight="bold"
+                      size={16}
+                      className="text-red-default"
+                    />
+                  </button>
                 </div>
               </div>
 
@@ -208,6 +249,14 @@ export function CardCatalog({
           product={productSelectedToChangeStatus}
           onClose={onCloseChangeProductStatus}
           updateProduct={onUpdateProducts}
+        />
+
+        <DuplicateVariationModal
+          product={productData}
+          openDuplicateProduct={openDuplicateProduct}
+          loadingDuplicateProduct={loadingDuplicateProduct}
+          handleDuplicateProduct={handleDuplicateProduct}
+          onCloseDuplicate={onCloseDuplicateProduct}
         />
       </div>
     </div>

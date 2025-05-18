@@ -73,6 +73,12 @@ export class ProductsService {
       productUpdate
     );
   }
+
+  async duplicateProduct(storeId: string, productId: string) {
+    return await api.post(
+      `/admin/stores/${storeId}/products/${productId}/duplicate`
+    );
+  }
 }
 
 export const productsService = new ProductsService();
