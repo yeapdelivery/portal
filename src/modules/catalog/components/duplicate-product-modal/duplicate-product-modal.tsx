@@ -26,7 +26,11 @@ export function DuplicateVariationModal({
         <div>
           <p>Deseja duplicar o {product?.name}?</p>
           <div className="flex justify-end gap-2 mt-4">
-            <Button variant="secondary" disabled={loadingDuplicateProduct}>
+            <Button
+              variant="secondary"
+              disabled={loadingDuplicateProduct}
+              onClick={onCloseDuplicate}
+            >
               Cancelar
             </Button>
             <Button

@@ -173,17 +173,6 @@ export function CardCatalog({
                 </span>
 
                 <div className="flex gap-4">
-                  <button
-                    onClick={onOpenDeleteProduct}
-                    className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded"
-                  >
-                    <Trash
-                      weight="bold"
-                      size={16}
-                      className="text-red-default"
-                    />
-                  </button>
-
                   <ProductModal
                     product={productData}
                     category={category}
@@ -196,6 +185,17 @@ export function CardCatalog({
                     className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded"
                   >
                     <Copy
+                      weight="bold"
+                      size={16}
+                      className="text-red-default"
+                    />
+                  </button>
+
+                  <button
+                    onClick={onOpenDeleteProduct}
+                    className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded"
+                  >
+                    <Trash
                       weight="bold"
                       size={16}
                       className="text-red-default"
