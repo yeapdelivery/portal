@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Rubik, Outfit } from "next/font/google";
 import "../style/global.css";
-import NextAuthSessionProvider from "@/modules/auth/providers/session-privider";
 const rubik = Rubik({ subsets: ["latin"] });
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -20,9 +19,7 @@ export default async function RootLayout({
   return (
     <html lang="pt-br" className="bg-white overflow-x-hidden ">
       <body className={`${outfit.className} ${rubik.className}`}>
-        <NextAuthSessionProvider>
-          <main>{children}</main>
-        </NextAuthSessionProvider>
+        <main>{children}</main>
       </body>
     </html>
   );

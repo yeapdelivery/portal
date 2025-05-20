@@ -19,7 +19,7 @@ export function ProductsList({
       {products.map((categoryWithProducts, index, originalArray) => (
         <ProductsCard
           categoryWithProducts={categoryWithProducts}
-          key={index}
+          key={categoryWithProducts.category.id + Date.now()}
           isLastItem={index === originalArray.length - 1}
           onOpenConfirmationDeleteCategory={onOpenConfirmationDeleteCategory}
           onUpdateProducts={onUpdateProducts}

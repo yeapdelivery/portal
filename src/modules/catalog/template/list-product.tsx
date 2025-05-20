@@ -57,6 +57,18 @@ export default function ListProduct() {
     }
   }
 
+  async function loadProductsWithoutLoading() {
+    if (!store.id) return;
+
+    try {
+      const { data } = await productsService.loadProducts(store.id || "");
+      setProducts([...data.items]);
+    } catch (error) {
+      errorToast("Erro ao carregar produtos");
+      logger.error("Erro ao carregar produtos", { error });
+    }
+  }
+
   async function handleDeleteCategory() {
     startDeleteCategory();
     setHasProductError(false);
@@ -102,7 +114,7 @@ export default function ListProduct() {
           </span>
 
           <div className="mt-4">
-            <CategoryModal updateProducts={loadProducts} />
+            <CategoryModal updateProducts={loadProductsWithoutLoading} />
           </div>
         </div>
       </div>
@@ -110,10 +122,10 @@ export default function ListProduct() {
 
   return (
     <div className="px-5 mt-8 mb-20">
-      <HeaderSearch updateProducts={loadProducts} />
+      <HeaderSearch updateProducts={loadProductsWithoutLoading} />
       <ProductsList
         products={products}
-        onUpdateProducts={loadProducts}
+        onUpdateProducts={loadProductsWithoutLoading}
         onOpenConfirmationDeleteCategory={(category) => {
           setSelectedCategory(category);
           openConfirmationDeleteCategory();

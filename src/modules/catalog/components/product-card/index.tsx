@@ -62,6 +62,14 @@ export function ProductsCard({
     }
   }
 
+  function getProductOrder() {
+    const productByCategory = products.filter(
+      (product) => product.category.id === categoryWithProducts.category.id
+    );
+
+    return productByCategory.length + 1;
+  }
+
   return (
     <div id={categoryWithProducts.category.id}>
       <div className="mt-9">
@@ -109,7 +117,7 @@ export function ProductsCard({
 
           <CreateProductModal
             title="Criar produto"
-            productOder={products.length + 1}
+            productOder={getProductOrder()}
             buttonTrigger={
               <button className="w-full">
                 <AddProductButton />
