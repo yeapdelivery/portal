@@ -205,6 +205,16 @@ export function InitialStep({
       setPromotional(!!product.price.promotional);
       setCooled(product.cooled);
       setIsPizza(product.isPizza);
+      setFiles([
+        {
+          id: product.image,
+          name: product.image,
+          base64: product.image,
+          src: product.image,
+          size: 0,
+          type: "",
+        },
+      ]);
     }
   }, [product]);
 
@@ -347,37 +357,16 @@ export function InitialStep({
     <div className="mb-10">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4">
-          {shouldShowImage ? (
-            <Filed label="Image" error={null} htmlFor="image">
-              <Dropzone
-                files={files}
-                onDrop={(files, originalFile) => {
-                  setFiles(files);
-                  setOriginalFiles(originalFile);
-                  setShouldShowImage(false);
-                }}
-              />
-            </Filed>
-          ) : (
-            <div className="flex items-center justify-center w-full h-40 bg-gray-800 rounded-lg relative">
-              <img
-                src={product?.image || files[0]?.src}
-                alt="product"
-                className="w-full h-40 object-cover rounded-lg"
-              />
-
-              <button
-                type="button"
-                className="absolute -right-2 -top-2 w-5 h-5 bg-gray-200 rounded-full flex items-center justify-center"
-                onClick={() => {
-                  setShouldShowImage(true);
-                  setFiles([]);
-                }}
-              >
-                <X size={20} className="text-white" />
-              </button>
-            </div>
-          )}
+          <Filed label="Image" error={null} htmlFor="image">
+            <Dropzone
+              files={files}
+              onDrop={(files, originalFile) => {
+                setFiles(files);
+                setOriginalFiles(originalFile);
+                setShouldShowImage(false);
+              }}
+            />
+          </Filed>
 
           <TextFiled
             label="Nome do produto"
