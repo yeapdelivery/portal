@@ -20,7 +20,7 @@ import { ChangeProductStatusModal } from "./change-product-status-modal";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { DuplicateVariationModal } from "../duplicate-product-modal";
+import { DuplicateProductModal } from "../duplicate-product-modal";
 
 interface CardCatalogProps {
   product: ProductModel;
@@ -96,6 +96,8 @@ export function CardCatalog({
   }
 
   function handleSelectedVariant(variant: ProductVariant) {
+    console.log("variant", variant);
+
     setSelectedVariant(variant);
     onOpenCreateVariationProduct();
   }
@@ -251,7 +253,7 @@ export function CardCatalog({
           updateProduct={onUpdateProducts}
         />
 
-        <DuplicateVariationModal
+        <DuplicateProductModal
           product={productData}
           openDuplicateProduct={openDuplicateProduct}
           loadingDuplicateProduct={loadingDuplicateProduct}

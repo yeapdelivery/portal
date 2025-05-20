@@ -65,6 +65,16 @@ export class VariantService {
       `/admin/stores/${storeId}/products/${productId}/variations/${variantId}/options/${optionId}`
     );
   }
+
+  async duplicateVariant(
+    variantId: string,
+    storeId: string,
+    productId: string
+  ): Promise<AxiosResponse<ProductVariant>> {
+    return await api.post(
+      `/admin/stores/${storeId}/products/${productId}/variations/${variantId}/duplicate`
+    );
+  }
 }
 
 export const variantService = new VariantService();

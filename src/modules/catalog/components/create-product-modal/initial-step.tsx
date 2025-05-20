@@ -30,6 +30,8 @@ import { variantService } from "../../services/variant.service";
 import { AxiosError } from "axios";
 import { httpErrorsMessages } from "@/utils";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
+import { Copy } from "lucide-react";
+import { DuplicateVariationModal } from "../duplicate-variation-modal";
 
 const initialStep = tv({
   slots: {
@@ -144,8 +146,20 @@ export function InitialStep({
     openModal: onOpenDialogDeleteVariation,
     closeModal: onCloseDialogDeleteVariation,
   } = useModal();
+  const {
+    open: openDuplicateVariation,
+    openModal: onOpenDuplicateVariation,
+    closeModal: onCloseDuplicateVariation,
+  } = useModal();
+
   const [isProductLoading, startProductLoading, stopProductLoading] =
     useLoading();
+
+  const [
+    isLoadingDuplicateVariation,
+    startDuplicateVariationLoading,
+    stopDuplicateVariationLoading,
+  ] = useLoading();
   const [
     isLoadingDeleteVariation,
     startDeleteVariationLoading,
@@ -289,11 +303,43 @@ export function InitialStep({
       setVariations((prev) =>
         prev.filter((variation) => variation.id !== selectedVariation.id)
       );
-    } catch (error) {
+    } catch (catchError) {
       logger.error("Erro ao deletar variação", { error });
+
+      if (catchError instanceof AxiosError) {
+        if (catchError.code === "ERR_NETWORK") {
+          error("Imagem muito grande");
+          return;
+        }
+
+        const messageError =
+          httpErrorsMessages[catchError.response.data.message];
+
+        if (messageError) {
+          error(messageError);
+          return;
+        }
+      }
       error("Erro ao deletar variação");
     } finally {
       stopDeleteVariationLoading();
+    }
+  }
+
+  async function duplicateVariation() {
+    startDuplicateVariationLoading();
+    try {
+      const { data: newVariation } = await variantService.duplicateVariant(
+        selectedVariation.id,
+        store.id,
+        product.id
+      );
+      success("Variação duplicada com sucesso");
+      onCloseDuplicateVariation();
+      setVariations([...variations, newVariation]);
+    } catch (error) {
+      logger.error("Erro ao duplicar variação", { error });
+      error("Erro ao duplicar variação");
     }
   }
 
@@ -557,6 +603,15 @@ export function InitialStep({
                         </button>
 
                         <button
+                          onClick={() => {
+                            setSelectedVariation(variation);
+                            onOpenDuplicateVariation();
+                          }}
+                          type="button"
+                        >
+                          <Copy size={16} />
+                        </button>
+                        <button
                           onClick={() =>
                             selectVariationProduct &&
                             selectVariationProduct(variation)
@@ -639,6 +694,14 @@ export function InitialStep({
           </div>
         </Dialog.Content>
       </Dialog>
+
+      <DuplicateVariationModal
+        variation={selectedVariation}
+        openDuplicateVariation={openDuplicateVariation}
+        loadingDuplicateVariation={isLoadingDeleteVariation}
+        onCloseDuplicate={onCloseDuplicateVariation}
+        handleDuplicateVariation={duplicateVariation}
+      />
     </div>
   );
 }

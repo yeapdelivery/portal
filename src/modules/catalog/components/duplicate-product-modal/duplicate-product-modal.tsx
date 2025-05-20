@@ -10,7 +10,7 @@ interface DeleteVariationModalProps {
   handleDuplicateProduct: () => void;
 }
 
-export function DuplicateVariationModal({
+export function DuplicateProductModal({
   openDuplicateProduct,
   product,
   loadingDuplicateProduct,
