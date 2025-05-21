@@ -78,11 +78,11 @@ const initialStepSchema = z
           return Number(number);
         }),
     }),
-    serves: z
-      .number({
-        invalid_type_error: "Quantidade de pedido máx obrigatório.",
-      })
-      .min(1, { message: "Quantidade de pedido máx obrigatório." }),
+    // serves: z
+    //   .number({
+    //     invalid_type_error: "Quantidade de pedido máx obrigatório.",
+    //   })
+    //   .min(1, { message: "Quantidade de pedido máx obrigatório." }),
     cooled: z
       .boolean({
         description: "Produto resfriado",
@@ -187,7 +187,7 @@ export function InitialStep({
       },
       cooled: product?.cooled || false,
       type: product?.type || "",
-      serves: product?.serves,
+      // serves: product?.serves,
       isPizza: product?.isPizza,
       totalFlavors: product?.totalFlavors,
     },
@@ -478,7 +478,7 @@ export function InitialStep({
                   />
                 </TextFiled>
 
-                {promotional && type === ProductTypeEnum.SIMPLE && (
+                {promotional && (
                   <TextFiled
                     label="Preço promocional"
                     error={errors?.price?.promotional?.message}
@@ -495,17 +495,16 @@ export function InitialStep({
                   </TextFiled>
                 )}
               </div>
-              {type === ProductTypeEnum.SIMPLE && (
-                <Checkbox
-                  value="promotional"
-                  checked={promotional}
-                  label="Este produto estar em promoção?"
-                  onChange={() => setPromotional(!promotional)}
-                  className="mt-1"
-                />
-              )}
 
-              <Filed
+              <Checkbox
+                value="promotional"
+                checked={promotional}
+                label="Este produto estar em promoção?"
+                onChange={() => setPromotional(!promotional)}
+                className="mt-1"
+              />
+
+              {/* <Filed
                 label="Quantidade de pedido máx"
                 error={errors?.serves?.message}
                 htmlFor="serves"
@@ -522,7 +521,7 @@ export function InitialStep({
                     setValue("serves", parseInt(e.target.value));
                   }}
                 />
-              </Filed>
+              </Filed> */}
 
               {isPizza && (
                 <Filed

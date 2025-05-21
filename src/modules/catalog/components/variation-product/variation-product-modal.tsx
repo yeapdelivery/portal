@@ -250,6 +250,7 @@ export function VariationProductModal({
     setValue("max", null);
     setValue("description", "");
     setValue("options", [emptyOption()]);
+    setIsRequired(false);
   }
 
   async function createOption(data: VariationProductModalForm) {
