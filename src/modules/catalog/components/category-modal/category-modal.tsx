@@ -37,6 +37,7 @@ export function CategoryModal({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<CategorySchema>({
     resolver: zodResolver(categorySchema),
@@ -87,7 +88,16 @@ export function CategoryModal({
 
   return (
     <>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(open) => {
+          if (!open) {
+            reset();
+          }
+
+          setOpen(open);
+        }}
+      >
         {!isEditing ? (
           <Dialog.Button asChild>
             <Button className="w-34 lg:w-80" startIcon={Plus}>
