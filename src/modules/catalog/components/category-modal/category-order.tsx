@@ -99,7 +99,7 @@ export function CategoryOrder({ updateProducts }: CategoryOrderProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <Dialog.Button asChild>
         <button className="flex items-center text-red-default underline justify-center gap-2 w-full">
-          <span>Order categoria</span>
+          <span>Ordenar categorias</span>
           <ListDashes size={20} />
         </button>
       </Dialog.Button>
