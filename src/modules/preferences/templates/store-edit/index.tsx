@@ -21,6 +21,8 @@ import StoreModel, { OpeningHours } from "@/modules/app/models/store";
 import { availableHasOpeningHour, availableOpeningHour } from "@/utils";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
+const TIME_REGEX = /^([01]\d|2[0-3]):[0-5]\d$/;
+
 const editStoreSchema = z
   .object({
     name: z
@@ -151,7 +153,41 @@ const editStoreSchema = z
         "Horário de abertura não pode ser maior ou igual ao de fechamento",
       path: ["openingHours"],
     }
-  );
+  )
+  .superRefine((data, ctx) => {
+    const days = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ] as const;
+
+    for (const day of days) {
+      const dayData = data.openingHours[day];
+      if (dayData) {
+        const { openHour, closeHour } = dayData;
+
+        if (openHour && !TIME_REGEX.test(openHour)) {
+          ctx.addIssue({
+            path: ["openingHours", day, "openHour"],
+            message: "Horário inválido. Use o formato HH:mm até 23:59.",
+            code: z.ZodIssueCode.custom,
+          });
+        }
+
+        if (closeHour && !TIME_REGEX.test(closeHour)) {
+          ctx.addIssue({
+            path: ["openingHours", day, "closeHour"],
+            message: "Horário inválido. Use o formato HH:mm até 23:59.",
+            code: z.ZodIssueCode.custom,
+          });
+        }
+      }
+    }
+  });
 
 export type EditStore = z.infer<typeof editStoreSchema>;
 
@@ -167,6 +203,7 @@ export function ScreenStore() {
     register,
   } = useForm<EditStore>({
     resolver: zodResolver(editStoreSchema),
+    mode: "onTouched",
   });
 
   const logger = useLogger();

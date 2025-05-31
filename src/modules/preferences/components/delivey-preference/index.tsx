@@ -32,6 +32,32 @@ export function Delivery({
     }
   }, [freeTaxChecked]);
 
+  useEffect(() => {
+    if (minTaxChecked) {
+      setValue("delivery.minOrder", 0);
+    }
+  }, [minTaxChecked]);
+
+  useEffect(() => {
+    let time = setTimeout(() => {
+      const delivery = getValues("delivery");
+
+      if (delivery.price === 0) {
+        setFreeTaxChecked(true);
+      } else {
+        setFreeTaxChecked(false);
+      }
+
+      if (delivery.minOrder === 0) {
+        setMinTaxChecked(true);
+      } else {
+        setMinTaxChecked(false);
+      }
+
+      clearTimeout(time);
+    }, 1000);
+  }, []);
+
   return (
     <div className="flex flex-col">
       <span className="mb-3 text-gray-100 font-bold font-outfit">Entrega</span>
@@ -66,6 +92,7 @@ export function Delivery({
                   <TextFiled.Input
                     currency
                     {...register("delivery.minOrder")}
+                    disabled={minTaxChecked}
                     onChange={(value) => {
                       const number = value.currentTarget.value
                         .replace(/[^\d.,]/g, "")
@@ -92,7 +119,7 @@ export function Delivery({
                 value="min-checked"
                 checked={minTaxChecked}
                 onChange={(checked) => setMinTaxChecked(checked)}
-                label="S/ Taxa mínima"
+                label="S/ Pedido mínima"
               />
             </div>
           </div>

@@ -1,13 +1,16 @@
 "use client";
 
 import { Box } from "@/modules/app/components/box";
+
 import Button from "@/modules/app/components/button/button";
 import TextFiled from "@/modules/app/components/text-filed";
 import Toast from "@/modules/app/components/toast";
 import { useLoading, useToast } from "@/modules/app/hooks";
 import { useUser } from "@/modules/app/store/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format, parse } from "date-fns";
+import { parse } from "date-fns";
+import { toZonedTime, format } from "date-fns-tz";
+
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -23,7 +26,7 @@ const userSchema = z.object({
   birthday: z.string().transform((value) => {
     const originalDate = parse(value, "dd/MM/yyyy", new Date());
 
-    return format(originalDate, "yyyy-MM-dd'T'HH:mm");
+    return format(originalDate, "yyyy-MM-dd");
   }),
 });
 
@@ -70,13 +73,20 @@ export function UserEditTemplate() {
 
   useEffect(() => {
     Object.keys(user).forEach((key) => {
-      let value = user[key as keyof UserSchema];
+      if (key !== "birthday") {
+        let value = user[key as keyof UserSchema];
 
-      if (key === "birthday") {
-        value = format(new Date(user.birthday), "dd/MM/yyyy");
+        setValue(key as keyof UserSchema, value);
       }
-      setValue(key as keyof UserSchema, value);
     });
+
+    if (user.birthday) {
+      const zonedDate = toZonedTime(user.birthday, "America/Sao_Paulo");
+      zonedDate.setHours(zonedDate.getHours() + 3);
+      const formattedDate = format(zonedDate, "dd/MM/yyyy");
+
+      setValue("birthday", formattedDate);
+    }
   }, [user, setValue]);
 
   async function submit(data: UserSchema) {

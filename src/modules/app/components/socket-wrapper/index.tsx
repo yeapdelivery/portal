@@ -146,7 +146,7 @@ export function SocketWrapper() {
   return (
     <div>
       <HaveNewMessageModal
-        open={isOpenHaveNewMessageModal}
+        open={isOpenHaveNewMessageModal && orders.length === 0}
         onOpenChange={setOpenHaveNewMessageModal}
       />
       <OrderModal orders={orders} setOrders={setOrders} />

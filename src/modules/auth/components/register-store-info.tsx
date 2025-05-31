@@ -3,7 +3,9 @@ import { Pill } from "@/modules/app/components/pill/pill";
 import SelectField from "@/modules/app/components/select-filed/select-filed";
 import { SelectOptions } from "@/modules/app/components/select/types";
 import TextFiled from "@/modules/app/components/text-filed";
+import Toast from "@/modules/app/components/toast";
 import { StoreType } from "@/modules/app/enums";
+import { useToast } from "@/modules/app/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -34,7 +36,10 @@ const storeSchema = z
     phone: z
       .string()
       .min(1, { message: "Telefone é obrigatório" })
-      .transform((value) => value.replace(/\D/g, "")),
+      .transform((value) => value.replace(/\D/g, ""))
+      .refine((value) => value.length === 10 || value.length === 11, {
+        message: "Telefone inválido. Deve conter 10 ou 11 dígitos",
+      }),
     documentNumber: z
       .string()
       .min(1, { message: "Cpf ou Cnpj é obrigatório" })
@@ -68,6 +73,7 @@ export function RegisterStoreInfo({
   const [storeType, setStoreType] = useState<StoreType>();
   const [specialties, setSpecialties] = useState<string[]>([]);
   const [documentNumber, setDocumentNumber] = useState<string>("");
+  const toast = useToast();
 
   const {
     formState: { errors },
@@ -221,6 +227,9 @@ export function RegisterStoreInfo({
                     }
 
                     if (specialties.length >= 2) {
+                      toast.error(
+                        "Você só pode selecionar até 2 especialidades"
+                      );
                       return;
                     }
 
@@ -251,6 +260,15 @@ export function RegisterStoreInfo({
           </Button>
         </div>
       </form>
+
+      <Toast
+        message={toast.toast.message}
+        type={toast.toast.type}
+        open={toast.toast.open}
+        setOpen={(open) => {
+          toast.setToast({ message: "", open });
+        }}
+      />
     </div>
   );
 }

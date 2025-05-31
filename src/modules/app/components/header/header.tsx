@@ -31,7 +31,7 @@ export default function Header({ name }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-4">
-          <HourHeader />
+          {/* <HourHeader /> */}
           <StatusOpen />
 
           <button className="relative" onClick={goToChat}>

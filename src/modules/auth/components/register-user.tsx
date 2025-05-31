@@ -6,7 +6,14 @@ import { z } from "zod";
 import Button from "@/modules/app/components/button/button";
 import TextFiled from "@/modules/app/components/text-filed";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format, parse } from "date-fns";
+import {
+  differenceInYears,
+  format,
+  isFuture,
+  isValid,
+  parse,
+  parseISO,
+} from "date-fns";
 
 const createUserSchema = z
   .object({
@@ -15,7 +22,10 @@ const createUserSchema = z
     phone: z
       .string()
       .min(1, { message: "Telefone é obrigatório" })
-      .transform((value) => value.replace(/\D/g, "")),
+      .transform((value) => value.replace(/\D/g, ""))
+      .refine((value) => value.length === 10 || value.length === 11, {
+        message: "Telefone inválido. Deve conter 10 ou 11 dígitos",
+      }),
     birthday: z
       .string()
       .min(1, { message: "Aniversário é obrigatório" })
@@ -34,7 +44,28 @@ const createUserSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "As senhas não são iguais",
     path: ["confirmPassword"],
-  });
+  })
+  .refine(
+    (data) => {
+      const parsedDate = parseISO(data.birthday);
+
+      if (!isValid(parsedDate)) {
+        return false;
+      }
+
+      if (isFuture(parsedDate)) {
+        return false;
+      }
+
+      const age = differenceInYears(new Date(), parsedDate);
+
+      return age <= 120;
+    },
+    {
+      message: "Data de nascimento inválida ou idade mínima não atingida",
+      path: ["birthday"],
+    }
+  );
 
 type CreateUserSchema = z.infer<typeof createUserSchema>;
 
