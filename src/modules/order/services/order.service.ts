@@ -11,10 +11,11 @@ export async function getAllOrderByStatus(
   status: OrderStatus,
   page: number = 1,
   limit: number = 10,
-  search?: string
+  search?: string,
+  sort: "asc" | "desc" = "desc"
 ): Promise<OrderResponse> {
   const { data } = await api.get<OrderResponse>(`/stores/orders/${status}`, {
-    params: { page, limit: limit, search },
+    params: { page, limit: limit, search, sort },
   });
 
   return data;

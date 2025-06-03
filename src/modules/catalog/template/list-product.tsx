@@ -89,6 +89,8 @@ export default function ListProduct() {
           errorToast("Category has products in active or draft status");
           return;
         }
+
+        errorToast(error.response.data.message);
       }
       errorToast("Erro ao deletar categoria");
       console.error(error);

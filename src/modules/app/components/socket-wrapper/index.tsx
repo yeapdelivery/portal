@@ -78,7 +78,7 @@ export function SocketWrapper() {
       });
 
       socket.on("orderReceived", (newOrder) => {
-        setOrders((prev) => [...prev, newOrder]);
+        setOrders((prev) => [newOrder, ...prev]);
       });
 
       socket.on("storeHaveNewMessage", (chatId) => {
@@ -115,7 +115,13 @@ export function SocketWrapper() {
 
   async function fetchOrders(): Promise<void> {
     try {
-      const { orders } = await getAllOrderByStatus(OrderStatus.PENDING, 1, 100);
+      const { orders } = await getAllOrderByStatus(
+        OrderStatus.PENDING,
+        1,
+        100,
+        undefined,
+        "asc"
+      );
 
       setOrders(orders);
 
