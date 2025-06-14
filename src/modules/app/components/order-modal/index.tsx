@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useStore } from "../../store/stores";
 import Dialog from "../dialog";
 
@@ -25,6 +25,7 @@ interface OrderModalProps {
 
 export function OrderModal({ orders, setOrders }: OrderModalProps) {
   const store = useStore((state) => state.store);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const { toast, setToast, error: toastError } = useToast();
   const [
@@ -41,13 +42,6 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
 
     playAudio();
   }, [orders]);
-
-  async function playAudio() {
-    const audio = new Audio("/bell.mp3");
-    audio.play().catch((error) => {
-      console.error("Error playing audio: ", error);
-    });
-  }
 
   async function handleUpdateOrderStatus(status: OrderStatus) {
     startUpdateOrderStatus();
@@ -66,6 +60,16 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
       toastError("Erro ao atualizar pedido");
     } finally {
       finishUpdateOrderStatus();
+    }
+  }
+
+  async function playAudio(): Promise<void> {
+    try {
+      if (audioRef.current) {
+        await audioRef.current.play();
+      }
+    } catch (error) {
+      console.error("Error playing audio: ", error);
     }
   }
 
@@ -113,6 +117,9 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
           </div>
         </Dialog.Content>
       </Dialog>
+
+      <audio ref={audioRef} src="/phone.mp3" preload="auto" />
+
       <Toast
         open={toast.open}
         type={toast.type}

@@ -33,33 +33,6 @@ export function SocketWrapper() {
   const { error: toastError } = useToast();
   const logger = useLogger();
 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    audioRef.current = new Audio("/bell.mp3");
-
-    const handleUserInteraction = () => {
-      if (!audioRef.current) return;
-
-      audioRef.current
-        .play()
-        .then(() => {
-          audioRef.current?.pause();
-          audioRef.current.currentTime = 0;
-        })
-        .catch(() => {});
-
-      window.removeEventListener("click", handleUserInteraction);
-    };
-
-    window.addEventListener("click", handleUserInteraction);
-    return () => {
-      window.removeEventListener("click", handleUserInteraction);
-    };
-  }, []);
-
   useEffect(() => {
     if (!store.id) return;
 
@@ -97,22 +70,6 @@ export function SocketWrapper() {
     };
   }, [store, pathname]);
 
-  useEffect(() => {
-    if (orders.length === 0) return;
-
-    playAudio();
-  }, [orders]);
-
-  async function playAudio(): Promise<void> {
-    try {
-      if (audioRef.current) {
-        await audioRef.current.play();
-      }
-    } catch (error) {
-      console.error("Error playing audio: ", error);
-    }
-  }
-
   async function fetchOrders(): Promise<void> {
     try {
       const { orders } = await getAllOrderByStatus(
@@ -124,10 +81,6 @@ export function SocketWrapper() {
       );
 
       setOrders(orders);
-
-      if (orders.length > 0) {
-        await playAudio();
-      }
     } catch (error) {
       toastError("Erro ao buscar pedidos");
       logger.error("Erro ao buscar pedidos", { error });

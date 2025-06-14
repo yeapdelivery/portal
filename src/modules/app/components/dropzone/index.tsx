@@ -144,6 +144,8 @@ export default function Dropzone({
     return accept.map((format) => format.split("/")[1]).join(", ");
   }, [accept]);
 
+  console.log("files", files);
+
   return (
     <>
       <div>

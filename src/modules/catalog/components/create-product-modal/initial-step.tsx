@@ -205,6 +205,7 @@ export function InitialStep({
       setPromotional(!!product.price.promotional);
       setCooled(product.cooled);
       setIsPizza(product.isPizza);
+      if (!product.image) return;
       setFiles([
         {
           id: product.image,
