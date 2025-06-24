@@ -1,61 +1,59 @@
-import { OpeningHours } from "@/modules/app/models/store";
+import StoreModel, { OpeningHoursVariant } from "@/modules/app/models/store";
 
-export function availableHasOpeningHour(openingHours: OpeningHours): boolean {
-  const available = Object.keys(openingHours).map((key, index) => {
-    if (!openingHours[key]) {
-      return true;
-    }
+const days = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+] as const;
 
-    const { openHour, closeHour } = openingHours[key];
+export function checkOpenStore(store: StoreModel) {
+  if (!store?.id) return OpeningHoursVariant.CLOSED;
 
-    if (!openHour || !closeHour) {
-      return true;
-    }
+  const { openingHours } = store;
 
-    const open = Number(openHour.replace(":", "."));
-    const close = Number(closeHour.replace(":", "."));
+  const today = new Date().getDay();
+  const currentHour = new Date().getHours();
+  const currentMinute = new Date().getMinutes();
 
-    const notNumber = typeof open !== "number" && typeof close !== "number";
+  const day = days[today];
 
-    if (notNumber && !open && close) {
-      return false;
-    }
+  if (!day) return OpeningHoursVariant.CLOSED;
 
-    if (notNumber && open && !close) {
-      return false;
-    }
+  if (!openingHours) return OpeningHoursVariant.CLOSED;
 
-    return true;
-  });
+  if (!openingHours[day]) return OpeningHoursVariant.CLOSED;
 
-  return !available.includes(false);
-}
+  const { openHour, closeHour } = openingHours[day];
 
-export function availableOpeningHour(openingHours: OpeningHours): boolean {
-  const available = Object.keys(openingHours).map((key) => {
-    if (!openingHours[key]) {
-      return true;
-    }
+  if (!openHour || !closeHour) return OpeningHoursVariant.CLOSED;
 
-    const { openHour, closeHour } = openingHours[key];
+  const [openHourHour, openHourMinute] = openHour.split(":");
+  const [closeHourHour, closeHourMinute] = closeHour.split(":");
 
-    if (!openHour && !closeHour) {
-      return true;
-    }
+  const openHourDate = new Date();
+  openHourDate.setHours(Number(openHourHour));
+  openHourDate.setMinutes(Number(openHourMinute));
 
-    if (!openHour || !closeHour) {
-      return false;
-    }
+  const closeHourDate = new Date();
+  closeHourDate.setHours(Number(closeHourHour));
+  closeHourDate.setMinutes(Number(closeHourMinute));
 
-    const open = Number(openHour.replace(":", "."));
-    const close = Number(closeHour?.replace(":", "."));
+  if (openHourDate.getHours() > currentHour) return OpeningHoursVariant.CLOSED;
+  if (closeHourDate.getHours() < currentHour) return OpeningHoursVariant.CLOSED;
+  if (
+    openHourDate.getHours() === currentHour &&
+    openHourDate.getMinutes() > currentMinute
+  )
+    return OpeningHoursVariant.CLOSED;
+  if (
+    closeHourDate.getHours() === currentHour &&
+    closeHourDate.getMinutes() < currentMinute
+  )
+    return OpeningHoursVariant.CLOSED;
 
-    if (open >= close) {
-      return false;
-    }
-
-    return true;
-  });
-
-  return !available.includes(false);
+  return OpeningHoursVariant.OPEN;
 }

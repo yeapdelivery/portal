@@ -39,3 +39,13 @@ export default interface StoreModel {
   delivery: DeliveryStore;
   openingHours: OpeningHours;
 }
+
+export enum OpeningHoursVariant {
+  OPEN = "OPEN",
+  CLOSED = "CLOSED",
+}
+
+export const openingHoursVariantMap: Record<OpeningHoursVariant, string> = {
+  [OpeningHoursVariant.OPEN]: "Aberto",
+  [OpeningHoursVariant.CLOSED]: "Fechado",
+};

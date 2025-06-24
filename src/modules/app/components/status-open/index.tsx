@@ -4,6 +4,7 @@ import { checkOpenStore } from "@/utils";
 import { useEffect, useState } from "react";
 import { tv } from "tailwind-variants";
 import { useStore } from "../../store/stores";
+import { OpeningHoursVariant } from "../../models/store";
 
 enum Status {
   OPEN = "open",
@@ -26,12 +27,12 @@ const statusOpenStyle = tv({
 
   variants: {
     statusOpen: {
-      open: {
+      [OpeningHoursVariant.OPEN]: {
         currentStatus: ["bg-[#E7F8F7] text-green-primary-dark rounded-b-lg"],
         ballOpen: ["w-1.5 h-1.5 rounded-full bg-green-primary-dark mr-2"],
       },
 
-      close: {
+      [OpeningHoursVariant.CLOSED]: {
         currentStatus: ["bg-[#FEEAEC] text-red-primary-dark rounded-t-lg"],
         ballOpen: ["w-1.5 h-1.5 rounded-full bg-red-primary-dark mr-2"],
       },
@@ -64,7 +65,9 @@ const statusOpenStyle = tv({
 export default function StatusOpen() {
   const store = useStore((state) => state.store);
 
-  const [statusOpen, setStatusOpen] = useState<Status>(Status.CLOSE);
+  const [statusOpen, setStatusOpen] = useState<OpeningHoursVariant>(
+    OpeningHoursVariant.CLOSED
+  );
   const { currentStatus, ballOpen } = statusOpenStyle();
 
   const labelOpen = "Loja aberta";
@@ -72,18 +75,28 @@ export default function StatusOpen() {
   const labelClosed = "Loja fechada";
 
   useEffect(() => {
-    if (store) {
-      setTimeout(() => {
-        setStatusOpen(checkOpenStore(store) ? Status.OPEN : Status.CLOSE);
+    if (store.id) {
+      setStatusOpen(
+        checkOpenStore(store)
+          ? OpeningHoursVariant.OPEN
+          : OpeningHoursVariant.CLOSED
+      );
+
+      setInterval(() => {
+        setStatusOpen(
+          checkOpenStore(store)
+            ? OpeningHoursVariant.OPEN
+            : OpeningHoursVariant.CLOSED
+        );
       }, 1000 * 30); // 30 seconds
     }
-  }, [store]);
+  }, [store.id]);
 
   return (
     <div className={currentStatus({ statusOpen })} data-cy="current-status">
       <div className={ballOpen({ statusOpen })}></div>
       <div className="w-[5rem] text-center">
-        {statusOpen === Status.OPEN ? labelOpen : labelClosed}
+        {statusOpen === OpeningHoursVariant.OPEN ? labelOpen : labelClosed}
       </div>
     </div>
   );
