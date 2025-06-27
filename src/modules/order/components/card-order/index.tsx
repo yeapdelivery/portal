@@ -122,14 +122,19 @@ export function CardOrder({
           </div>
 
           <div className="p-1 bg-gray-1000 rounded text-red-primary-dark w-5 h-5 flex items-center justify-center">
-            <PDFDownloadLink
+            {/* <PDFDownloadLink
               document={<OrderPDF order={order} />}
               fileName={`${formatOrderNumber(order.orderNumber)}.pdf`}
+            > */}
+            <button
+              className="mt-1"
+              onClick={() => {
+                window.api.printOrder(order);
+              }}
             >
-              <button className="mt-1">
-                <Printer size={16} weight="bold" />
-              </button>
-            </PDFDownloadLink>
+              <Printer size={16} weight="bold" />
+            </button>
+            {/* </PDFDownloadLink> */}
           </div>
         </div>
       </div>
