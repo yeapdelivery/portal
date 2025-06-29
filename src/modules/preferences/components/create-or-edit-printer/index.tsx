@@ -135,9 +135,6 @@ export function CreateOrEditPrinter({
                 onChange={setShouldPrintOnAcceptOrder}
               />
 
-              <Button variant="secondary" disabled={isUpdatingPrinterName}>
-                Testar Impressão
-              </Button>
               <Button
                 disabled={isUpdatingPrinterName}
                 isLoading={isUpdatingPrinterName}
