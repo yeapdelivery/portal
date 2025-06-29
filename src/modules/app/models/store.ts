@@ -38,6 +38,8 @@ export default interface StoreModel {
   cover: string;
   delivery: DeliveryStore;
   openingHours: OpeningHours;
+  printerName?: string;
+  shouldPrintOnAcceptOrder?: boolean;
 }
 
 export enum OpeningHoursVariant {

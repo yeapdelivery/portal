@@ -35,6 +35,21 @@ class PreferencesService {
   ): Promise<AxiosResponse<User>> {
     return await api.put("/user", data);
   }
+
+  async updatePrinter(
+    storeId: string,
+    printerName: string,
+    shouldPrintOnAcceptOrder: boolean
+  ) {
+    return await api.put(`/admin/stores/update/${storeId}/printer-name`, {
+      printerName,
+      shouldPrintOnAcceptOrder,
+    });
+  }
+
+  async deletePrinter(storeId: string) {
+    return await api.delete(`/admin/stores/delete/${storeId}/printer-name`);
+  }
 }
 
 export const preferencesService = new PreferencesService();

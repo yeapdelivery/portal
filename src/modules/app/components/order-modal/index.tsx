@@ -17,6 +17,7 @@ import Toast from "../toast";
 import ptBr from "date-fns/locale/pt-BR";
 import { postNewOrderEvent } from "@/events";
 import { useLogger } from "../../hooks/use-logger.hook";
+import { isOnDesktopApp } from "@/utils";
 
 interface OrderModalProps {
   orders: Order[];
@@ -54,6 +55,13 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
 
       if (status === OrderStatus.IN_PROGRESS) {
         postNewOrderEvent();
+        if (
+          isOnDesktopApp &&
+          window.api?.printOrder &&
+          store.shouldPrintOnAcceptOrder
+        ) {
+          window.api.printOrder(order, store.printerName);
+        }
       }
     } catch (error) {
       logger.error("Erro ao atualizar pedido", { error });

@@ -10,12 +10,15 @@ import { CardLoading } from "./card-loading";
 import { currency, formatAddress, formatOrderNumber } from "@/formatting";
 import { updateOrderStatus } from "../../services";
 import { formatDateWithHour } from "@/utils/format-date.util";
-import { isPastChat } from "@/utils";
+import { isOnDesktopApp, isPastChat } from "@/utils";
 import { Printer } from "@phosphor-icons/react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { OrderPDF } from "../pdf-order-document";
 import { Pill } from "@/modules/app/components/pill";
 import { SystemPill } from "@/modules/app/components/system-pill";
+import { useStore } from "@/modules/app/store/stores";
+import Toast from "@/modules/app/components/toast";
+import { useToast } from "@/modules/app/hooks";
 
 interface CardOrderProps {
   order: Order;
@@ -55,6 +58,8 @@ export function CardOrder({
 
   const ref = useRef<HTMLDivElement>(null);
   const [timer, setTimer] = useState<number>(INITIAL_TIMER);
+  const store = useStore((state) => state.store);
+  const { toast, warning, setToast } = useToast();
 
   const verifyConfirmedState = order.status === OrderStatus.IN_PROGRESS;
 
@@ -102,6 +107,22 @@ export function CardOrder({
     }
   }
 
+  function printOrder() {
+    if (!isOnDesktopApp) {
+      warning("Essa funcionalidade só está disponível no aplicativo desktop.");
+      return;
+    }
+
+    if (!store.printerName) {
+      warning("Nenhuma impressora configurada.");
+      return;
+    }
+
+    if (window.api?.printOrder) {
+      window.api.printOrder(order, store.printerName);
+    }
+  }
+
   return (
     <div ref={ref} data-enter={isNew} className={card()}>
       <div className="flex items-center justify-between mb-1">
@@ -122,19 +143,9 @@ export function CardOrder({
           </div>
 
           <div className="p-1 bg-gray-1000 rounded text-red-primary-dark w-5 h-5 flex items-center justify-center">
-            {/* <PDFDownloadLink
-              document={<OrderPDF order={order} />}
-              fileName={`${formatOrderNumber(order.orderNumber)}.pdf`}
-            > */}
-            <button
-              className="mt-1"
-              onClick={() => {
-                window.api.printOrder(order);
-              }}
-            >
+            <button className="mt-1" onClick={printOrder}>
               <Printer size={16} weight="bold" />
             </button>
-            {/* </PDFDownloadLink> */}
           </div>
         </div>
       </div>
@@ -237,6 +248,17 @@ export function CardOrder({
           VER DETALHES
         </button>
       </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        open={toast.open}
+        setOpen={(open) => {
+          if (!open) {
+            setToast({ ...toast, open: false });
+          }
+        }}
+      />
     </div>
   );
 }

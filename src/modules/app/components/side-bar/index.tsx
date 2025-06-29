@@ -26,6 +26,7 @@ export enum Menu {
   COUPONS = "coupons",
   PREFERENCES_USER = "preferences-user",
   PREFERENCES_COMPANY = "preferences-company",
+  PREFERENCES_PRINTER = "printer",
   PREFERENCES = "preferences",
 }
 
@@ -112,6 +113,12 @@ export const menus: MenuProps[] = [
         label: "Usuários",
         name: Menu.PREFERENCES_USER,
         href: "/preferencias/usuarios",
+      },
+      {
+        id: 3,
+        label: "Impressora",
+        name: Menu.PREFERENCES_PRINTER,
+        href: "/preferencias/impressora",
       },
     ],
   },
