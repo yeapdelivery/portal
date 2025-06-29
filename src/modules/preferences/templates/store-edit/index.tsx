@@ -18,7 +18,7 @@ import { useLoading, useToast } from "@/modules/app/hooks";
 import Toast from "@/modules/app/components/toast";
 import { preferencesService } from "../../services";
 import StoreModel, { OpeningHours } from "@/modules/app/models/store";
-import { availableHasOpeningHour, availableOpeningHour } from "@/utils";
+import { availableOpeningHour, availableHasOpeningHour } from "@/utils";
 import { useLogger } from "@/modules/app/hooks/use-logger.hook";
 
 const TIME_REGEX = /^([01]\d|2[0-3]):[0-5]\d$/;

@@ -1,4 +1,4 @@
-import StoreModel from "@/modules/app/models/store";
+import StoreModel, { OpeningHours } from "@/modules/app/models/store";
 
 const days = [
   "sunday",
