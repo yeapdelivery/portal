@@ -108,15 +108,15 @@ export function CardOrder({
   }
 
   function printOrder() {
-    // if (!isOnDesktopApp) {
-    //   warning("Essa funcionalidade só está disponível no aplicativo desktop.");
-    //   return;
-    // }
+    if (!isOnDesktopApp) {
+      warning("Essa funcionalidade só está disponível no aplicativo desktop.");
+      return;
+    }
 
-    // if (!store.printerName) {
-    //   warning("Nenhuma impressora configurada.");
-    //   return;
-    // }
+    if (!store.printerName) {
+      warning("Nenhuma impressora configurada.");
+      return;
+    }
 
     if (window.api?.printOrder) {
       window.api.printOrder({
