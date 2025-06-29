@@ -119,7 +119,10 @@ export function CardOrder({
     }
 
     if (window.api?.printOrder) {
-      window.api.printOrder(order, store.printerName);
+      window.api.printOrder({
+        order,
+        printerName: store.printerName,
+      });
     }
   }
 

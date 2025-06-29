@@ -60,7 +60,10 @@ export function OrderModal({ orders, setOrders }: OrderModalProps) {
           window.api?.printOrder &&
           store.shouldPrintOnAcceptOrder
         ) {
-          window.api.printOrder(order, store.printerName);
+          window.api.printOrder({
+            order,
+            printerName: store.printerName || "",
+          });
         }
       }
     } catch (error) {
