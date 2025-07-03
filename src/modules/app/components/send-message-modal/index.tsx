@@ -74,7 +74,7 @@ export function SendMessageModal({
             />
 
             {hasError && (
-              <span className="text-sm text-red-default mt-1">
+              <span className="text-sm text-primary-default mt-1">
                 {ERROR_MESSAGE}
               </span>
             )}

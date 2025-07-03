@@ -131,13 +131,13 @@ export function CardOrder({
       <div className="flex items-center justify-between mb-1">
         <span className="font-bold text-sm text-gray-100">
           {order.userName}{" "}
-          <span className="text-red-default font-medium">
+          <span className="text-primary-default font-medium">
             {formatOrderNumber(order.orderNumber)}
           </span>
         </span>
 
         <div className="flex items-center gap-4">
-          <div className="p-1 bg-gray-1000 rounded text-red-primary-dark w-5 h-5 flex items-center justify-center">
+          <div className="p-1 bg-gray-1000 rounded text-primary-dark w-5 h-5 flex items-center justify-center">
             {!isPast && (
               <button onClick={() => handleSendMessageClick(order)}>
                 <ChatDots size={16} weight="bold" />
@@ -145,7 +145,7 @@ export function CardOrder({
             )}
           </div>
 
-          <div className="p-1 bg-gray-1000 rounded text-red-primary-dark w-5 h-5 flex items-center justify-center">
+          <div className="p-1 bg-gray-1000 rounded text-primary-dark w-5 h-5 flex items-center justify-center">
             <button className="mt-1" onClick={printOrder}>
               <Printer size={16} weight="bold" />
             </button>
@@ -213,7 +213,7 @@ export function CardOrder({
               onClick={() =>
                 changeStatus(OrderStatus.IN_PROGRESS, OrderStatus.DELIVERED)
               }
-              className="border animate-card-order-animation border-red-default text-red-default font-rubik font-semibold rounded text-[10px] w-full h-8"
+              className="border animate-card-order-animation border-primary-default text-primary-default font-rubik font-semibold rounded text-[10px] w-full h-8"
             >
               Finalizar
             </button>
@@ -237,7 +237,7 @@ export function CardOrder({
               onClick={() =>
                 changeStatus(OrderStatus.DELIVERING, OrderStatus.IN_PROGRESS)
               }
-              className="border border-red-default animate-card-order-animation text-red-default font-rubik font-semibold rounded text-xs w-full h-8"
+              className="border border-primary-default animate-card-order-animation text-primary-default font-rubik font-semibold rounded text-xs w-full h-8"
             >
               Voltar para produção ({timer}s)
             </button>
@@ -246,7 +246,7 @@ export function CardOrder({
 
         <button
           onClick={() => openOrderDetail(order)}
-          className="mt-2 text-red-400 animate-card-order-animation font-rubik font-bold rounded text-[10px] w-full h-8"
+          className="mt-2 text-primary-default animate-card-order-animation font-rubik font-bold rounded text-[10px] w-full h-8"
         >
           VER DETALHES
         </button>

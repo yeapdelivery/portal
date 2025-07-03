@@ -30,7 +30,7 @@ export function ScrollToggleButton() {
   return (
     <button
       onClick={handleClick}
-      className="fixed bottom-6 right-6 z-50 p-3 bg-red-default text-white rounded-full shadow-lg hover:bg-red-primary-dark transition-colors"
+      className="fixed bottom-6 right-6 z-50 p-3 bg-primary-default text-white rounded-full shadow-lg hover:bg-primary-dark transition-colors"
       title={atBottom ? "Voltar ao topo" : "Ir até o fim"}
     >
       {atBottom ? (

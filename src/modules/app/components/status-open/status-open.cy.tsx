@@ -12,7 +12,7 @@ describe("<StatusOpen />", () => {
     cy.mount(<StatusOpen />);
     cy.get("[data-cy=current-status]")
       .should("exist")
-      .should("have.class", "bg-[#FEEAEC] text-red-primary-dark")
+      .should("have.class", "bg-[#FEEAEC] text-primary-dark")
       .should("have.text", "Loja fechada");
   });
 

@@ -25,17 +25,20 @@ const menuItem = tv({
   slots: {
     itemMenu: [
       "flex items-center gap-3 px-4",
-      "text-gray-500 hover:text-red-default rounded",
+      "text-gray-500 hover:text-primary-default rounded",
       "h-8 transition-all duration-400 ease-in-out",
     ],
     barPrimary: ["w-[3px] absolute bg-gray-800 left-4 top-0 bottom-0"],
-    barSecondary: ["h-8 bg-red-default w-[3px] rounded", "absolute -left-3"],
+    barSecondary: [
+      "h-8 bg-primary-default w-[3px] rounded",
+      "absolute -left-3",
+    ],
     ball: [
-      "h-[5px] w-[5px] rounded-full bg-red-default",
+      "h-[5px] w-[5px] rounded-full bg-primary-default",
       "absolute top-2/4 bottom-2/4 -left-[2px] translate-x-[1px] translate-y-[-2.5px]",
     ],
     subItemMenu: [
-      "text-gray-500 hover:text-red-default hover:bg-red-primary-lighter",
+      "text-gray-500 hover:text-primary-default hover:bg-primary-lighter",
       "px-2 h-7",
       "flex items-center rounded",
     ],
@@ -48,12 +51,14 @@ const menuItem = tv({
   variants: {
     active: {
       true: {
-        itemMenu: ["text-white bg-red-default h-8 rounded hover:text-white"],
+        itemMenu: [
+          "text-white bg-primary-default h-8 rounded hover:text-white",
+        ],
       },
     },
     activeSubMenuItem: {
       true: {
-        subItemMenu: ["text-red-default bg-red-primary-lighter"],
+        subItemMenu: ["text-primary-default bg-primary-lighter"],
       },
     },
     stateMenu: {

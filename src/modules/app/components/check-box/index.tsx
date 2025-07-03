@@ -19,7 +19,7 @@ const checkbox = tv({
       "h-4 w-4 data-[state=unchecked]:border",
       "data-[state=unchecked]:border-[#C7C9D9]",
       "data-[state=checked]:bg-white data-[state=checked]:border-4 rounded-full",
-      "bg-[#F2F2F5] data-[state=checked]:border-red-default",
+      "bg-[#F2F2F5] data-[state=checked]:border-primary-default",
     ],
   },
 });

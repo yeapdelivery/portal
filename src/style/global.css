@@ -16,5 +16,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-red-default rounded mt-1 mb-1;
+  @apply bg-primary-default rounded mt-1 mb-1;
 }

@@ -579,7 +579,7 @@ export function InitialStep({
                       key={index}
                       className="mt-1 flex items-center justify-between"
                     >
-                      <span className="text-red-default ">
+                      <span className="text-primary-default ">
                         {variation.name}
                       </span>
 

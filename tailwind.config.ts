@@ -198,6 +198,11 @@ const config: Config = {
           "primary-lighter": "#F2BABA",
           "secondary-100": "#FEEAEC",
         },
+        primary: {
+          dark: "#220C4F",
+          default: "#3F1F80",
+          light: "#6857E4",
+        },
         yellow: {
           "primary-dark": "#ffab00",
           default: "#ffdd00",

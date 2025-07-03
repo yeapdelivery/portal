@@ -26,7 +26,7 @@ const stepper = tv({
   variants: {
     active: {
       true: {
-        ball: "bg-red-default",
+        ball: "bg-primary-default",
       },
     },
 

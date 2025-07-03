@@ -78,7 +78,7 @@ export function DialogContent({
               <div className="w-80">
                 <span
                   data-test="dialog-title"
-                  className="text-red-default text-sm font-medium"
+                  className="text-primary-default text-sm font-medium"
                 >
                   {title}
                 </span>
@@ -87,7 +87,7 @@ export function DialogContent({
           </DialogRx.Title>
           <DialogRx.Close asChild data-test="dialog-close">
             <button>
-              <X size={16} className="text-red-default" weight="bold" />
+              <X size={16} className="text-primary-default" weight="bold" />
             </button>
           </DialogRx.Close>
         </div>

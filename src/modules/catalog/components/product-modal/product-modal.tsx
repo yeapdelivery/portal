@@ -27,7 +27,11 @@ export function ProductModal({
     <Dialog open={open} onOpenChange={setOpen}>
       <Dialog.Button asChild>
         <button className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded">
-          <PencilSimple weight="bold" size={16} className="text-red-default" />
+          <PencilSimple
+            weight="bold"
+            size={16}
+            className="text-primary-default"
+          />
         </button>
       </Dialog.Button>
 

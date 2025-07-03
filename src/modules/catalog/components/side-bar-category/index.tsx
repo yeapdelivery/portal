@@ -21,21 +21,21 @@ const sideBarCategory = tv({
       "hidden lg:block",
     ],
     barPrimary: "w-[2px] absolute bg-gray-800 top-0 bottom-0",
-    barSecondary: "h-8 bg-red-default w-[2px] rounded -left-2 absolute",
+    barSecondary: "h-8 bg-primary-default w-[2px] rounded -left-2 absolute",
     ball: [
-      "h-[4px] w-[4px]  bg-red-default",
+      "h-[4px] w-[4px]  bg-primary-default",
       "absolute top-2/4 bottom-2/4 -left-[2px] translate-x-[1px] translate-y-[-2.5px]",
     ],
     item: [
       "px-2 text-left flex items-center justify-between w-full h-7",
-      "font-normal font-outfit text-gray-500 hover:text-red-default rounded",
+      "font-normal font-outfit text-gray-500 hover:text-primary-default rounded",
     ],
   },
 
   variants: {
     active: {
       true: {
-        item: "text-red-primary-dark bg-[#FEEAEC]",
+        item: "text-primary-dark bg-[#FEEAEC]",
       },
     },
   },

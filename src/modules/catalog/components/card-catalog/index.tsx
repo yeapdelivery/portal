@@ -189,7 +189,7 @@ export function CardCatalog({
                     <Copy
                       weight="bold"
                       size={16}
-                      className="text-red-default"
+                      className="text-primary-default"
                     />
                   </button>
 
@@ -200,7 +200,7 @@ export function CardCatalog({
                     <Trash
                       weight="bold"
                       size={16}
-                      className="text-red-default"
+                      className="text-primary-default"
                     />
                   </button>
                 </div>

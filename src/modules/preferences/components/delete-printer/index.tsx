@@ -41,7 +41,7 @@ export function DeletePrinter({ open, onOpenChange }: DeletePrinterProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <Dialog.Content title="Deletar Impressora" position="center">
         <div>
-          <p className="text-red-default">
+          <p className="text-primary-default">
             Tem certeza que deseja deletar a impressora? Essa ação não pode ser
             desfeita.
           </p>

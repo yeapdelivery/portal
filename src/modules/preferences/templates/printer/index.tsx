@@ -32,19 +32,19 @@ export function PrinterTemplate() {
         <div className="px-5">
           <div className="border border-gray-600 p-4 rounded-lg flex flex-row items-center gap-10 w-fit">
             <div className="flex items-center gap-2">
-              <Printer size={24} className="text-red-default" />
-              <h2 className="text-lg   text-red-default">
+              <Printer size={24} className="text-primary-default" />
+              <h2 className="text-lg   text-primary-default">
                 Impressora: {store.printerName}
               </h2>
             </div>
 
             <div className="flex items-center gap-2">
               <button onClick={() => onOpenChange(true)}>
-                <Pencil size={20} className="text-red-default" />
+                <Pencil size={20} className="text-primary-default" />
               </button>
 
               <button onClick={() => onOpenChangeDeleteModal(true)}>
-                <Trash size={20} className="text-red-default" />
+                <Trash size={20} className="text-primary-default" />
               </button>
             </div>
           </div>

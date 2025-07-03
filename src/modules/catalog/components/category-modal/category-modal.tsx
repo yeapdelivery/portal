@@ -107,7 +107,11 @@ export function CategoryModal({
         ) : (
           <Dialog.Button asChild>
             <button className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded">
-              <Pencil weight="bold" size={16} className="text-red-default" />
+              <Pencil
+                weight="bold"
+                size={16}
+                className="text-primary-default"
+              />
             </button>
           </Dialog.Button>
         )}

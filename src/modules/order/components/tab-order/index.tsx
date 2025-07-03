@@ -49,7 +49,7 @@ export function TabOrder({
           <div>
             <div
               data-cy="confirmed-length"
-              className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-default flex items-center justify-center text-[10px] md:text-xs font-semibold text-white"
+              className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-primary-default flex items-center justify-center text-[10px] md:text-xs font-semibold text-white"
             >
               {confirmedLength}
             </div>
@@ -69,7 +69,7 @@ export function TabOrder({
           <div>
             <div
               data-cy="delivering-length"
-              className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-default flex items-center justify-center text-[10px] md:text-xs font-semibold text-white"
+              className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-primary-default flex items-center justify-center text-[10px] md:text-xs font-semibold text-white"
             >
               {deliveringLength}
             </div>
@@ -89,7 +89,7 @@ export function TabOrder({
           <div>
             <div
               data-cy="delivered-length"
-              className="w-4 h-4 xl:w-5 xl:h-5 rounded-full bg-red-default flex items-center justify-center text-[10px] xl:text-xs font-semibold text-white"
+              className="w-4 h-4 xl:w-5 xl:h-5 rounded-full bg-primary-default flex items-center justify-center text-[10px] xl:text-xs font-semibold text-white"
             >
               {deliveredLength}
             </div>

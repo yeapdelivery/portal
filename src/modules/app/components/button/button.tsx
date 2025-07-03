@@ -16,14 +16,14 @@ const button = tv({
     variant: {
       primary: {
         container: [
-          "bg-red-default text-white hover:bg-red-primary-dark ",
+          "bg-primary-default text-white hover:bg-primary-dark ",
           "active:animate-pulse-click",
         ],
       },
       secondary: {
         container: [
-          "bg-transparent text-red-default hover:bg-red-100",
-          "border border-red-default",
+          "bg-transparent text-primary-default hover:bg-purple-100",
+          "border border-primary-default",
           "active:animate-pulse-click",
         ],
       },
@@ -48,7 +48,7 @@ const button = tv({
       },
       text: {
         container: [
-          "bg-transparent text-red-default hover:bg-red-100",
+          "bg-transparent text-primary-default hover:bg-red-100",
           "active:animate-pulse-click",
         ],
       },

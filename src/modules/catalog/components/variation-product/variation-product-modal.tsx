@@ -512,7 +512,7 @@ export function VariationProductModal({
                           }
                           handleDeleteOption(index);
                         }}
-                        className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded text-red-default"
+                        className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded text-primary-default"
                         type="button"
                       >
                         <Trash size={16} weight="bold" />
@@ -522,7 +522,7 @@ export function VariationProductModal({
                 ))}
               </div>
               <button
-                className="flex items-center text-red-default gap-1 mt-2"
+                className="flex items-center text-primary-default gap-1 mt-2"
                 type="button"
                 onClick={handleAddOption}
               >

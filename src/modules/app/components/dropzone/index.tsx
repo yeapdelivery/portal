@@ -23,7 +23,7 @@ const dropzone = tv({
   variants: {
     error: {
       true: {
-        containerDropZone: "border-red-default bg-red-100",
+        containerDropZone: "border-primary-default bg-purple-100",
       },
     },
     isDragging: {
@@ -180,7 +180,7 @@ export default function Dropzone({
                   />
 
                   <p className="text-center">
-                    <span className="text-red-default">
+                    <span className="text-primary-default">
                       Clique para carregar
                     </span>{" "}
                     ou arraste e solte <br /> {getAcceptedFormats()}

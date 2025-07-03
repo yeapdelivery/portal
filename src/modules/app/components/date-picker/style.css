@@ -3,7 +3,7 @@
 }
 
 .react-datepicker__day--selected {
-  @apply bg-red-primary-dark;
+  @apply bg-primary-dark;
 }
 
 .react-datepicker__current-month {

@@ -79,7 +79,7 @@ export function ProductsCard({
               {categoryWithProducts?.category?.name}
             </span>
 
-            <div className="flex items-center justify-center w-5 h-5 rounded-full text-white font-semibold bg-red-default text-[10px]">
+            <div className="flex items-center justify-center w-5 h-5 rounded-full text-white font-semibold bg-primary-default text-[10px]">
               {categoryWithProducts?.products?.length}
             </div>
           </div>
@@ -97,7 +97,7 @@ export function ProductsCard({
               }
               className="w-6 h-6 flex items-center justify-center bg-gray-1000 rounded"
             >
-              <Trash weight="bold" size={16} className="text-red-default" />
+              <Trash weight="bold" size={16} className="text-primary-default" />
             </button>
           </div>
         </div>

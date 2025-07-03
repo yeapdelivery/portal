@@ -38,7 +38,7 @@ export default function Header({ name }: HeaderProps) {
             <Chat className="text-gray-400" size={20} />
 
             {unreadMessages.length > 0 && (
-              <div className="w-2.5 h-2.5 rounded-full bg-red-default absolute top-0 right-0" />
+              <div className="w-2.5 h-2.5 rounded-full bg-primary-default absolute top-0 right-0" />
             )}
           </button>
 

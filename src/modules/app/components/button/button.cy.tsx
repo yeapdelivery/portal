@@ -10,13 +10,13 @@ describe("<Button />", () => {
 
   it("should render button without a variant props", () => {
     cy.mount(<Button>Button</Button>);
-    cy.get("button").should("have.class", "bg-red-default");
+    cy.get("button").should("have.class", "bg-primary-default");
     cy.get("button").click().should("have.class", "active:animate-pulse-click");
   });
 
   it("should render button with primary variant props", () => {
     cy.mount(<Button>Button</Button>);
-    cy.get("button").should("have.class", "bg-red-default");
+    cy.get("button").should("have.class", "bg-primary-default");
     cy.get("button").click().should("have.class", "active:animate-pulse-click");
   });
 

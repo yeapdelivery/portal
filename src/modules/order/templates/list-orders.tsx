@@ -291,7 +291,7 @@ export function ListOrders() {
             Pedidos
           </h1>
 
-          <div className="text-[8px] md:text-xs text-red-default border border-red-default rounded  p-[4px]">
+          <div className="text-[8px] md:text-xs text-primary-default border border-primary-default rounded  p-[4px]">
             {ordersOccurrences}{" "}
             {ordersOccurrences > 0 ? "ocorrencias" : "ocorrencia"}
           </div>
@@ -339,7 +339,7 @@ export function ListOrders() {
           <div className="flex-1">
             <div className="hidden md:flex items-center gap-1">
               <h2 className="font-bold text-gray-100">Produção</h2>
-              <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-default flex items-center justify-center text-xs font-semibold text-white">
+              <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-primary-default flex items-center justify-center text-xs font-semibold text-white">
                 {orders[OrderStatus.IN_PROGRESS].count}
               </div>
             </div>
@@ -389,7 +389,7 @@ export function ListOrders() {
           <div>
             <div className="hidden md:flex items-center gap-1">
               <h2 className="font-bold text-gray-100">Entrega</h2>
-              <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-default flex items-center justify-center text-xs font-semibold text-white">
+              <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-primary-default flex items-center justify-center text-xs font-semibold text-white">
                 {orders[OrderStatus.DELIVERING].count}
               </div>
             </div>
@@ -439,7 +439,7 @@ export function ListOrders() {
           <div>
             <div className="hidden md:flex items-center gap-1">
               <h2 className="font-bold text-xs text-gray-100">Finalizados</h2>
-              <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-default flex items-center justify-center text-xs font-semibold text-white">
+              <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-primary-default flex items-center justify-center text-xs font-semibold text-white">
                 {orders[OrderStatus.DELIVERED].count}
               </div>
             </div>

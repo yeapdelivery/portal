@@ -6,7 +6,7 @@ const filed = tv({
   slots: {
     container: "",
     label: "font-outfit font-medium text-sm",
-    error: "text-red-default text-xs ml-2",
+    error: "text-primary-default text-xs ml-2",
   },
 });
 

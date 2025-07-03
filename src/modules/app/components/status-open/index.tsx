@@ -33,8 +33,8 @@ const statusOpenStyle = tv({
       },
 
       [OpeningHoursVariant.CLOSED]: {
-        currentStatus: ["bg-[#FEEAEC] text-red-primary-dark rounded-t-lg"],
-        ballOpen: ["w-1.5 h-1.5 rounded-full bg-red-primary-dark mr-2"],
+        currentStatus: ["bg-[#FEEAEC] text-primary-dark rounded-t-lg"],
+        ballOpen: ["w-1.5 h-1.5 rounded-full bg-primary-dark mr-2"],
       },
     },
     isUndoingStatus: {

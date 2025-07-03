@@ -39,7 +39,7 @@ export function Resume({
         <h1 className="font-bold text-3xl text-center font-rubik">Resumo</h1>
       </div>
 
-      <div className="border border-red-default rounded-xl p-7">
+      <div className="border border-primary-default rounded-xl p-7">
         <h2 className="text-gray-100 text-2xl font-bold">
           Dados do responsável
         </h2>
@@ -93,7 +93,7 @@ export function Resume({
             checked={checked}
             onChange={setChecked}
           />
-          <span className="text-red-default text-xs font-semibold">
+          <span className="text-primary-default text-xs font-semibold">
             Ver termos
           </span>
         </div>

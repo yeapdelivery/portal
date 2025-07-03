@@ -169,8 +169,8 @@ export default function ListProduct() {
                 </p>
 
                 {hasProductError && (
-                  <div className="bg-red-100 text-red-default px-4 py-2 mt-4 rounded flex items-start gap-2">
-                    <div className="min-w-[20px] min-h-[20px] max-w-[20px] max-h-[20px] mt-1.5 rounded-full bg-red-default text-white flex items-center justify-center">
+                  <div className="bg-red-100 text-primary-default px-4 py-2 mt-4 rounded flex items-start gap-2">
+                    <div className="min-w-[20px] min-h-[20px] max-w-[20px] max-h-[20px] mt-1.5 rounded-full bg-primary-default text-white flex items-center justify-center">
                       <X size={14} weight="bold" />
                     </div>
 

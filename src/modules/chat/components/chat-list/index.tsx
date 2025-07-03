@@ -121,7 +121,7 @@ export function ChatList() {
 
               <div className="flex flex-col items-end gap-3">
                 {unreadMessages.includes(chat.id) && (
-                  <div className="w-3 h-3 rounded-full bg-red-default" />
+                  <div className="w-3 h-3 rounded-full bg-primary-default" />
                 )}
                 <span className="text-[10px] text-gray-400">
                   {formatDate(chat.lastMessageAt)}

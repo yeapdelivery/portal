@@ -17,9 +17,9 @@ const bottomBar = tv({
       "fixed z-50 bottom-0 left-0 w-full h-16 bg-white shadow-bottomBar",
       "flex justify-around items-center",
     ],
-    icon: ["text-gray-500 hover:text-red-default"],
+    icon: ["text-gray-500 hover:text-primary-default"],
     subItemMenu: [
-      "text-gray-500 text-sm hover:text-red-default hover:bg-red-primary-lighter",
+      "text-gray-500 text-sm hover:text-primary-default hover:bg-primary-lighter",
       "px-2 h-7",
       "flex items-center rounded",
     ],
@@ -33,12 +33,12 @@ const bottomBar = tv({
   variants: {
     active: {
       true: {
-        icon: ["bg-red-default text-white rounded-lg p-2 hover:text-white"],
+        icon: ["bg-primary-default text-white rounded-lg p-2 hover:text-white"],
       },
     },
     activeSubMenuItem: {
       true: {
-        subItemMenu: ["text-red-default bg-red-primary-lighter"],
+        subItemMenu: ["text-primary-default bg-primary-lighter"],
       },
     },
   },

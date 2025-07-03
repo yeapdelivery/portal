@@ -6,7 +6,7 @@ interface ErrorMessageProps {
 
 const errorMessage = tv({
   slots: {
-    errorStyle: "text-red-default text-xs ml-2",
+    errorStyle: "text-primary-default text-xs ml-2",
   },
 });
 

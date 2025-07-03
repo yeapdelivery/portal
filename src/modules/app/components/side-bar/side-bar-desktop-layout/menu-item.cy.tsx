@@ -35,7 +35,7 @@ describe("<MenuItem />", () => {
       .should("exist")
       .should(
         "have.class",
-        "text-white bg-red-default h-8 rounded hover:text-white"
+        "text-white bg-primary-default h-8 rounded hover:text-white"
       )
       .should("have.attr", "href", menu.href);
   });
@@ -71,14 +71,14 @@ describe("<MenuItem />", () => {
 
     cy.get(`[data-cy=${Menu.PREFERENCES_COMPANY}]`)
       .should("exist")
-      .should("have.class", "text-red-default bg-red-primary-lighter");
+      .should("have.class", "text-primary-default bg-primary-lighter");
 
     cy.get("[data-cy=sub-item]")
       .first()
       .children()
       .should(
         "have.class",
-        "text-white bg-red-default h-8 rounded hover:text-white"
+        "text-white bg-primary-default h-8 rounded hover:text-white"
       );
   });
 
@@ -96,14 +96,14 @@ describe("<MenuItem />", () => {
 
     cy.get(`[data-cy=${Menu.PREFERENCES_USER}]`)
       .should("exist")
-      .should("have.class", "text-red-default bg-red-primary-lighter");
+      .should("have.class", "text-primary-default bg-primary-lighter");
 
     cy.get("[data-cy=sub-item]")
       .first()
       .children()
       .should(
         "have.class",
-        "text-white bg-red-default h-8 rounded hover:text-white"
+        "text-white bg-primary-default h-8 rounded hover:text-white"
       );
   });
 });

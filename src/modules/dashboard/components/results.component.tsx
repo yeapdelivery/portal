@@ -54,7 +54,7 @@ function Item({
 
       <div className="flex items-center justify-center md:justify-start gap-1 text-center md:text-left">
         {percentage < 0 ? (
-          <TrendDown size={12} className="text-red-primary-dark" />
+          <TrendDown size={12} className="text-primary-dark" />
         ) : (
           <TrendUp size={12} className="text-green-500" />
         )}

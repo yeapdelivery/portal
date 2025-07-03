@@ -98,7 +98,7 @@ export function CategoryOrder({ updateProducts }: CategoryOrderProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Dialog.Button asChild>
-        <button className="flex items-center text-red-default underline justify-center gap-2 w-full">
+        <button className="flex items-center text-primary-default underline justify-center gap-2 w-full">
           <span>Ordenar categorias</span>
           <ListDashes size={20} />
         </button>
@@ -108,7 +108,7 @@ export function CategoryOrder({ updateProducts }: CategoryOrderProps) {
           {categories.map((category, index, originalArray) => (
             <div
               key={category.id}
-              className="text-red-default pb-1 border-b border-b-red-default flex items-center justify-between"
+              className="text-primary-default pb-1 border-b border-b-primary-default flex items-center justify-between"
             >
               <span>{category.name}</span>
 

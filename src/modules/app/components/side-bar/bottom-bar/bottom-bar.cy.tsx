@@ -30,7 +30,7 @@ describe("<BottomBar />", () => {
       .should("exist")
       .should(
         "have.class",
-        "bg-red-default text-white rounded-lg p-2 hover:text-white"
+        "bg-primary-default text-white rounded-lg p-2 hover:text-white"
       )
       .children()
       .should("have.attr", "href", getMenu?.href);
@@ -62,13 +62,13 @@ describe("<BottomBar />", () => {
     cy.get("[data-cy=sub-menu]").first().should("exist").click();
     cy.get(`[data-cy=${Menu.PREFERENCES_COMPANY}]`)
       .should("exist")
-      .should("have.class", "text-red-default bg-red-primary-lighter");
+      .should("have.class", "text-primary-default bg-primary-lighter");
     cy.get("[data-cy=sub-menu]")
       .first()
       .children()
       .should(
         "have.class",
-        "bg-red-default text-white rounded-lg p-2 hover:text-white"
+        "bg-primary-default text-white rounded-lg p-2 hover:text-white"
       );
   });
 
@@ -84,13 +84,13 @@ describe("<BottomBar />", () => {
     cy.get("[data-cy=sub-menu]").first().should("exist").click();
     cy.get(`[data-cy=${Menu.PREFERENCES_USER}]`)
       .should("exist")
-      .should("have.class", "text-red-default bg-red-primary-lighter");
+      .should("have.class", "text-primary-default bg-primary-lighter");
     cy.get("[data-cy=sub-menu]")
       .first()
       .children()
       .should(
         "have.class",
-        "bg-red-default text-white rounded-lg p-2 hover:text-white"
+        "bg-primary-default text-white rounded-lg p-2 hover:text-white"
       );
   });
 

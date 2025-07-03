@@ -83,7 +83,7 @@ export default function SideBarDesktopLayout({
               <li>
                 <Collapsible.Trigger asChild>
                   <button className={menuOpen()}>
-                    <div className="text-red-default">
+                    <div className="text-primary-default">
                       <List size={22} weight="bold" />
                     </div>
                     <span
@@ -123,7 +123,7 @@ export default function SideBarDesktopLayout({
             className="px-4 flex items-center gap-4"
             onClick={handleSighOut}
           >
-            <SignOut size={22} weight="bold" className="text-red-default" />
+            <SignOut size={22} weight="bold" className="text-primary-default" />
             <span
               data-state={stateMenu}
               className="data-[state=closed]:opacity-0 transition-all duration-400 ease-in-out text-gray-500"

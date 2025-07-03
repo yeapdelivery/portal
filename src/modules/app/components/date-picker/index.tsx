@@ -74,7 +74,7 @@ export default function DatePicker({
           ref={inputRef}
           startIcon={
             <button data-cy="calendar-date-picker" onClick={handleOnFocus}>
-              <CalendarBlank size={20} className="text-red-default" />
+              <CalendarBlank size={20} className="text-primary-default" />
             </button>
           }
           mask="99/99/9999"

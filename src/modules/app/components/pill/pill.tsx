@@ -5,7 +5,7 @@ const pill = tv({
   slots: {
     container: [
       "px-2 py-1 rounded border w-fit flex items-center gap-1 text-base",
-      "font-semibold bg-transparent border-red-default text-red-default ",
+      "font-semibold bg-transparent border-primary-default text-primary-default ",
     ],
   },
 

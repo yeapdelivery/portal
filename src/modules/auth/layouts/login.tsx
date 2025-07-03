@@ -212,7 +212,7 @@ export default function Login({ isSupport }: LoginProps) {
                 </p>
                 <button
                   onClick={goToRegister}
-                  className="font-outfit font-medium text-red-default"
+                  className="font-outfit font-medium text-primary-default"
                 >
                   CADASTRE-SE
                 </button>

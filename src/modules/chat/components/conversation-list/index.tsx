@@ -39,7 +39,7 @@ const chatStyles = tv({
     senderType: {
       [SenderTypeEnum.STORE]: {
         messageContainer: "justify-end",
-        message: ["bg-red-default text-gray-800 rounded-br-none"],
+        message: ["bg-primary-default text-gray-800 rounded-br-none"],
       },
       [SenderTypeEnum.USER]: {
         messageContainer: "justify-start",
