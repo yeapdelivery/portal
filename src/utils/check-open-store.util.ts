@@ -19,9 +19,13 @@ export function checkOpenStore(store: StoreModel) {
   const currentHour = new Date().getHours();
   const currentMinute = new Date().getMinutes();
 
+  if (!openingHours) return false;
+
   const day = days[today];
 
-  if (!day || !openingHours[day]) return false;
+  if (!day) return false;
+
+  if (openingHours[day]) return false;
 
   const { openHour, closeHour } = openingHours[day];
 
