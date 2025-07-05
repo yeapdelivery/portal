@@ -206,7 +206,7 @@ export default function Login({ isSupport }: LoginProps) {
                 </p>
               </button>
 
-              <div className="flex mt-5 gap-1">
+              {/* <div className="flex mt-5 gap-1">
                 <p className="font-outfit font-medium text-gray-100">
                   Ja está cadastrado?
                 </p>
@@ -216,7 +216,7 @@ export default function Login({ isSupport }: LoginProps) {
                 >
                   CADASTRE-SE
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
